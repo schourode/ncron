@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron", "core\NCron.csproj", "{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCronTests", "test\NCronTests.csproj", "{60688BD1-A274-4ACE-A011-40104EB74E2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCronLoader", "load\NCronLoader.csproj", "{15F58897-3C39-421F-8AA4-413E5D67A97A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F58897-3C39-421F-8AA4-413E5D67A97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F58897-3C39-421F-8AA4-413E5D67A97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F58897-3C39-421F-8AA4-413E5D67A97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F58897-3C39-421F-8AA4-413E5D67A97A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
