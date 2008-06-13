@@ -29,18 +29,38 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.Collections.Generic;
 using System.ServiceProcess;
 
 namespace NCron
 {
     public class CronService : ServiceBase
     {
-        public void Start()
+        public ICollection<ICronJob> Jobs { get; private set; }
+
+        public CronService()
         {
+            this.Jobs = new List<ICronJob>();
         }
 
-        public void Stop()
+        protected override void OnStart(string[] args)
         {
+            base.OnStart(args);
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+        }
+
+        protected override void OnContinue()
+        {
+            base.OnContinue();
         }
     }
 }

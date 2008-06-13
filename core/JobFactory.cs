@@ -72,7 +72,7 @@ namespace NCron
             LoadAssembly(Assembly.Load(assemblyName), prefix);
         }
 
-        public JobBase CreateTask(string typeName, NameValueCollection properties)
+        public ICronJob CreateTask(string typeName, NameValueCollection properties)
         {
             // Check if we have a type registered with the specified name.
             string nameLowered = typeName.ToLower(CultureInfo.InvariantCulture);
@@ -86,7 +86,7 @@ namespace NCron
                 throw new ApplicationException(string.Format("Cannot access the constructor of '{0}'.", type.FullName));
 
             // Invoke constructor and cast result as CheckBase - exception if casting unsuccesful.
-            JobBase check = constructor.Invoke(EMPTY_OBJECT_ARRAY) as JobBase;
+            ICronJob check = constructor.Invoke(EMPTY_OBJECT_ARRAY) as ICronJob;
             if (check == null)
                 throw new ApplicationException(string.Format("The type '{0}' is not a valid check.", type.FullName));
 

@@ -8,7 +8,7 @@
     <ProjectGuid>{15F58897-3C39-421F-8AA4-413E5D67A97A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NCronLoader</RootNamespace>
+    <RootNamespace>NCron.Loader</RootNamespace>
     <AssemblyName>NCronLoader</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -32,17 +32,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Loader.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\core\NCron.csproj">
       <Project>{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}</Project>
       <Name>NCron</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

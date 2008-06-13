@@ -8,8 +8,8 @@
     <ProjectGuid>{60688BD1-A274-4ACE-A011-40104EB74E2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NCronTests</RootNamespace>
-    <AssemblyName>NCronTests</AssemblyName>
+    <RootNamespace>NCron</RootNamespace>
+    <AssemblyName>NCronTest</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,9 +33,13 @@
   <ItemGroup>
     <Reference Include="MbUnit.Framework" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Scheduling\FieldTests.cs" />
+    <Compile Include="Scheduling\PlanTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\core\NCron.csproj">
