@@ -29,6 +29,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.Collections.Generic;
 
 using MbUnit.Framework;
 
@@ -37,12 +38,30 @@ namespace NCron.Scheduling
     [TestFixture]
     public class PlanTests
     {
-        [Test]
-        public void Test()
+        private void AssertEnumerationResults(Plan plan, DateTime start, DateTime[] expected)
         {
-            //
-            // TODO: Add test logic here
-            //
+            IEnumerator<DateTime> e = plan.GetEnumerator(start);
+            foreach (DateTime dt in expected)
+            {
+                e.MoveNext();
+                Assert.AreEqual(dt, e.Current);
+            }
+        }
+
+        [Test]
+        public void TestComputeNextExecution_StepHours()
+        {
+            Plan plan = new Plan();
+            plan.Hours.Steps(10);
+            plan.Minutes.Exact(0);
+
+            AssertEnumerationResults(plan, new DateTime(2000, 1, 1, 0, 0, 0), new DateTime[] {
+                new DateTime(2000, 1, 1, 0, 0, 0),
+                new DateTime(2000, 1, 1, 10, 0, 0),
+                new DateTime(2000, 1, 1, 20, 0, 0),
+                new DateTime(2000, 1, 2, 6, 0, 0),
+                new DateTime(2000, 1, 2, 16, 0, 0)
+            });
         }
     }
 }

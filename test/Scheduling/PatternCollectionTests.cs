@@ -37,10 +37,22 @@ namespace NCron.Scheduling
     [TestFixture]
     public class PatternCollectionTests
     {
-        [Test]
-        public void Test()
+        [RowTest]
+        [Row(0, 30, false, 1)]
+        [Row(1, 30, false, 0)]
+        [Row(1, 30, true, 1)]
+        [Row(2, 30, false, 0)]
+        [Row(3, 30, false, 0)]
+        [Row(4, 30, false, 1)]
+        [Row(12, 30, false, 1)]
+        [Row(13, 30, false, 0)]
+        [Row(14, 30, false, 7)]
+        [Row(21, 30, true, 10)]
+        [Row(22, 30, false, 9)]
+        public void TestComputeOffset(int current, int turn, bool force, int expected)
         {
-            PatternCollection c = new PatternCollection();
+            PatternCollection pc = new PatternCollection().Exact(1, 2, 3, 5, 8, 13, 21);
+            Assert.AreEqual(expected, pc.ComputeOffset(current, turn, force));
         }
     }
 }

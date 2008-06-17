@@ -57,18 +57,15 @@ namespace NCron.Scheduling
 
         #region Algorithm for computation of new execution DateTime
 
-        public DateTime ComputeNextExecution(DateTime previous)
+        public DateTime ComputeNextExecution(DateTime previous, bool firstTime)
         {
-            bool force = true;
-
             Queue<Field> workList = new Queue<Field>();
             workList.Enqueue(Field.Minute);
-            if (previous == DateTime.MinValue)
+            if (firstTime)
             {
                 workList.Enqueue(Field.Hour);
                 workList.Enqueue(Field.Day);
                 workList.Enqueue(Field.Month);
-                force = false;
             }
 
             while (workList.Count > 0)
@@ -77,13 +74,13 @@ namespace NCron.Scheduling
                 switch (workList.Dequeue())
                 {
                     case Field.Minute:
-                        dt = previous.AddMinutes(Minutes.ComputeOffset(dt.Minute, 60, force));
+                        dt = previous.AddMinutes(Minutes.ComputeOffset(dt.Minute, 60, !firstTime));
                         if (dt.Hour != previous.Hour) workList.Enqueue(Field.Hour);
-                        force = false;
+                        firstTime = true;
                         break;
 
                     case Field.Hour:
-                        dt = dt.AddHours(Minutes.ComputeOffset(dt.Hour, 24, false));
+                        dt = dt.AddHours(Hours.ComputeOffset(dt.Hour, 24, false));
                         if (dt.Hour != previous.Hour)
                         {
                             if (dt.Day != previous.Day) workList.Enqueue(Field.Day);
@@ -145,33 +142,41 @@ namespace NCron.Scheduling
 
         private class PlanEnumerator : IEnumerator<DateTime>
         {
+            Plan plan;
+            DateTime start, current;
+
             public PlanEnumerator(Plan plan, DateTime start)
             {
+                this.plan = plan;
+                this.start = start;
+                this.current = DateTime.MinValue;
             }
 
             public DateTime Current
             {
-                get { throw new NotImplementedException(); }
+                get { return this.current; }
             }
 
             object IEnumerator.Current
             {
-                get { throw new NotImplementedException(); }
+                get { return this.current; }
             }
 
             public bool MoveNext()
             {
-                throw new NotImplementedException();
+                this.current = (this.current == DateTime.MinValue)
+                    ? this.plan.ComputeNextExecution(this.start, true)
+                    : this.plan.ComputeNextExecution(this.current, false);
+                return true;
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                this.current = DateTime.MinValue;
             }
 
             public void Dispose()
             {
-                throw new NotImplementedException();
             }
         }
 
