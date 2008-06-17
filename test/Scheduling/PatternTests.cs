@@ -38,27 +38,27 @@ namespace NCron.Scheduling
     public class PatternTests
     {
         [RowTest]
-        [Row(5, 5, 1, 2, 12, false, 3)]
-        [Row(5, 5, 1, 5, 12, false, 0)]
-        [Row(5, 5, 1, 5, 12, true, 12)]
-        [Row(5, 5, 1, 8, 12, false, 9)]
-        [Row(2, 5, 1, 0, 24, false, 2)]
-        [Row(2, 5, 1, 2, 24, false, 0)]
-        [Row(2, 5, 1, 2, 24, true, 1)]
-        [Row(2, 5, 1, 4, 24, false, 0)]
-        [Row(2, 5, 1, 7, 24, false, 19)]
-        [Row(0, 9, 3, 0, 31, false, 0)]
-        [Row(0, 9, 3, 3, 31, false, 0)]
-        [Row(0, 9, 3, 3, 31, true, 3)]
-        [Row(0, 9, 3, 8, 31, true, 23)]
-        [Row(0, 9, 3, 20, 31, true, 11)]
-        [Row(0, int.MaxValue, 10, 24, 0, true, 10)]
-        [Row(10, int.MaxValue, 10, 24, 0, true, 10)]
-        [Row(20, int.MaxValue, 10, 24, 0, true, 10)]
-        public void TestComputeOffset(int lower, int upper, int step, int current, int turn, bool force, int expected)
+        [Row(5, 5, 1, 2, 0, 12, false, 3)]
+        [Row(5, 5, 1, 5, 0, 12, false, 0)]
+        [Row(5, 5, 1, 5, 0, 12, true, 12)]
+        [Row(5, 5, 1, 8, 0, 12, false, 9)]
+        [Row(2, 5, 1, 0, 0, 24, false, 2)]
+        [Row(2, 5, 1, 2, 0, 24, false, 0)]
+        [Row(2, 5, 1, 2, 0, 24, true, 1)]
+        [Row(2, 5, 1, 4, 0, 24, false, 0)]
+        [Row(2, 5, 1, 7, 0, 24, false, 19)]
+        [Row(0, 9, 3, 0, 0, 31, false, 0)]
+        [Row(0, 9, 3, 3, 0, 31, false, 0)]
+        [Row(0, 9, 3, 3, 0, 31, true, 3)]
+        [Row(0, 9, 3, 8, 0, 31, true, 23)]
+        [Row(0, 9, 3, 20, 0, 31, true, 11)]
+        [Row(0, int.MaxValue, 10, 0, 24, 0, true, 10)]
+        [Row(10, int.MaxValue, 10, 0, 24, 0, true, 10)]
+        [Row(20, int.MaxValue, 10, 0, 24, 0, true, 10)]
+        public void TestComputeOffset(int lower, int upper, int step, int current, int previous, int turn, bool force, int expected)
         {
             Pattern p = new Pattern(lower, upper, step);
-            Assert.AreEqual(expected, p.ComputeOffset(current, turn, force));
+            Assert.AreEqual(expected, p.ComputeOffset(current, previous, turn, force));
         }
     }
 }

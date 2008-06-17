@@ -37,7 +37,7 @@ namespace NCron.Scheduling
     {
         List<Pattern> patterns = new List<Pattern>();
 
-        public int ComputeOffset(int current, int turn, bool force)
+        public int ComputeOffset(int current, int previous, int turn, bool force)
         {
             // If no patterns specified, anything will do!
             if (patterns.Count == 0) return force ? 1 : 0;
@@ -46,7 +46,7 @@ namespace NCron.Scheduling
             int min = int.MaxValue;
             foreach (Pattern pattern in this.patterns)
             {
-                int cur = pattern.ComputeOffset(current, turn, force);
+                int cur = pattern.ComputeOffset(current, previous, turn, force);
                 if (cur < min) min = cur;
             }
             return min;

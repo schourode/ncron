@@ -49,14 +49,16 @@ namespace NCron.Scheduling
             this.step = stepSize;
         }
 
-        public int ComputeOffset(int current, int turn, bool force)
+        public int ComputeOffset(int current, int previous, int turn, bool force)
         {
             if (current < this.lower) return this.lower - current;
             if (current > this.upper) return turn - current + this.lower;
 
-            if (!force) return 0;
+            int offset = (current - previous) % this.step;
 
-            int next = current + step;
+            if (offset == 0 && !force) return 0;
+
+            int next = current + offset;
 
             if (next < turn)
             {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron", "core\NCron.csproj", "{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCronTests", "test\NCronTests.csproj", "{60688BD1-A274-4ACE-A011-40104EB74E2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCronTest", "test\NCronTest.csproj", "{60688BD1-A274-4ACE-A011-40104EB74E2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCronLoader", "load\NCronLoader.csproj", "{15F58897-3C39-421F-8AA4-413E5D67A97A}"
 EndProject

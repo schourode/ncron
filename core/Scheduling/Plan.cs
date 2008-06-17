@@ -74,13 +74,13 @@ namespace NCron.Scheduling
                 switch (workList.Dequeue())
                 {
                     case Field.Minute:
-                        dt = previous.AddMinutes(Minutes.ComputeOffset(dt.Minute, 60, !firstTime));
+                        dt = previous.AddMinutes(Minutes.ComputeOffset(dt.Minute, 0, 60, !firstTime));
                         if (dt.Hour != previous.Hour) workList.Enqueue(Field.Hour);
                         firstTime = true;
                         break;
 
                     case Field.Hour:
-                        dt = dt.AddHours(Hours.ComputeOffset(dt.Hour, 24, false));
+                        dt = dt.AddHours(Hours.ComputeOffset(dt.Hour, 0, 24, false));
                         if (dt.Hour != previous.Hour)
                         {
                             if (dt.Day != previous.Day) workList.Enqueue(Field.Day);
@@ -90,8 +90,8 @@ namespace NCron.Scheduling
                         break;
 
                     case Field.Day:
-                        int dow = DaysOfWeek.ComputeOffset((int)dt.DayOfWeek, 7, false);
-                        int dom = DaysOfMonth.ComputeOffset(dt.Day, DateTime.DaysInMonth(dt.Year, dt.Month), false);
+                        int dow = DaysOfWeek.ComputeOffset((int)dt.DayOfWeek, 0, 7, false);
+                        int dom = DaysOfMonth.ComputeOffset(dt.Day, 0, DateTime.DaysInMonth(dt.Year, dt.Month), false);
                         dt = dt.AddDays(dow < dom ? dow : dom);
                         if (dt.Day != previous.Day)
                         {
@@ -103,7 +103,7 @@ namespace NCron.Scheduling
                         break;
 
                     case Field.Month:
-                        dt = dt.AddMonths(Months.ComputeOffset(dt.Month, 12, false));
+                        dt = dt.AddMonths(Months.ComputeOffset(dt.Month, 0, 12, false));
                         if (dt.Month != previous.Month)
                         {
                             dt = dt.AddDays(-dt.Day).AddHours(-dt.Hour).AddMinutes(-dt.Minute);
