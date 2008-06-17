@@ -29,20 +29,27 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.ComponentModel;
+using System.Configuration.Install;
+using System.ServiceProcess;
 
-using MbUnit.Framework;
-
-namespace NCron.Scheduling
+namespace NCron.Loader
 {
-    [TestFixture]
-    public class PlanTests
+    [RunInstaller(true)]
+    public class ProjectInstaller : Installer
     {
-        [Test]
-        public void Test()
+        public ProjectInstaller()
         {
-            //
-            // TODO: Add test logic here
-            //
+            ServiceProcessInstaller procInst = new ServiceProcessInstaller();
+            procInst.Account = ServiceAccount.NetworkService;
+            base.Installers.Add(procInst);
+
+            ServiceInstaller svcInst = new ServiceInstaller();
+            svcInst.ServiceName = "ncron";
+            svcInst.DisplayName = "NCron task scheduling";
+            svcInst.Description = "Executes task according to the configured NCron schedule.";
+            svcInst.StartType = ServiceStartMode.Automatic;
+            base.Installers.Add(svcInst);
         }
     }
 }

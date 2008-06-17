@@ -30,19 +30,44 @@
 
 using System;
 
-using MbUnit.Framework;
-
 namespace NCron.Scheduling
 {
-    [TestFixture]
-    public class PlanTests
+    public struct Pattern
     {
-        [Test]
-        public void Test()
+        int lower, upper, step;
+
+        public Pattern(int lowerBound, int upperBound, int stepSize)
         {
-            //
-            // TODO: Add test logic here
-            //
+            if (lowerBound < 0 || stepSize < 0)
+                throw new ArgumentException("Negative values are not allowed for any of the pattern members.");
+
+            if (upperBound < lowerBound)
+                throw new ArgumentException("The upper bound of a pattern must be equal to or larger than the lower bound.");
+
+            this.lower = lowerBound;
+            this.upper = upperBound;
+            this.step = stepSize;
+        }
+
+        public int ComputeOffset(int current, int turn, bool force)
+        {
+            if (current < this.lower) return this.lower - current;
+            if (current > this.upper) return turn - current + this.lower;
+
+            if (!force) return 0;
+
+            int next = current + step;
+
+            if (next < turn)
+            {
+                if (next <= this.upper) return step;
+                return turn - current + this.lower;
+            }
+            else
+            {
+                if (turn - 1 > this.upper) return turn - current + this.lower;
+                return step;
+            }
         }
     }
 }

@@ -30,19 +30,13 @@
 
 using System;
 
-using MbUnit.Framework;
-
-namespace NCron.Scheduling
+namespace NCron
 {
-    [TestFixture]
-    public class PlanTests
+    /// <summary>
+    /// Interface to be implemented by all NCron jobs.
+    /// </summary>
+    public interface ICronJob
     {
-        [Test]
-        public void Test()
-        {
-            //
-            // TODO: Add test logic here
-            //
-        }
+        void Execute();
     }
 }

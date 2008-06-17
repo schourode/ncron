@@ -38,7 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Scheduling\FieldTests.cs" />
+    <Compile Include="Scheduling\PatternCollectionTests.cs" />
+    <Compile Include="Scheduling\PatternTests.cs" />
     <Compile Include="Scheduling\PlanTests.cs" />
   </ItemGroup>
   <ItemGroup>

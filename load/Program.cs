@@ -29,20 +29,26 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.ServiceProcess;
 
-using MbUnit.Framework;
-
-namespace NCron.Scheduling
+namespace NCron.Loader
 {
-    [TestFixture]
-    public class PlanTests
+    internal static class Program
     {
-        [Test]
-        public void Test()
+        static void Main(string[] args)
         {
-            //
-            // TODO: Add test logic here
-            //
+            CronService service = new CronService();
+
+            if (args.Length > 0 && args[0].Equals("/console", StringComparison.OrdinalIgnoreCase))
+            {
+                //service.Start();
+                //Console.ReadLine();
+                //service.Stop();
+            }
+            else
+            {
+                ServiceBase.Run(service);
+            }
         }
     }
 }

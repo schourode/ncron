@@ -35,14 +35,12 @@ using MbUnit.Framework;
 namespace NCron.Scheduling
 {
     [TestFixture]
-    public class PlanTests
+    public class PatternCollectionTests
     {
         [Test]
         public void Test()
         {
-            //
-            // TODO: Add test logic here
-            //
+            PatternCollection c = new PatternCollection();
         }
     }
 }
