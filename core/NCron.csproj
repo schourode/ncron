@@ -42,12 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobFactory.cs" />
-    <Compile Include="CronService.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="JobAttribute.cs" />
     <Compile Include="ICronJob.cs" />
+    <Compile Include="Scheduling\CronService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Scheduling\Pattern.cs" />
     <Compile Include="Scheduling\PatternCollection.cs" />
     <Compile Include="Scheduling\Plan.cs" />

@@ -32,35 +32,51 @@ using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
 
-namespace NCron
+namespace NCron.Scheduling
 {
     public class CronService : ServiceBase
     {
-        public ICollection<ICronJob> Jobs { get; private set; }
+        public ICollection<Plan> Plans { get; private set; }
 
         public CronService()
         {
-            this.Jobs = new List<ICronJob>();
+            this.Plans = new List<Plan>();
         }
 
         protected override void OnStart(string[] args)
         {
-            base.OnStart(args);
+            InitializeAllPlans();
         }
 
         protected override void OnStop()
         {
-            base.OnStop();
+            AbortAllPlans();
         }
 
         protected override void OnPause()
         {
-            base.OnPause();
+            AbortAllPlans();
         }
 
         protected override void OnContinue()
         {
-            base.OnContinue();
+            InitializeAllPlans();
+        }
+
+        private void InitializeAllPlans()
+        {
+            foreach (Plan plan in this.Plans)
+            {
+                //plan.Initialize();
+            }
+        }
+
+        private void AbortAllPlans()
+        {
+            foreach (Plan plan in this.Plans)
+            {
+                //plan.Abort();
+            }
         }
     }
 }

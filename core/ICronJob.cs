@@ -37,6 +37,8 @@ namespace NCron
     /// </summary>
     public interface ICronJob
     {
+        int Priority { get; }
+
         void Execute();
     }
 }

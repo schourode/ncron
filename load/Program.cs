@@ -31,6 +31,8 @@
 using System;
 using System.ServiceProcess;
 
+using NCron.Scheduling;
+
 namespace NCron.Loader
 {
     internal static class Program
