@@ -41,7 +41,7 @@ namespace NCron.Loader
         public ProjectInstaller()
         {
             ServiceProcessInstaller procInst = new ServiceProcessInstaller();
-            procInst.Account = ServiceAccount.NetworkService;
+            procInst.Account = ServiceAccount.LocalService;
             base.Installers.Add(procInst);
 
             ServiceInstaller svcInst = new ServiceInstaller();
