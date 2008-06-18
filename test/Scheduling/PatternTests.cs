@@ -50,11 +50,13 @@ namespace NCron.Scheduling
         [Row(0, 9, 3, 0, 0, 31, false, 0)]
         [Row(0, 9, 3, 3, 0, 31, false, 0)]
         [Row(0, 9, 3, 3, 0, 31, true, 3)]
-        [Row(0, 9, 3, 8, 0, 31, true, 23)]
+        [Row(0, 9, 3, 8, 6, 31, false, 1)]
+        [Row(0, 9, 3, 8, 7, 31, false, 23)]
         [Row(0, 9, 3, 20, 0, 31, true, 11)]
-        [Row(0, int.MaxValue, 10, 0, 24, 0, true, 10)]
-        [Row(10, int.MaxValue, 10, 0, 24, 0, true, 10)]
-        [Row(20, int.MaxValue, 10, 0, 24, 0, true, 10)]
+        [Row(0, int.MaxValue, 10, 0, 0, 24, false, 0)]
+        [Row(0, int.MaxValue, 10, 0, 0, 24, true, 10)]
+        [Row(0, int.MaxValue, 10, 1, 0, 24, false, 9)]
+        [Row(0, int.MaxValue, 10, 21, 20, 24, false, 9)]
         public void TestComputeOffset(int lower, int upper, int step, int current, int previous, int turn, bool force, int expected)
         {
             Pattern p = new Pattern(lower, upper, step);

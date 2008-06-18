@@ -51,24 +51,26 @@ namespace NCron.Scheduling
 
         public int ComputeOffset(int current, int previous, int turn, bool force)
         {
+            // If out of bounds, return the offset to reach the lower bound.
             if (current < this.lower) return this.lower - current;
             if (current > this.upper) return turn - current + this.lower;
 
-            int offset = (current - previous) % this.step;
+            if (current < previous) current += turn;
+            int offset = step - ((current - previous) % step);
 
-            if (offset == 0 && !force) return 0;
+            if (offset == step && !force) return 0;
 
             int next = current + offset;
 
             if (next < turn)
             {
-                if (next <= this.upper) return step;
+                if (next <= this.upper) return offset;
                 return turn - current + this.lower;
             }
             else
             {
                 if (turn - 1 > this.upper) return turn - current + this.lower;
-                return step;
+                return offset;
             }
         }
     }

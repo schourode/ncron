@@ -68,45 +68,53 @@ namespace NCron.Scheduling
                 workList.Enqueue(Field.Month);
             }
 
+            int pMin = previous.Minute, pHour = previous.Hour, pDay = previous.Day - 1, pMonth = previous.Month;
+
             while (workList.Count > 0)
             {
                 DateTime dt = previous;
                 switch (workList.Dequeue())
                 {
                     case Field.Minute:
-                        dt = previous.AddMinutes(Minutes.ComputeOffset(dt.Minute, 0, 60, !firstTime));
+                        dt = previous.AddMinutes(Minutes.ComputeOffset(dt.Minute, pMin, 60, !firstTime));
                         if (dt.Hour != previous.Hour) workList.Enqueue(Field.Hour);
                         firstTime = true;
                         break;
 
                     case Field.Hour:
-                        dt = dt.AddHours(Hours.ComputeOffset(dt.Hour, 0, 24, false));
+                        dt = dt.AddHours(Hours.ComputeOffset(dt.Hour, pHour, 24, false));
                         if (dt.Hour != previous.Hour)
                         {
                             if (dt.Day != previous.Day) workList.Enqueue(Field.Day);
                             dt = dt.AddMinutes(-dt.Minute);
+                            pMin = 0;
                             workList.Enqueue(Field.Minute);
                         }
                         break;
 
                     case Field.Day:
-                        int dow = DaysOfWeek.ComputeOffset((int)dt.DayOfWeek, 0, 7, false);
-                        int dom = DaysOfMonth.ComputeOffset(dt.Day, 0, DateTime.DaysInMonth(dt.Year, dt.Month), false);
-                        dt = dt.AddDays(dow < dom ? dow : dom);
-                        if (dt.Day != previous.Day)
+                        if (DaysOfWeek.Count > 0 || DaysOfMonth.Count > 0)
                         {
-                            if (dt.Month != previous.Month) workList.Enqueue(Field.Month);
-                            dt = dt.AddHours(-dt.Hour).AddMinutes(-dt.Minute);
-                            workList.Enqueue(Field.Hour);
-                            workList.Enqueue(Field.Minute);
+                            int dow = (DaysOfWeek.Count == 0) ? int.MaxValue : DaysOfWeek.ComputeOffset((int)dt.DayOfWeek, pDay, 7, false);
+                            int dom = (DaysOfMonth.Count == 0) ? int.MaxValue : DaysOfMonth.ComputeOffset(dt.Day - 1, pDay, DateTime.DaysInMonth(dt.Year, dt.Month), false);
+                            dt = dt.AddDays(dow < dom ? dow : dom);
+                            if (dt.Day != previous.Day)
+                            {
+                                if (dt.Month != previous.Month) workList.Enqueue(Field.Month);
+                                dt = dt.AddHours(-dt.Hour).AddMinutes(-dt.Minute);
+                                pHour = pMin = 0;
+                                workList.Enqueue(Field.Hour);
+                                workList.Enqueue(Field.Minute);
+                            }
                         }
                         break;
 
                     case Field.Month:
-                        dt = dt.AddMonths(Months.ComputeOffset(dt.Month, 0, 12, false));
+                        dt = dt.AddMonths(Months.ComputeOffset(dt.Month, pMonth, 12, false));
                         if (dt.Month != previous.Month)
                         {
                             dt = dt.AddDays(-dt.Day).AddHours(-dt.Hour).AddMinutes(-dt.Minute);
+                            pDay = pHour = pMin = 0;
                             workList.Enqueue(Field.Day);
                             workList.Enqueue(Field.Hour);
                             workList.Enqueue(Field.Minute);

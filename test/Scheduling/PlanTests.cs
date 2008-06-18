@@ -63,5 +63,58 @@ namespace NCron.Scheduling
                 new DateTime(2000, 1, 2, 16, 0, 0)
             });
         }
+
+        [Test]
+        public void TestComputeNextExecution_StepMinuteRange()
+        {
+            Plan plan = new Plan();
+            plan.Minutes.StepsBetween(0, 15, 5);
+
+            AssertEnumerationResults(plan, new DateTime(2000, 1, 1, 0, 0, 0), new DateTime[] {
+                new DateTime(2000, 1, 1, 0, 0, 0),
+                new DateTime(2000, 1, 1, 0, 5, 0),
+                new DateTime(2000, 1, 1, 0, 10, 0),
+                new DateTime(2000, 1, 1, 0, 15, 0),
+                new DateTime(2000, 1, 1, 1, 0, 0),
+                new DateTime(2000, 1, 1, 1, 5, 0),
+                new DateTime(2000, 1, 1, 1, 10, 0),
+                new DateTime(2000, 1, 1, 1, 15, 0)
+            });
+        }
+
+        [Test]
+        public void TestComputeNextExecution_Daily()
+        {
+            Plan plan = new Plan();
+            plan.DaysOfWeek.Between(1, 5);
+            plan.Hours.Exact(3);
+            plan.Minutes.Exact(0);
+
+            AssertEnumerationResults(plan, new DateTime(2000, 1, 1, 0, 0, 0), new DateTime[] {
+                new DateTime(2000, 1, 3, 3, 0, 0),
+                new DateTime(2000, 1, 4, 3, 0, 0),
+                new DateTime(2000, 1, 5, 3, 0, 0),
+                new DateTime(2000, 1, 6, 3, 0, 0),
+                new DateTime(2000, 1, 7, 3, 0, 0),
+                new DateTime(2000, 1, 10, 3, 0, 0)
+            });
+        }
+
+        [Test]
+        public void TestComputeNextExecution_StepMonths()
+        {
+            Plan plan = new Plan();
+            plan.Months.Steps(2);
+            plan.DaysOfMonth.Exact(0);
+            plan.Minutes.Exact(0);
+            plan.Hours.Exact(0);
+
+            AssertEnumerationResults(plan, new DateTime(2000, 1, 1, 0, 0, 0), new DateTime[] {
+                new DateTime(2000, 1, 1, 0, 0, 0),
+                new DateTime(2000, 3, 1, 0, 0, 0),
+                new DateTime(2000, 5, 1, 0, 0, 0),
+                new DateTime(2000, 7, 1, 0, 0, 0)
+            });
+        }
     }
 }
