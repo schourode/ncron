@@ -30,53 +30,68 @@
 
 using System;
 using System.Collections.Generic;
-using System.ServiceProcess;
+using System.Threading;
 
 namespace NCron.Scheduling
 {
-    public class CronService : ServiceBase
+    public class CronTimer
     {
-        public ICollection<CronTimer> Timers { get; private set; }
+        private Timer timer;
+        private DateTime next;
+        private object syncLock = new object();
 
-        public CronService()
+        public Plan Plan { get; private set; }
+        public ICollection<ICronJob> Jobs { get; private set; }
+
+        public CronTimer()
         {
-            this.Timers = new List<CronTimer>();
+            this.Jobs = new List<ICronJob>();
+            this.Plan = new Plan();
         }
 
-        protected override void OnStart(string[] args)
+        public bool IsRunning
         {
-            StartAllTimers();
+            get { return this.timer != null; }
         }
-
-        protected override void OnStop()
+        
+        public bool Start()
         {
-            StopAllTimers();
-        }
-
-        protected override void OnPause()
-        {
-            StopAllTimers();
-        }
-
-        protected override void OnContinue()
-        {
-            StartAllTimers();
-        }
-
-        private void StartAllTimers()
-        {
-            foreach (CronTimer timer in this.Timers)
+            lock (syncLock)
             {
-                timer.Start();
+                if (this.timer != null) return false;
+
+                timer = new Timer(TimerCallback);
+                ScheduleNextExecution(true);
+                return true;
             }
         }
 
-        private void StopAllTimers()
+        private void ScheduleNextExecution(bool first)
         {
-            foreach (CronTimer timer in this.Timers)
+            next = this.Plan.ComputeNextExecution(first ? DateTime.Now : next, first);
+            timer.Change(next.Subtract(DateTime.Now), TimeSpan.FromMilliseconds(-1));
+        }
+
+        public bool Stop()
+        {
+            lock (syncLock)
             {
-                timer.Stop();
+                if (this.timer == null) return false;
+
+                this.timer.Dispose();
+                this.timer = null;
+                return true;
             }
+        }
+
+        public void Dispose()
+        {
+            Stop();
+        }
+
+        private void TimerCallback(object state)
+        {
+            ScheduleNextExecution(false);
         }
     }
 }

@@ -44,8 +44,6 @@ namespace NCron.Scheduling
         public PatternCollection DaysOfMonth { get; private set; }
         public PatternCollection Months { get; private set; }
 
-        public ICollection<ICronJob> Jobs { get; private set; }
-
         public Plan()
         {
             this.Minutes = new PatternCollection();
@@ -53,8 +51,6 @@ namespace NCron.Scheduling
             this.DaysOfWeek = new PatternCollection();
             this.DaysOfMonth = new PatternCollection();
             this.Months = new PatternCollection();
-
-            this.Jobs = new List<ICronJob>();
         }
 
         #endregion
