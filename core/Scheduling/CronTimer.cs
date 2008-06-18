@@ -68,8 +68,11 @@ namespace NCron.Scheduling
 
         private void ScheduleNextExecution(bool first)
         {
-            next = this.Plan.ComputeNextExecution(first ? DateTime.Now : next, first);
-            timer.Change(next.Subtract(DateTime.Now), TimeSpan.FromMilliseconds(-1));
+            DateTime now = DateTime.Now;
+            now = now.AddSeconds(-now.Second).AddMilliseconds(-now.Millisecond);
+
+            next = this.Plan.ComputeNextExecution(first ? now : next, first);
+            timer.Change(next.Subtract(now), TimeSpan.FromMilliseconds(-1));
         }
 
         public bool Stop()
@@ -91,7 +94,26 @@ namespace NCron.Scheduling
 
         private void TimerCallback(object state)
         {
-            ScheduleNextExecution(false);
+            double correction = DateTime.Now.Subtract(next).TotalMinutes;
+            if (correction < -1 || correction > 1)
+            {
+                ScheduleNextExecution(true);
+            }
+            else
+            {
+                foreach (ICronJob job in this.Jobs)
+                {
+                    ThreadPool.QueueUserWorkItem(JobExecutionCallback, job);
+                }
+
+                ScheduleNextExecution(false);
+            }
+        }
+
+        private void JobExecutionCallback(object state)
+        {
+            ICronJob job = (ICronJob)state;
+            job.Execute();
         }
     }
 }
