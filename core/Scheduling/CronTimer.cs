@@ -60,8 +60,26 @@ namespace NCron.Scheduling
             {
                 if (this.timer != null) return false;
 
+                foreach (ICronJob job in this.Jobs)
+                    job.Initialize();
+
                 timer = new Timer(TimerCallback);
                 ScheduleNextExecution(true);
+                return true;
+            }
+        }
+
+        public bool Stop()
+        {
+            lock (syncLock)
+            {
+                if (this.timer == null) return false;
+
+                foreach (ICronJob job in this.Jobs)
+                    job.Dispose();
+
+                this.timer.Dispose();
+                this.timer = null;
                 return true;
             }
         }
@@ -73,18 +91,6 @@ namespace NCron.Scheduling
 
             next = this.Plan.ComputeNextExecution(first ? now : next, first);
             timer.Change(next.Subtract(now), TimeSpan.FromMilliseconds(-1));
-        }
-
-        public bool Stop()
-        {
-            lock (syncLock)
-            {
-                if (this.timer == null) return false;
-
-                this.timer.Dispose();
-                this.timer = null;
-                return true;
-            }
         }
 
         public void Dispose()
@@ -102,9 +108,7 @@ namespace NCron.Scheduling
             else
             {
                 foreach (ICronJob job in this.Jobs)
-                {
                     ThreadPool.QueueUserWorkItem(JobExecutionCallback, job);
-                }
 
                 ScheduleNextExecution(false);
             }

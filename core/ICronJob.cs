@@ -35,10 +35,11 @@ namespace NCron
     /// <summary>
     /// Interface to be implemented by all NCron jobs.
     /// </summary>
-    public interface ICronJob
+    public interface ICronJob : IDisposable
     {
         int Priority { get; }
 
+        void Initialize();
         void Execute();
     }
 }
