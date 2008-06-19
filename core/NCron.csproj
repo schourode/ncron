@@ -41,9 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JobFactory.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="JobAttribute.cs" />
     <Compile Include="ICronJob.cs" />
     <Compile Include="Scheduling\CronTimer.cs" />
     <Compile Include="Scheduling\CronService.cs">
