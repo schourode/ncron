@@ -29,32 +29,21 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.ServiceProcess;
+using System.Configuration;
+using System.Xml;
 
-using NCron.Loader.Configuration;
-using NCron.Scheduling;
-
-namespace NCron.Loader
+namespace NCron.Loader.Configuration
 {
-    internal static class Program
+    internal class NCronSectionHandler : IConfigurationSectionHandler
     {
-        static void Main(string[] args)
+        public object Create(object parent, object configContext, XmlNode section)
         {
-            XmlConfiguration config = NCronSectionHandler.GetConfiguration();
-            CronService service = new CronService();
+            return new XmlConfiguration((XmlElement)section);
+        }
 
-            foreach (CronTimer timer in config.Timers)
-            {
-                service.Timers.Add(timer);
-            }
-
-#if DEBUG
-            service.StartAllTimers();
-            Console.ReadLine();
-            service.StopAllTimers();
-#else
-            ServiceBase.Run(service);
-#endif
+        public static XmlConfiguration GetConfiguration()
+        {
+            return (XmlConfiguration)ConfigurationManager.GetSection("ncron");
         }
     }
 }
