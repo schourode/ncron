@@ -29,12 +29,28 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace NCron.Scheduling
 {
     public struct Pattern
     {
         int lower, upper, step;
+
+        public int LowerBound
+        {
+            get { return this.lower; }
+        }
+
+        public int UpperBound
+        {
+            get { return this.upper; }
+        }
+
+        public int StepSize
+        {
+            get { return this.step; }
+        }
 
         public Pattern(int lowerBound, int upperBound, int stepSize)
         {
@@ -72,6 +88,35 @@ namespace NCron.Scheduling
                 if (turn - 1 > this.upper) return turn - current + this.lower;
                 return offset;
             }
+        }
+
+        static Regex PATTERN_PARSER = new Regex(@"^(((?<lower>\d+)(-(?<upper>\d+))?)|\*)(/(?<step>\d+))?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+
+        public static Pattern Parse(string text)
+        {
+            Match match = PATTERN_PARSER.Match(text);
+            if (!match.Success) throw new FormatException(string.Format("The string {0} could not be parsed as a Pattern.", text));
+
+            int lower, upper, step;
+            lower = ParseGroup(match, "lower", -1);
+            if (lower < 0)
+            {
+                lower = 0;
+                upper = int.MaxValue;
+            }
+            else
+            {
+                upper = ParseGroup(match, "upper", lower);
+            }
+            step = ParseGroup(match, "step", 1);
+
+            return new Pattern(lower, upper, step);
+        }
+
+        private static int ParseGroup(Match match, string groupName, int defaultValue)
+        {
+            Group group = match.Groups[groupName];
+            return group.Success ? int.Parse(group.Value) : defaultValue;
         }
     }
 }

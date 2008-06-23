@@ -62,5 +62,19 @@ namespace NCron.Scheduling
             Pattern p = new Pattern(lower, upper, step);
             Assert.AreEqual(expected, p.ComputeOffset(current, previous, turn, force));
         }
+
+        [RowTest]
+        [Row("*", 0, int.MaxValue, 1)]
+        [Row("*/5", 0, int.MaxValue, 5)]
+        [Row("3", 3, 3, 1)]
+        [Row("10-20", 10, 20, 1)]
+        [Row("10-20/2", 10, 20, 2)]
+        public void TestParse(string text, int lower, int upper, int step)
+        {
+            Pattern p = Pattern.Parse(text);
+            Assert.AreEqual(lower, p.LowerBound);
+            Assert.AreEqual(upper, p.UpperBound);
+            Assert.AreEqual(step, p.StepSize);
+        }
     }
 }
