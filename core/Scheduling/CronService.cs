@@ -63,7 +63,7 @@ namespace NCron.Scheduling
             StartAllTimers();
         }
 
-        private void StartAllTimers()
+        public void StartAllTimers()
         {
             foreach (CronTimer timer in this.Timers)
             {
@@ -71,7 +71,7 @@ namespace NCron.Scheduling
             }
         }
 
-        private void StopAllTimers()
+        public void StopAllTimers()
         {
             foreach (CronTimer timer in this.Timers)
             {
