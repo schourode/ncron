@@ -158,14 +158,5 @@ namespace NCron.Loader.Configuration
 
             return properties;
         }
-
-        class SayHelloJob : ICronJob
-        {
-            public int Priority { get { return 0; } }
-
-            public void Execute() { Console.WriteLine("{0:T} - Execute", DateTime.Now); }
-            public void Initialize() { Console.WriteLine("{0:T} - Initialize", DateTime.Now); }
-            public void Dispose() { Console.WriteLine("{0:T} - Dispose", DateTime.Now); }
-        }
     }
 }
