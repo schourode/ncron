@@ -18,35 +18,65 @@ using System.ServiceProcess;
 
 namespace NCron.Scheduling
 {
+    /// <summary>
+    /// Built on top of <see cref="System.ServiceProcess.ServiceBase"/>, this class serves as the cron service entry point.
+    /// The service can be installed using classes from the <see cref="System.Configuration.Install"/> namespace.
+    /// </summary>
     public class CronService : ServiceBase
     {
+        /// <summary>
+        /// Gets the collection of <see cref="CronTimer"/>s controlled by this service.
+        /// </summary>
         public ICollection<CronTimer> Timers { get; private set; }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="CronService"/> class.
+        /// </summary>
         public CronService()
         {
             this.Timers = new List<CronTimer>();
         }
 
+        /// <summary>
+        /// Executes when a Start command is sent to the service by the Service Control Manager (SCM) or when the operating system starts (for a service that starts automatically).
+        /// Specifies actions to take when the service starts (starts all timers).
+        /// </summary>
+        /// <param name="args">Data passed by the start command.</param>
         protected override void OnStart(string[] args)
         {
             StartAllTimers();
         }
 
+        /// <summary>
+        /// Executes when a Stop command is sent to the service by the Service Control Manager (SCM).
+        /// Specifies actions to take when a service stops running (stops all timers).
+        /// </summary>
         protected override void OnStop()
         {
             StopAllTimers();
         }
 
+        /// <summary>
+        /// Executes when a Pause command is sent to the service by the Service Control Manager (SCM).
+        /// Specifies actions to take when a service pauses (stops all timers).
+        /// </summary>
         protected override void OnPause()
         {
             StopAllTimers();
         }
 
+        /// <summary>
+        /// Executes when a Continue command is sent to the service by the Service Control Manager (SCM).
+        /// Specifies actions to take when a service resumes normal functioning after being paused (starts all timers).
+        /// </summary>
         protected override void OnContinue()
         {
             StartAllTimers();
         }
 
+        /// <summary>
+        /// Starts all timers maintained by this cron service.
+        /// </summary>
         public void StartAllTimers()
         {
             foreach (CronTimer timer in this.Timers)
@@ -55,12 +85,25 @@ namespace NCron.Scheduling
             }
         }
 
+        /// <summary>
+        /// Stops all timers maintained by this cron service.
+        /// </summary>
         public void StopAllTimers()
         {
             foreach (CronTimer timer in this.Timers)
             {
                 timer.Stop();
             }
+        }
+
+        /// <summary>
+        /// Disposes of the resources used by the <see cref="CronService"/> and all of its referenced plans.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            StopAllTimers();
+            base.Dispose(disposing);
         }
     }
 }

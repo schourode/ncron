@@ -17,13 +17,26 @@ using System;
 namespace NCron
 {
     /// <summary>
-    /// Interface to be implemented by all NCron jobs.
+    /// Defines the interface to be implemented by all NCron jobs.
     /// </summary>
     public interface ICronJob : IDisposable
     {
+        /// <summary>
+        /// Gets a numeric value indicating the priority of the job.
+        /// If several tasks are scheduled for execution within the same second, the task with the highest priority will be executed first.
+        /// When implementing the interface, this property might be read from user configuration or computed dynamically.
+        /// </summary>
         int Priority { get; }
 
+        /// <summary>
+        /// Prepares the job before its first execution.
+        /// For simple jobs, the body of this method will often be empty.
+        /// </summary>
         void Initialize();
+
+        /// <summary>
+        /// Executes the job. This method will be called whenever a scheduled execution time for the job is reached.
+        /// </summary>
         void Execute();
     }
 }

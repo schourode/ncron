@@ -17,25 +17,44 @@ using System.Text.RegularExpressions;
 
 namespace NCron.Scheduling
 {
+    /// <summary>
+    /// Represents a numeric pattern used to match a single field in a <see cref="DateTime"/> (second, minute, etc.).
+    /// The pattern is defined by a lower and an upper bound, combined with a step length, providing the ability to match only every Nth value.
+    /// </summary>
     public struct Pattern
     {
         int lower, upper, step;
 
+        /// <summary>
+        /// Gets the lower bound of the pattern as defined at construction time.
+        /// </summary>
         public int LowerBound
         {
             get { return this.lower; }
         }
 
+        /// <summary>
+        /// Gets the upper bound of the pattern as defined at construction time.
+        /// </summary>
         public int UpperBound
         {
             get { return this.upper; }
         }
 
+        /// <summary>
+        /// Gets the size of the steps between each matching value.
+        /// </summary>
         public int StepSize
         {
             get { return this.step; }
         }
 
+        /// <summary>
+        /// Creates a new <see cref="Pattern"/> with the specified bounds and step size.
+        /// </summary>
+        /// <param name="lowerBound">the lower bound of the numeric pattern to be matched.</param>
+        /// <param name="upperBound">the upper bound of the numeric pattern to be matched.</param>
+        /// <param name="stepSize">the size of the steps between each matching value.</param>
         public Pattern(int lowerBound, int upperBound, int stepSize)
         {
             if (lowerBound < 0 || stepSize < 0)
