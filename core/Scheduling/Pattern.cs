@@ -52,9 +52,9 @@ namespace NCron.Scheduling
         /// <summary>
         /// Creates a new <see cref="Pattern"/> with the specified bounds and step size.
         /// </summary>
-        /// <param name="lowerBound">the lower bound of the numeric pattern to be matched.</param>
-        /// <param name="upperBound">the upper bound of the numeric pattern to be matched.</param>
-        /// <param name="stepSize">the size of the steps between each matching value.</param>
+        /// <param name="lowerBound">the lower bound of the numeric pattern to be matched</param>
+        /// <param name="upperBound">the upper bound of the numeric pattern to be matched</param>
+        /// <param name="stepSize">the size of the steps between each matching value</param>
         public Pattern(int lowerBound, int upperBound, int stepSize)
         {
             if (lowerBound < 0 || stepSize < 0)
@@ -68,6 +68,14 @@ namespace NCron.Scheduling
             this.step = stepSize;
         }
 
+        /// <summary>
+        /// Computes the offset from a specified numeric value, to the next value matched by the pattern.
+        /// </summary>
+        /// <param name="current">the current value - this might not be a legal value of this pattern</param>
+        /// <param name="previous">the last known acceptable value</param>
+        /// <param name="turn">the upper bound of the current series of values - if no legal value is found within this bound, searching continues from value 0</param>
+        /// <param name="force">if set to true, the method will never return the offset 0, even if the current value is matched by the pattern</param>
+        /// <returns></returns>
         public int ComputeOffset(int current, int previous, int turn, bool force)
         {
             // If out of bounds, return the offset to reach the lower bound.
@@ -95,6 +103,17 @@ namespace NCron.Scheduling
 
         static Regex PATTERN_PARSER = new Regex(@"^(((?<lower>\d+)(-(?<upper>\d+))?)|\*)(/(?<step>\d+))?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
+        /// <summary>
+        /// Converts the specified string representation of a numeric pattern into its <see cref="Pattern"/> equivalent.
+        /// </summary>
+        /// <remarks>
+        /// The syntax follows that of the typical Unix "cron" implementation:
+        /// - An asterix matches all values.
+        /// - You can use dashes to specify ranges.
+        /// - You can use forward slash to specify a repeating range.
+        /// </remarks>
+        /// <param name="text">a string containing a pattern to convert</param>
+        /// <returns>the <see cref="Pattern"/> equivalent to the inputted string</returns>
         public static Pattern Parse(string text)
         {
             Match match = PATTERN_PARSER.Match(text);
