@@ -38,6 +38,15 @@ namespace NCron.Scheduling
         }
 
         /// <summary>
+        /// Creates a new instance of the <see cref="CronService"/> class, with a specified inital set of timers.
+        /// </summary>
+        /// <param name="timers">The <see cref="CronTimer"/> objects to be initially added to the service.</param>
+        public CronService(IEnumerable<CronTimer> timers)
+        {
+            this.Timers = new List<CronTimer>(timers);
+        }
+
+        /// <summary>
         /// Executes when a Start command is sent to the service by the Service Control Manager (SCM) or when the operating system starts (for a service that starts automatically).
         /// Specifies actions to take when the service starts (starts all timers).
         /// </summary>

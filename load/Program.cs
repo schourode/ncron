@@ -25,20 +25,33 @@ namespace NCron.Loader
         static void Main(string[] args)
         {
             XmlConfiguration config = NCronSectionHandler.GetConfiguration();
-            CronService service = new CronService();
 
-            foreach (CronTimer timer in config.Timers)
+            if (args.Length == 0)
             {
-                service.Timers.Add(timer);
+                CronService service = new CronService(config.Timers);
+                ServiceBase.Run(service);
             }
+            else
+            {
+                switch (args[0].ToLowerInvariant())
+                {
+                    case "debug":
+                        CronService service = new CronService(config.Timers);
+                        service.StartAllTimers();
+                        break;
 
-#if DEBUG
-            service.StartAllTimers();
-            Console.ReadLine();
-            service.StopAllTimers();
-#else
-            ServiceBase.Run(service);
-#endif
+                    case "exec":
+                        foreach (ICronJob job in config.GetJobs(args[1]))
+                        {
+                            job.Initialize();
+                            job.Execute();
+                        }
+                        break;
+
+                    default:
+                        throw new ApplicationException("");
+                }
+            }
         }
     }
 }

@@ -48,6 +48,13 @@ namespace NCron.Loader.Configuration
             }
         }
 
+        public IEnumerable<ICronJob> GetJobs(string name)
+        {
+            List<ICronJob> jobs = new List<ICronJob>();
+            ConfigureJobCollection(jobs, name);
+            return jobs;
+        }
+
         private void ConfigureTimer(CronTimer timer, XmlElement config)
         {
             foreach (XmlAttribute attr in config.Attributes)
