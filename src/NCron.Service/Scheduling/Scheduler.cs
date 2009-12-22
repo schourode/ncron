@@ -74,6 +74,7 @@ namespace NCron.Service.Scheduling
             using (var inner = _container.CreateInnerContainer())
             {
                 var job = (ICronJob)inner.Resolve(jobName);
+                job.Log = new Logging.DefaultLog(job.GetType());
                 job.Execute();
             }
         }

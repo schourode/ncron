@@ -34,6 +34,8 @@ namespace NCron.Service
             }
             else
             {
+                log4net.Config.BasicConfigurator.Configure();
+
                 var builder = new ContainerBuilder();
 
                 builder.Register<TestJob>().Named("foo").ContainerScoped();
@@ -62,9 +64,11 @@ namespace NCron.Service
 
         class TestJob : ICronJob
         {
+            public ILog Log { get; set; }
+
             public void Execute()
             {
-                Console.WriteLine(DateTime.Now + " - " + GetHashCode());
+                Log.Info(() => GetHashCode().ToString(), new Exception());
             }
         }
     }
