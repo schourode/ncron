@@ -206,7 +206,7 @@
         {
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61957FE25CAA49A699A0F794EEC26E9C"
             {
-            "SourcePath" = "8:..\\LICENSE.txt"
+            "SourcePath" = "8:..\\..\\LICENSE.txt"
             "TargetName" = "8:LICENSE.txt"
             "Tag" = "8:"
             "Folder" = "8:_CDB28EF39F6F4F3B9B1397E8338E6495"
