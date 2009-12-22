@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NCrontab</name>
+    </assembly>
+    <members>
+        <member name="T:NCrontab.ExceptionHandlerExtensions">
+            <summary>
+            Extension methods for <see cref="T:NCrontab.ExceptionHandler"/>.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ExceptionHandlerExtensions.OptInvoke(NCrontab.ExceptionHandler,NCrontab.ExceptionProvider)">
+            <summary>
+            Invokes the exception handler if it is defined otherwise
+            does nothing.
+            </summary>
+        </member>
+        <member name="T:NCrontab.ValueOrError`1">
+            <summary>
+            A generic type that either represents a value or an error condition.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.#ctor(`0)">
+            <summary>
+            Initializes the object with a defined value.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.#ctor(System.Exception)">
+            <summary>
+            Initializes the object with an error.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.#ctor(NCrontab.ExceptionProvider)">
+            <summary>
+            Initializes the object with a handler that will provide
+            the error result when needed.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.TryGetValue(`0)">
+            <summary>
+            Attempts to get the defined value or another in case
+            of an error.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.op_Implicit(`0)~NCrontab.ValueOrError{`0}">
+            <summary>
+            Implicitly converts a <typeparamref name="T"/> value to
+            an object of this type.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.op_Implicit(System.Exception)~NCrontab.ValueOrError{`0}">
+            <summary>
+            Implicitly converts an <see cref="T:System.Exception"/> object to
+            an object of this type that represents the error condition.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.op_Implicit(NCrontab.ExceptionProvider)~NCrontab.ValueOrError{`0}">
+            <summary>
+            Implicitly converts an <see cref="T:NCrontab.ExceptionProvider"/> object to
+            an object of this type that represents the error condition.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.op_Explicit(NCrontab.ValueOrError{`0})~`0">
+            <summary>
+            Explicits converts this object to a <typeparamref name="T"/> value.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.op_Explicit(NCrontab.ValueOrError{`0})~System.Exception">
+            <summary>
+            Explicits converts this object to an <see cref="T:System.Exception"/> object
+            if it represents an error condition. The conversion yields <c>null</c>
+            if this object does not represent an error condition.
+            </summary>
+        </member>
+        <member name="M:NCrontab.ValueOrError`1.op_Explicit(NCrontab.ValueOrError{`0})~NCrontab.ExceptionProvider">
+            <summary>
+            Explicits converts this object to an <see cref="T:NCrontab.ExceptionProvider"/> object
+            if it represents an error condition. The conversion yields <c>null</c>
+            if this object does not represent an error condition.
+            </summary>
+        </member>
+        <member name="P:NCrontab.ValueOrError`1.HasValue">
+            <summary>
+            Determines if object holds a defined value or not.
+            </summary>
+        </member>
+        <member name="P:NCrontab.ValueOrError`1.Value">
+            <summary>
+            Gets the value otherwise throws an error if undefined.
+            </summary>
+        </member>
+        <member name="P:NCrontab.ValueOrError`1.IsError">
+            <summary>
+            Determines if object identifies an error condition or not.
+            </summary>
+        </member>
+        <member name="P:NCrontab.ValueOrError`1.Error">
+            <summary>
+            Gets the <see cref="T:System.Exception"/> object if this object
+            represents an error condition otherwise it returns <c>null</c>.
+            </summary>
+        </member>
+        <member name="P:NCrontab.ValueOrError`1.ErrorProvider">
+            <summary>
+            Gets the <see cref="T:NCrontab.ExceptionProvider"/> object if this 
+            object represents an error condition otherwise it returns <c>null</c>.
+            </summary>
+        </member>
+        <member name="T:NCrontab.CrontabField">
+            <summary>
+            Represents a single crontab field.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Parse(NCrontab.CrontabFieldKind,System.String)">
+            <summary>
+            Parses a crontab field expression given its kind.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Minutes(System.String)">
+            <summary>
+            Parses a crontab field expression representing minutes.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Hours(System.String)">
+            <summary>
+            Parses a crontab field expression representing hours.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Days(System.String)">
+            <summary>
+            Parses a crontab field expression representing days in any given month.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Months(System.String)">
+            <summary>
+            Parses a crontab field expression representing months.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.DaysOfWeek(System.String)">
+            <summary>
+            Parses a crontab field expression representing days of a week.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.GetFirst">
+            <summary>
+            Gets the first value of the field or -1.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Next(System.Int32)">
+            <summary>
+            Gets the next value of the field that occurs after the given 
+            start value or -1 if there is no next value available.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Contains(System.Int32)">
+            <summary>
+            Determines if the given value occurs in the field.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Accumulate(System.Int32,System.Int32,System.Int32,NCrontab.ExceptionHandler)">
+            <summary>
+            Accumulates the given range (start to end) and interval of values
+            into the current set of the field.
+            </summary>
+            <remarks>
+            To set the entire range of values representable by the field,
+            set <param name="start" /> and <param name="end" /> to -1 and
+            <param name="interval" /> to 1.
+            </remarks>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.ExtensionAttribute">
+            <remarks>
+            This attribute allows us to define extension methods without 
+            requiring .NET Framework 3.5. For more information, see the section,
+            <a href="http://msdn.microsoft.com/en-us/magazine/cc163317.aspx#S7">Extension Methods in .NET Framework 2.0 Apps</a>,
+            of <a href="http://msdn.microsoft.com/en-us/magazine/cc163317.aspx">Basic Instincts: Extension Methods</a>
+            column in <a href="http://msdn.microsoft.com/msdnmag/">MSDN Magazine</a>, 
+            issue <a href="http://msdn.microsoft.com/en-us/magazine/cc135410.aspx">Nov 2007</a>.
+            </remarks>
+        </member>
+        <member name="T:NCrontab.CrontabSchedule">
+            <summary>
+            Represents a schedule initialized from the crontab expression.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.GetNextOccurrences(System.DateTime,System.DateTime)">
+            <summary>
+            Enumerates all the occurrences of this schedule starting with a
+            base time and up to an end time limit. The occurrences are
+            only calculated as they are enumerated.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.GetNextOccurrence(System.DateTime)">
+            <summary>
+            Gets the next occurrence of this schedule starting with a base time.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.GetNextOccurrence(System.DateTime,System.DateTime)">
+            <summary>
+            Gets the next occurrence of this schedule starting with a base 
+            time and up to an end time limit.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.ToString">
+            <summary>
+            Returns a string in crontab expression (expanded) that represents 
+            this schedule.
+            </summary>
+        </member>
+        <member name="T:NCrontab.ExceptionHandler">
+            <summary>
+            Represents the method that will handle an <see cref="T:System.Exception"/> object.
+            </summary>
+        </member>
+        <member name="T:NCrontab.ExceptionProvider">
+            <summary>
+            Represents the method that will generate an <see cref="T:System.Exception"/> object.
+            </summary>
+        </member>
+        <member name="T:NCrontab.ErrorHandling">
+            <summary>
+            Defines error handling strategies.
+            </summary>
+        </member>
+        <member name="F:NCrontab.ErrorHandling.Throw">
+            <summary>
+            A stock <see cref="T:NCrontab.ExceptionHandler"/> that throws.
+            </summary>
+        </member>
+    </members>
+</doc>

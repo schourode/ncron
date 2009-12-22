@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NCron.Framework.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,13 +44,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ICronJob.cs" />
-    <Compile Include="Scheduling\CronTimer.cs" />
-    <Compile Include="Scheduling\CronService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Scheduling\Pattern.cs" />
-    <Compile Include="Scheduling\PatternCollection.cs" />
-    <Compile Include="Scheduling\Plan.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

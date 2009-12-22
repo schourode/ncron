@@ -17,8 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
+using NCron.Service.Scheduling;
+using NCrontab;
 
-namespace NCron.Framework.Scheduling
+namespace NCron.Service
 {
     /// <summary>
     /// Built on top of <see cref="System.ServiceProcess.ServiceBase"/>, this class serves as the cron service entry point.
@@ -29,24 +31,24 @@ namespace NCron.Framework.Scheduling
         /// <summary>
         /// Gets the collection of <see cref="CronTimer"/>s controlled by this service.
         /// </summary>
-        public ICollection<CronTimer> Timers { get; private set; }
+        //public ICollection<CronTimer> Timers { get; private set; }
 
         /// <summary>
         /// Creates a new instance of the <see cref="CronService"/> class.
         /// </summary>
         public CronService()
         {
-            this.Timers = new List<CronTimer>();
+            //this.Timers = new List<CronTimer>();
         }
 
         /// <summary>
         /// Creates a new instance of the <see cref="CronService"/> class, with a specified inital set of timers.
         /// </summary>
         /// <param name="timers">The <see cref="CronTimer"/> objects to be initially added to the service.</param>
-        public CronService(IEnumerable<CronTimer> timers)
-        {
-            this.Timers = new List<CronTimer>(timers);
-        }
+        //public CronService(IEnumerable<CronTimer> timers)
+        //{
+        //    this.Timers = new List<CronTimer>(timers);
+        //}
 
         /// <summary>
         /// Executes when a Start command is sent to the service by the Service Control Manager (SCM) or when the operating system starts (for a service that starts automatically).
@@ -90,10 +92,10 @@ namespace NCron.Framework.Scheduling
         /// </summary>
         public void StartAllTimers()
         {
-            foreach (CronTimer timer in this.Timers)
+            /*foreach (CronTimer timer in this.Timers)
             {
                 timer.Start();
-            }
+            }*/
         }
 
         /// <summary>
@@ -101,10 +103,10 @@ namespace NCron.Framework.Scheduling
         /// </summary>
         public void StopAllTimers()
         {
-            foreach (CronTimer timer in this.Timers)
+            /*foreach (CronTimer timer in this.Timers)
             {
                 timer.Stop();
-            }
+            }*/
         }
 
         /// <summary>

@@ -21,14 +21,8 @@ namespace NCron.Framework
     /// <summary>
     /// Defines the interface to be implemented by all NCron jobs.
     /// </summary>
-    public interface ICronJob : IDisposable
+    public interface ICronJob
     {
-        /// <summary>
-        /// Prepares the job before its first execution.
-        /// For simple jobs, the body of this method will often be empty.
-        /// </summary>
-        void Initialize();
-
         /// <summary>
         /// Executes the job. This method will be called whenever a scheduled execution time for the job is reached.
         /// </summary>

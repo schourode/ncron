@@ -16,9 +16,10 @@
 
 using System;
 using System.ServiceProcess;
+using Autofac.Builder;
 using NCron.Framework;
-using NCron.Service.Configuration;
-using NCron.Framework.Scheduling;
+using NCron.Service.Scheduling;
+using NCrontab;
 
 namespace NCron.Service
 {
@@ -26,33 +27,44 @@ namespace NCron.Service
     {
         static void Main(string[] args)
         {
-            XmlConfiguration config = NCronSectionHandler.GetConfiguration();
-
             if (args.Length == 0)
             {
-                CronService service = new CronService(config.Timers);
+                var service = new CronService();
                 ServiceBase.Run(service);
             }
             else
             {
-                switch (args[0].ToLowerInvariant())
+                var builder = new ContainerBuilder();
+
+                builder.Register<TestJob>().Named("foo").ContainerScoped();
+                builder.Register<TestJob>().Named("bar").SingletonScoped();
+
+                var container = builder.Build();
+
+                switch (args[0].ToLower())
                 {
                     case "debug":
-                        CronService service = new CronService(config.Timers);
-                        service.StartAllTimers();
-                        break;
+                        var scheduler = new Scheduler(container);
+                        scheduler.Enqueue(new QueueEntry(CrontabSchedule.Parse("* * * * *"), "foo"));
+                        scheduler.Enqueue(new QueueEntry(CrontabSchedule.Parse("*/2 * * * *"), "bar"));
+                        scheduler.Run();
 
-                    case "exec":
-                        foreach (ICronJob job in config.GetJobs(args[1]))
-                        {
-                            job.Initialize();
-                            job.Execute();
-                        }
+                        Console.ReadLine();
                         break;
 
                     default:
-                        throw new ApplicationException("");
+                        Console.WriteLine("Uknown command: " + args[0]);
+                        Environment.Exit(1);
+                        break;
                 }
+            }
+        }
+
+        class TestJob : ICronJob
+        {
+            public void Execute()
+            {
+                Console.WriteLine(DateTime.Now + " - " + GetHashCode());
             }
         }
     }
