@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron", "core\NCron.csproj", "{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Framework", "NCron.Framework\NCron.Framework.csproj", "{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCronTest", "test\NCronTest.csproj", "{60688BD1-A274-4ACE-A011-40104EB74E2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Service", "NCron.Service\NCron.Service.csproj", "{15F58897-3C39-421F-8AA4-413E5D67A97A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCronLoader", "load\NCronLoader.csproj", "{15F58897-3C39-421F-8AA4-413E5D67A97A}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NCronLoaderSetup", "setup\NCronLoaderSetup.vdproj", "{3E478555-0685-44F3-92CE-3FD1A62A5495}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NCron.Installer", "NCron.Installer\NCron.Installer.vdproj", "{3E478555-0685-44F3-92CE-3FD1A62A5495}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -23,10 +21,6 @@ Global
 		{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60688BD1-A274-4ACE-A011-40104EB74E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15F58897-3C39-421F-8AA4-413E5D67A97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15F58897-3C39-421F-8AA4-413E5D67A97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15F58897-3C39-421F-8AA4-413E5D67A97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
