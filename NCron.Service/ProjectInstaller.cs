@@ -17,7 +17,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace NCron.Loader
+namespace NCron.Service
 {
     [RunInstaller(true)]
     public class ProjectInstaller : Installer

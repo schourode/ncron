@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace NCron.Scheduling
+namespace NCron.Framework.Scheduling
 {
     /// <summary>
     /// Provides a mechanism for executing one or more cron jobs in a specific scheduling <see cref="Plan"/>.

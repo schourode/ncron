@@ -19,10 +19,10 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using NCron.Framework;
+using NCron.Framework.Scheduling;
 
-using NCron.Scheduling;
-
-namespace NCron.Loader.Configuration
+namespace NCron.Service.Configuration
 {
     internal class XmlConfiguration
     {

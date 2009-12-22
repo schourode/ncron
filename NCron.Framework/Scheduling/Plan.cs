@@ -16,7 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NCron.Scheduling
+namespace NCron.Framework.Scheduling
 {
     public class Plan : IEnumerable<DateTime>
     {

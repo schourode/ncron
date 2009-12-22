@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
 
-namespace NCron.Scheduling
+namespace NCron.Framework.Scheduling
 {
     /// <summary>
     /// Built on top of <see cref="System.ServiceProcess.ServiceBase"/>, this class serves as the cron service entry point.

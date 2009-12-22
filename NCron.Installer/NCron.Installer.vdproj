@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:NCronLoaderSetup"
+"ProjectName" = "8:NCron.Installer"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -321,8 +321,8 @@
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Malamute.dk"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:http://ncron.sourceforge.net/"
-        "Title" = "8:NCronLoader setup"
+        "ARPHELPLINK" = "8:http://code.google.com/p/ncron/"
+        "Title" = "8:NCron setup"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Joern Schou-Rode"
         "Keywords" = "8:"
@@ -860,7 +860,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B81B0DFDA3A947C296378F9E76FA081E"
             {
-            "SourcePath" = "8:..\\load\\obj\\Release\\NCronLoader.exe"
+            "SourcePath" = "8:..\\NCron.Service\\obj\\Release\\NCron.Service.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CDB28EF39F6F4F3B9B1397E8338E6495"

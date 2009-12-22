@@ -15,7 +15,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. */
 using System;
 using System.Text.RegularExpressions;
 
-namespace NCron.Scheduling
+namespace NCron.Framework.Scheduling
 {
     /// <summary>
     /// Represents a numeric pattern used to match a single field in a <see cref="DateTime"/> (second, minute, etc.).

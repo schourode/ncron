@@ -14,11 +14,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. */
 
 using System;
 using System.ServiceProcess;
+using NCron.Framework;
+using NCron.Service.Configuration;
+using NCron.Framework.Scheduling;
 
-using NCron.Loader.Configuration;
-using NCron.Scheduling;
-
-namespace NCron.Loader
+namespace NCron.Service
 {
     internal static class Program
     {

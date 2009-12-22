@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{15F58897-3C39-421F-8AA4-413E5D67A97A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NCron.Loader</RootNamespace>
-    <AssemblyName>NCronLoader</AssemblyName>
+    <RootNamespace>NCron.Service</RootNamespace>
+    <AssemblyName>NCron.Service</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -50,7 +50,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\core\NCron.csproj">
+    <ProjectReference Include="..\NCron.Framework\NCron.Framework.csproj">
       <Project>{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}</Project>
       <Name>NCron</Name>
     </ProjectReference>

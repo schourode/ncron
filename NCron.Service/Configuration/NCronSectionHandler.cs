@@ -16,7 +16,7 @@ using System;
 using System.Configuration;
 using System.Xml;
 
-namespace NCron.Loader.Configuration
+namespace NCron.Service.Configuration
 {
     internal class NCronSectionHandler : IConfigurationSectionHandler
     {
