@@ -30,67 +30,62 @@ namespace NCron.Service.Logging
 
         public void Debug(Func<string> msgCallback)
         {
-            Debug(msgCallback, null);
+            if (_log.IsDebugEnabled)
+                _log.Debug(msgCallback());
         }
 
-        public void Debug(Func<string> msgCallback, Exception exception)
+        public void Debug(Func<string> msgCallback, Func<Exception> exCallback)
         {
             if (_log.IsDebugEnabled)
-            {
-                _log.Debug(msgCallback(), exception);
-            }
+                _log.Debug(msgCallback(), exCallback());
         }
 
         public void Info(Func<string> msgCallback)
         {
-           Info(msgCallback, null);
+            if (_log.IsInfoEnabled)
+                _log.Info(msgCallback());
         }
 
-        public void Info(Func<string> msgCallback, Exception exception)
+        public void Info(Func<string> msgCallback, Func<Exception> exCallback)
         {
             if (_log.IsInfoEnabled)
-            {
-                _log.Info(msgCallback(), exception);
-            }
+                _log.Info(msgCallback(), exCallback());
         }
 
         public void Warn(Func<string> msgCallback)
         {
-            Warn(msgCallback, null);
+            if (_log.IsWarnEnabled)
+                _log.Warn(msgCallback());
         }
 
-        public void Warn(Func<string> msgCallback, Exception exception)
+        public void Warn(Func<string> msgCallback, Func<Exception> exCallback)
         {
             if (_log.IsWarnEnabled)
-            {
-                _log.Warn(msgCallback(), exception);
-            }
+                _log.Warn(msgCallback(), exCallback());
         }
 
         public void Error(Func<string> msgCallback)
         {
-            Error(msgCallback, null);
+            if (_log.IsErrorEnabled)
+                _log.Error(msgCallback());
         }
 
-        public void Error(Func<string> msgCallback, Exception exception)
+        public void Error(Func<string> msgCallback, Func<Exception> exCallback)
         {
             if (_log.IsErrorEnabled)
-            {
-                _log.Error(msgCallback(), exception);
-            }
+                _log.Error(msgCallback(), exCallback());
         }
 
         public void Fatal(Func<string> msgCallback)
         {
-            Fatal(msgCallback, null);
+            if (_log.IsFatalEnabled)
+                _log.Fatal(msgCallback());
         }
 
-        public void Fatal(Func<string> msgCallback, Exception exception)
+        public void Fatal(Func<string> msgCallback, Func<Exception> exCallback)
         {
             if (_log.IsFatalEnabled)
-            {
-                _log.Fatal(msgCallback(), exception);
-            }
+                _log.Fatal(msgCallback(), exCallback());
         }
     }
 }

@@ -21,18 +21,18 @@ namespace NCron.Framework
     public interface ILog
     {
         void Debug(Func<string> msgCallback);
-        void Debug(Func<string> msgCallback, Exception exception);
+        void Debug(Func<string> msgCallback, Func<Exception> exCallback);
 
         void Info(Func<string> msgCallback);
-        void Info(Func<string> msgCallback, Exception exception);
+        void Info(Func<string> msgCallback, Func<Exception> exCallback);
 
         void Warn(Func<string> msgCallback);
-        void Warn(Func<string> msgCallback, Exception exception);
+        void Warn(Func<string> msgCallback, Func<Exception> exCallback);
 
         void Error(Func<string> msgCallback);
-        void Error(Func<string> msgCallback, Exception exception);
+        void Error(Func<string> msgCallback, Func<Exception> exCallback);
 
         void Fatal(Func<string> msgCallback);
-        void Fatal(Func<string> msgCallback, Exception exception);
+        void Fatal(Func<string> msgCallback, Func<Exception> exCallback);
     }
 }
