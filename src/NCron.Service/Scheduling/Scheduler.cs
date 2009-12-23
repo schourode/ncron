@@ -52,7 +52,7 @@ namespace NCron.Service.Scheduling
         {
             if (DateTime.Now >= _head.NextOccurence)
             {
-                ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _head.JobName);
+                ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _head);
 
                 _head.ComputeNextOccurence();
                 _queue.Add(_head);
@@ -69,12 +69,15 @@ namespace NCron.Service.Scheduling
 
         private void WaitCallbackHandler(object data)
         {
-            var jobName = (string)data;
+            var entry = (QueueEntry)data;
 
             using (var inner = _container.CreateInnerContainer())
             {
-                var job = (ICronJob)inner.Resolve(jobName);
-                job.Log = new Logging.DefaultLog(job.GetType());
+                var job = (ICronJob)inner.Resolve(entry.JobName);
+                var log = new Logging.DefaultLog(job.GetType());
+                var context = new CronContext(job, log);
+
+                job.Initialize(context);
                 job.Execute();
             }
         }

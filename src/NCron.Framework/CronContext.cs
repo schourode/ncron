@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2008, 2009 Joern Schou-Rode
+ * Copyright 2009 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-using System;
-
 namespace NCron.Framework
 {
-    /// <summary>
-    /// Defines the interface to be implemented by all NCron jobs.
-    /// </summary>
-    public interface ICronJob
+    public class CronContext
     {
-        /// <summary>
-        /// For simple jobs, the body of this method will often be empty.
-        /// </summary>
-        void Initialize(CronContext context);
+        public ICronJob Job { get; private set; }
+        public ILog Log { get; private set; }
 
-        /// <summary>
-        /// Executes the job. This method will be called whenever a scheduled execution time for the job is reached.
-        /// </summary>
-        void Execute();
+        public CronContext(ICronJob job, ILog log)
+        {
+            Job = job;
+            Log = log;
+        }
     }
 }

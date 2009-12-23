@@ -17,6 +17,7 @@
 using System;
 using System.ServiceProcess;
 using Autofac.Builder;
+using Autofac.Configuration;
 using NCron.Framework;
 using NCron.Service.Scheduling;
 using NCrontab;
@@ -36,10 +37,8 @@ namespace NCron.Service
             {
                 log4net.Config.BasicConfigurator.Configure();
 
-                var builder = new ContainerBuilder();
-
-                builder.Register<TestJob>().Named("foo").ContainerScoped();
-                builder.Register<TestJob>().Named("bar").SingletonScoped();
+                var builder = new ContainerBuilder(); ;
+                builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
 
                 var container = builder.Build();
 
@@ -48,7 +47,6 @@ namespace NCron.Service
                     case "debug":
                         var scheduler = new Scheduler(container);
                         scheduler.Enqueue(new QueueEntry(CrontabSchedule.Parse("* * * * *"), "foo"));
-                        scheduler.Enqueue(new QueueEntry(CrontabSchedule.Parse("*/2 * * * *"), "bar"));
                         scheduler.Run();
 
                         Console.ReadLine();
@@ -61,15 +59,13 @@ namespace NCron.Service
                 }
             }
         }
+    }
+}
 
-        class TestJob : ICronJob
-        {
-            public ILog Log { get; set; }
-
-            public void Execute()
-            {
-                Log.Info(() => GetHashCode().ToString(), new Exception());
-            }
-        }
+public class TestJob : CronJob
+{
+    public override void Execute()
+    {
+        Log.Info(() => GetHashCode().ToString());
     }
 }
