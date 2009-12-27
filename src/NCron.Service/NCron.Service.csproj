@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\NCronSectionHandler.cs" />
+    <Compile Include="Configuration\XmlConfiguration.cs" />
     <Compile Include="CronService.cs">
       <SubType>Component</SubType>
     </Compile>
