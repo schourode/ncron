@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-using System;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
@@ -26,16 +25,16 @@ namespace NCron.Service
     {
         public ProjectInstaller()
         {
-            ServiceProcessInstaller procInst = new ServiceProcessInstaller();
+            var procInst = new ServiceProcessInstaller();
             procInst.Account = ServiceAccount.LocalService;
-            base.Installers.Add(procInst);
+            Installers.Add(procInst);
 
-            ServiceInstaller svcInst = new ServiceInstaller();
+            var svcInst = new ServiceInstaller();
             svcInst.ServiceName = "ncron";
             svcInst.DisplayName = "NCron task scheduling";
             svcInst.Description = "Executes task according to the configured NCron schedule.";
             svcInst.StartType = ServiceStartMode.Automatic;
-            base.Installers.Add(svcInst);
+            Installers.Add(svcInst);
         }
     }
 }
