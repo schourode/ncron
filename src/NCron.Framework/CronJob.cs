@@ -29,5 +29,20 @@ namespace NCron.Framework
         }
 
         public abstract void Execute();
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~CronJob()
+        {
+            Dispose(false);
+        }
     }
 }

@@ -16,7 +16,6 @@
 
 using System;
 using System.Threading;
-using Autofac;
 using C5;
 using NCron.Framework;
 using NCron.Framework.Logging;
@@ -28,15 +27,15 @@ namespace NCron.Service.Scheduling
         private static readonly TimeSpan NoPeriod = TimeSpan.FromMilliseconds(-1);
         private readonly IPriorityQueue<QueueEntry> _queue; 
         private readonly Timer _timer;
-        private readonly IContainer _container;
+        private readonly IJobFactory _jobFactory;
         private readonly ILogFactory _logFactory;
         private QueueEntry _head;
 
-        public Scheduler(IContainer container, ILogFactory logFactory)
+        public Scheduler(IJobFactory jobFactory, ILogFactory logFactory)
         {
             _queue = new IntervalHeap<QueueEntry>();
             _timer = new Timer(TimerCallbackHandler);
-            _container = container;
+            _jobFactory = jobFactory;
             _logFactory = logFactory;
         }
 
@@ -72,14 +71,12 @@ namespace NCron.Service.Scheduling
 
         private void WaitCallbackHandler(object data)
         {
-            var entry = (QueueEntry)data;
+            var entry = (QueueEntry) data;
 
-            using (var inner = _container.CreateInnerContainer())
+            using (var job = _jobFactory.GetJobByName(entry.JobName))
+            using (var log = _logFactory.GetLogByName(entry.JobName))
             {
-                var job = (ICronJob)inner.Resolve(entry.JobName);
-                var log = _logFactory.GetLogForType(job.GetType());
                 var context = new CronContext(job, log);
-
                 job.Initialize(context);
                 job.Execute();
             }

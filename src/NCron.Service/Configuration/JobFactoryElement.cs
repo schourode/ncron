@@ -22,7 +22,7 @@ namespace NCron.Service.Configuration
 {
     public class JobFactoryElement : ConfigurationElement
     {
-        [ConfigurationProperty("type", DefaultValue = typeof(Logging.DefaultLog))]
+        [ConfigurationProperty("type", DefaultValue = typeof(Reflection.ReflectiveJobFactory))]
         [TypeConverter(typeof(TypeNameConverter))]
         public Type Type
         {

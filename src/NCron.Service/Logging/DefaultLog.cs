@@ -19,12 +19,8 @@ using NCron.Framework.Logging;
 
 namespace NCron.Service.Logging
 {
-    class DefaultLog : ILog
+    public class DefaultLog : ILog
     {
-        public DefaultLog()
-        {
-        }
-
         public void Debug(Func<string> msgCallback)
         {
         }
@@ -62,6 +58,10 @@ namespace NCron.Service.Logging
         }
 
         public void Fatal(Func<string> msgCallback, Func<Exception> exCallback)
+        {
+        }
+
+        public void Dispose()
         {
         }
     }

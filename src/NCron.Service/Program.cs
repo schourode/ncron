@@ -16,8 +16,6 @@
 
 using System;
 using System.ServiceProcess;
-using Autofac.Builder;
-using Autofac.Configuration;
 using NCron.Framework;
 using NCron.Service.Scheduling;
 using NCrontab;

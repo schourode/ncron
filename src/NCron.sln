@@ -9,6 +9,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NCron.Installer", "NCron.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Integration.log4net", "NCron.Integration.log4net\NCron.Integration.log4net.csproj", "{D907451F-6D89-40E0-8F0A-D6968647263C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Integration.Autofac", "NCron.Integration.Autofac\NCron.Integration.Autofac.csproj", "{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -34,6 +36,10 @@ Global
 		{D907451F-6D89-40E0-8F0A-D6968647263C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D907451F-6D89-40E0-8F0A-D6968647263C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D907451F-6D89-40E0-8F0A-D6968647263C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

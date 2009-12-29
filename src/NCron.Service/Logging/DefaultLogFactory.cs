@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-namespace NCron.Framework.Logging
+using NCron.Framework.Logging;
+
+namespace NCron.Service.Logging
 {
-    public interface ILogFactory
+    public class SilentLogFactory : ILogFactory
     {
-        ILog GetLogByName(string name);
+        public ILog GetLogByName(string name)
+        {
+            return new DefaultLog();
+        }
     }
 }

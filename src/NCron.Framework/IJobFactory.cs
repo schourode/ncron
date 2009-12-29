@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-namespace NCron.Framework.Logging
+namespace NCron.Framework
 {
-    public interface ILogFactory
+    public interface IJobFactory
     {
-        ILog GetLogByName(string name);
+        ICronJob GetJobByName(string name);
     }
 }

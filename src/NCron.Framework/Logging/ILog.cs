@@ -18,7 +18,7 @@ using System;
 
 namespace NCron.Framework.Logging
 {
-    public interface ILog
+    public interface ILog : IDisposable
     {
         void Debug(Func<string> msgCallback);
         void Debug(Func<string> msgCallback, Func<Exception> exCallback);

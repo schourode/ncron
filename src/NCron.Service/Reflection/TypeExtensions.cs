@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-namespace NCron.Framework.Logging
+namespace NCron.Service.Reflection
 {
-    public interface ILogFactory
+    internal static class TypeExtensions
     {
-        ILog GetLogByName(string name);
     }
 }

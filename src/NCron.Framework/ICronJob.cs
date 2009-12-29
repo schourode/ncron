@@ -21,7 +21,7 @@ namespace NCron.Framework
     /// <summary>
     /// Defines the interface to be implemented by all NCron jobs.
     /// </summary>
-    public interface ICronJob
+    public interface ICronJob : IDisposable
     {
         /// <summary>
         /// For simple jobs, the body of this method will often be empty.

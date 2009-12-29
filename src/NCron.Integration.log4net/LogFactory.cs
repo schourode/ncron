@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-using System;
 using log4net;
+using log4net.Config;
 
 namespace NCron.Integration.log4net
 {
     public class LogFactory : Framework.Logging.ILogFactory
     {
-        public Framework.Logging.ILog GetLogForType(Type type)
+        public LogFactory()
         {
-            var internalLogger = LogManager.GetLogger(type);
+            BasicConfigurator.Configure();
+        }
+
+        public Framework.Logging.ILog GetLogByName(string name)
+        {
+            var internalLogger = LogManager.GetLogger(name);
             return new DeferredLog(internalLogger);
         }
     }

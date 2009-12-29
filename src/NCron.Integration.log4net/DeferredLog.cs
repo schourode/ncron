@@ -87,5 +87,9 @@ namespace NCron.Integration.log4net
             if (_log.IsFatalEnabled)
                 _log.Fatal(msgCallback(), exCallback());
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

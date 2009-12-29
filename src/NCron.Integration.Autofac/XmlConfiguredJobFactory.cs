@@ -14,10 +14,27 @@
  * limitations under the License.
  */
 
-namespace NCron.Framework.Logging
+using Autofac;
+using Autofac.Builder;
+using Autofac.Configuration;
+using NCron.Framework;
+
+namespace NCron.Integration.Autofac
 {
-    public interface ILogFactory
+    public class XmlConfiguredJobFactory : IJobFactory
     {
-        ILog GetLogByName(string name);
+        private readonly IContainer _container;
+        
+        public XmlConfiguredJobFactory()
+        {
+            var builder = new ContainerBuilder(); ;
+            builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
+            _container = builder.Build();
+        }
+
+        public ICronJob GetJobByName(string name)
+        {
+            return new ScopeNestingJobWrapper(_container, name);
+        }
     }
 }
