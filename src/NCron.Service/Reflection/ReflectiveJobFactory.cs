@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
+using System;
+using NCron.Framework;
+
 namespace NCron.Service.Reflection
 {
-    public class ReflectiveJobFactory
+    public class ReflectiveJobFactory : IJobFactory
     {
+        public ICronJob GetJobByName(string name)
+        {
+            var type = Type.GetType(name, true);
+            var instance = type.InvokeDefaultConstructor();
+            return (ICronJob) instance;
+        }
     }
 }

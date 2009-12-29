@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
+using System;
+
 namespace NCron.Service.Reflection
 {
     internal static class TypeExtensions
     {
+        private static readonly Type[] NoFormalArguments = new Type[0];
+        private static readonly object[] NoActualArguments = new object[0];
+
+        public static object InvokeDefaultConstructor(this Type type)
+        {
+            var ctor = type.GetConstructor(NoFormalArguments);
+            return ctor.Invoke(NoActualArguments);
+        }
     }
 }
