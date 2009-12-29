@@ -18,7 +18,7 @@ using NCron.Framework.Logging;
 
 namespace NCron.Service.Logging
 {
-    public class SilentLogFactory : ILogFactory
+    public class DefaultLogFactory : ILogFactory
     {
         public ILog GetLogByName(string name)
         {

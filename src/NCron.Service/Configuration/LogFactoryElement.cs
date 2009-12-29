@@ -22,7 +22,7 @@ namespace NCron.Service.Configuration
 {
     public class LogFactoryElement : ConfigurationElement
     {
-        [ConfigurationProperty("type", DefaultValue = typeof(Logging.DefaultLog))]
+        [ConfigurationProperty("type", DefaultValue = typeof(Logging.DefaultLogFactory))]
         [TypeConverter(typeof(TypeNameConverter))]
         public Type Type
         {
