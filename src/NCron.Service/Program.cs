@@ -35,19 +35,22 @@ namespace NCron.Service
             }
             else
             {
-                log4net.Config.BasicConfigurator.Configure();
+                //log4net.Config.BasicConfigurator.Configure();
 
-                var builder = new ContainerBuilder(); ;
-                builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
+                //var builder = new ContainerBuilder(); ;
+                //builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
 
-                var container = builder.Build();
+                //var container = builder.Build();
 
                 switch (args[0].ToLower())
                 {
                     case "debug":
-                        var scheduler = new Scheduler(container);
-                        scheduler.Enqueue(new QueueEntry(CrontabSchedule.Parse("* * * * *"), "foo"));
-                        scheduler.Run();
+                        //var scheduler = new Scheduler(container);
+                        //scheduler.Enqueue(new QueueEntry(CrontabSchedule.Parse("* * * * *"), "foo"));
+                        //scheduler.Run();
+
+                        var cfg = Configuration.NCronSection.GetConfiguration();
+                        Console.WriteLine(cfg.JobFactory.Type);
 
                         Console.ReadLine();
                         break;

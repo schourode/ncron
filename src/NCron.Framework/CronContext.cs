@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using NCron.Framework.Logging;
+
 namespace NCron.Framework
 {
     public class CronContext

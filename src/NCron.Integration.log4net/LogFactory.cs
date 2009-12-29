@@ -15,19 +15,16 @@
  */
 
 using System;
-using NCron.Framework.Logging;
+using log4net;
 
-namespace NCron.Framework
+namespace NCron.Integration.log4net
 {
-    public abstract class CronJob : ICronJob
+    public class LogFactory : Framework.Logging.ILogFactory
     {
-        protected ILog Log { get; private set; }
-
-        public void Initialize(CronContext context)
+        public Framework.Logging.ILog GetLogForType(Type type)
         {
-            Log = context.Log;
+            var internalLogger = LogManager.GetLogger(type);
+            return new DeferredLog(internalLogger);
         }
-
-        public abstract void Execute();
     }
 }

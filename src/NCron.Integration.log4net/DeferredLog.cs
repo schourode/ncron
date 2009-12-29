@@ -15,54 +15,77 @@
  */
 
 using System;
-using NCron.Framework.Logging;
+using log4net;
 
-namespace NCron.Service.Logging
+namespace NCron.Integration.log4net
 {
-    class DefaultLog : ILog
+    class DeferredLog : Framework.Logging.ILog
     {
-        public DefaultLog()
+        private readonly ILog _log;
+
+        public DeferredLog(ILog log)
         {
+            _log = log;
         }
 
         public void Debug(Func<string> msgCallback)
         {
+            if (_log.IsDebugEnabled)
+                _log.Debug(msgCallback());
         }
 
         public void Debug(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            if (_log.IsDebugEnabled)
+                _log.Debug(msgCallback(), exCallback());
         }
 
         public void Info(Func<string> msgCallback)
         {
+            if (_log.IsInfoEnabled)
+                _log.Info(msgCallback());
         }
 
         public void Info(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            if (_log.IsInfoEnabled)
+                _log.Info(msgCallback(), exCallback());
         }
 
         public void Warn(Func<string> msgCallback)
         {
+            if (_log.IsWarnEnabled)
+                _log.Warn(msgCallback());
         }
 
         public void Warn(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            if (_log.IsWarnEnabled)
+                _log.Warn(msgCallback(), exCallback());
         }
 
         public void Error(Func<string> msgCallback)
         {
+            if (_log.IsErrorEnabled)
+                _log.Error(msgCallback());
         }
 
         public void Error(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            if (_log.IsErrorEnabled)
+                _log.Error(msgCallback(), exCallback());
         }
 
         public void Fatal(Func<string> msgCallback)
         {
+            if (_log.IsFatalEnabled)
+                _log.Fatal(msgCallback());
         }
 
         public void Fatal(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            if (_log.IsFatalEnabled)
+                _log.Fatal(msgCallback(), exCallback());
         }
     }
 }

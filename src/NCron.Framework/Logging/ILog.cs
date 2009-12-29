@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Framework
+namespace NCron.Framework.Logging
 {
     public interface ILog
     {

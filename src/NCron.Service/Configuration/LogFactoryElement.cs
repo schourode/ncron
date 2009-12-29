@@ -15,19 +15,18 @@
  */
 
 using System;
-using NCron.Framework.Logging;
+using System.ComponentModel;
+using System.Configuration;
 
-namespace NCron.Framework
+namespace NCron.Service.Configuration
 {
-    public abstract class CronJob : ICronJob
+    public class LogFactoryElement : ConfigurationElement
     {
-        protected ILog Log { get; private set; }
-
-        public void Initialize(CronContext context)
+        [ConfigurationProperty("type", DefaultValue = typeof(Logging.DefaultLog))]
+        [TypeConverter(typeof(TypeNameConverter))]
+        public Type Type
         {
-            Log = context.Log;
+            get { return (Type) base["type"]; }
         }
-
-        public abstract void Execute();
     }
 }

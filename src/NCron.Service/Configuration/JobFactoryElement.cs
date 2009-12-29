@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2008, 2009 Joern Schou-Rode
+ * Copyright 2009 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,18 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Configuration;
-using System.Xml;
 
 namespace NCron.Service.Configuration
 {
-    internal class NCronSectionHandler : IConfigurationSectionHandler
+    public class JobFactoryElement : ConfigurationElement
     {
-        public object Create(object parent, object configContext, XmlNode section)
+        [ConfigurationProperty("type", DefaultValue = typeof(Logging.DefaultLog))]
+        [TypeConverter(typeof(TypeNameConverter))]
+        public Type Type
         {
-            return new XmlConfiguration((XmlElement)section);
-        }
-
-        public static XmlConfiguration GetConfiguration()
-        {
-            return (XmlConfiguration)ConfigurationManager.GetSection("ncron");
+            get { return (Type) base["type"]; }
         }
     }
 }

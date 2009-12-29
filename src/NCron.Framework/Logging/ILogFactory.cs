@@ -15,19 +15,11 @@
  */
 
 using System;
-using NCron.Framework.Logging;
 
-namespace NCron.Framework
+namespace NCron.Framework.Logging
 {
-    public abstract class CronJob : ICronJob
+    public interface ILogFactory
     {
-        protected ILog Log { get; private set; }
-
-        public void Initialize(CronContext context)
-        {
-            Log = context.Log;
-        }
-
-        public abstract void Execute();
+        ILog GetLogForType(Type type);
     }
 }
