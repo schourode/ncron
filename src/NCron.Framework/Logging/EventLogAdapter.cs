@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,19 @@
  */
 
 using System;
-using NCron.Framework.Logging;
+using System.Diagnostics;
 
-namespace NCron.Service.Logging
+namespace NCron.Framework.Logging
 {
-    public class DefaultLog : ILog
+    public class EventLogAdapter : ILog
     {
+        private readonly EventLog _log;
+
+        public EventLogAdapter(EventLog log)
+        {
+            _log = log;
+        }
+
         public void Debug(Func<string> msgCallback)
         {
         }
@@ -31,34 +38,42 @@ namespace NCron.Service.Logging
 
         public void Info(Func<string> msgCallback)
         {
+            _log.WriteEntry(msgCallback(), EventLogEntryType.Information);
         }
 
         public void Info(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            _log.WriteEntry(msgCallback() + ' ' + exCallback(), EventLogEntryType.Information);
         }
 
         public void Warn(Func<string> msgCallback)
         {
+            _log.WriteEntry(msgCallback(), EventLogEntryType.Warning);
         }
 
         public void Warn(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            _log.WriteEntry(msgCallback() + ' ' + exCallback(), EventLogEntryType.Warning);
         }
 
         public void Error(Func<string> msgCallback)
         {
+            _log.WriteEntry(msgCallback(), EventLogEntryType.Error);
         }
 
         public void Error(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            _log.WriteEntry(msgCallback() + ' ' + exCallback(), EventLogEntryType.Error);
         }
 
         public void Fatal(Func<string> msgCallback)
         {
+            _log.WriteEntry(msgCallback(), EventLogEntryType.Error);
         }
 
         public void Fatal(Func<string> msgCallback, Func<Exception> exCallback)
         {
+            _log.WriteEntry(msgCallback() + ' ' + exCallback(), EventLogEntryType.Error);
         }
 
         public void Dispose()

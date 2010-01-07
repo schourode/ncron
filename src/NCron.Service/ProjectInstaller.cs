@@ -25,16 +25,18 @@ namespace NCron.Service
     {
         public ProjectInstaller()
         {
-            var procInst = new ServiceProcessInstaller();
-            procInst.Account = ServiceAccount.LocalService;
-            Installers.Add(procInst);
+            Installers.Add(new ServiceProcessInstaller
+                               {
+                                   Account = ServiceAccount.LocalService
+                               });
 
-            var svcInst = new ServiceInstaller();
-            svcInst.ServiceName = "ncron";
-            svcInst.DisplayName = "NCron task scheduling";
-            svcInst.Description = "Executes task according to the configured NCron schedule.";
-            svcInst.StartType = ServiceStartMode.Automatic;
-            Installers.Add(svcInst);
+            Installers.Add(new ServiceInstaller
+                               {
+                                   ServiceName = "NCron",
+                                   DisplayName = "NCron Scheduler",
+                                   Description = "Executes jobs according to the configured NCron schedule.",
+                                   StartType = ServiceStartMode.Automatic
+                               });
         }
     }
 }

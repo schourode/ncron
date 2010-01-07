@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
+    <TargetFrameworkSubset>
+    </TargetFrameworkSubset>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +51,8 @@
     <Compile Include="CronContext.cs" />
     <Compile Include="CronJob.cs" />
     <Compile Include="ICronJob.cs" />
+    <Compile Include="Logging\EventLogAdapter.cs" />
+    <Compile Include="Logging\DefaultLogFactory.cs" />
     <Compile Include="Logging\ILog.cs" />
     <Compile Include="Logging\ILogFactory.cs" />
     <Compile Include="IJobFactory.cs" />

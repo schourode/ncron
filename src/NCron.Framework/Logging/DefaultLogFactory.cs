@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-using NCron.Framework.Logging;
+using System.Diagnostics;
 
-namespace NCron.Service.Logging
+namespace NCron.Framework.Logging
 {
     public class DefaultLogFactory : ILogFactory
     {
+        private readonly EventLog _eventLog;
+
+        public DefaultLogFactory()
+        {
+            _eventLog = new EventLog { Source = "NCron" };
+        }
+
         public ILog GetLogByName(string name)
         {
-            return new DefaultLog();
+            return new EventLogAdapter(_eventLog);
         }
     }
 }

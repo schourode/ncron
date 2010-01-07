@@ -17,12 +17,13 @@
 using System;
 using System.ComponentModel;
 using System.Configuration;
+using NCron.Framework.Logging;
 
 namespace NCron.Service.Configuration
 {
     public class LogFactoryElement : ConfigurationElement
     {
-        [ConfigurationProperty("type", DefaultValue = typeof(Logging.DefaultLogFactory))]
+        [ConfigurationProperty("type", DefaultValue = typeof(DefaultLogFactory))]
         [TypeConverter(typeof(TypeNameConverter))]
         public Type Type
         {
