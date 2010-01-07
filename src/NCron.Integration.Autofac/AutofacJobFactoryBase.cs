@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009, 2010 Joern Schou-Rode
+ * Copyright 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,26 @@
  * limitations under the License.
  */
 
-using Autofac.Configuration;
+using Autofac;
+using Autofac.Builder;
+using NCron.Framework;
 
 namespace NCron.Integration.Autofac
 {
-    public class XmlConfiguredJobFactory : AutofacJobFactoryBase
+    public abstract class AutofacJobFactoryBase : IJobFactory
     {
-        public XmlConfiguredJobFactory()
-            : base(new ConfigurationSettingsReader("autofac"))
+        private readonly IContainer _container;
+        
+        protected AutofacJobFactoryBase(IModule module)
         {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(module);
+            _container = builder.Build();
+        }
+
+        public ICronJob GetJobByName(string name)
+        {
+            return new ScopeNestingJobWrapper(_container, name);
         }
     }
 }
