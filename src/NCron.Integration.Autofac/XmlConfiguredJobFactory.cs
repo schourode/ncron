@@ -18,7 +18,7 @@ using Autofac.Configuration;
 
 namespace NCron.Integration.Autofac
 {
-    public class XmlConfiguredJobFactory : AutofacJobFactoryBase
+    public class XmlConfiguredJobFactory : AutofacJobFactory
     {
         public XmlConfiguredJobFactory()
             : base(new ConfigurationSettingsReader("autofac"))

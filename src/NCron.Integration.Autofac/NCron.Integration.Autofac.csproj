@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacJobFactoryBase.cs" />
+    <Compile Include="AutofacJobFactory.cs" />
     <Compile Include="ScopeNestingJobWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlConfiguredJobFactory.cs" />

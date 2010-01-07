@@ -20,11 +20,11 @@ using NCron.Framework;
 
 namespace NCron.Integration.Autofac
 {
-    public abstract class AutofacJobFactoryBase : IJobFactory
+    public abstract class AutofacJobFactory : IJobFactory
     {
         private readonly IContainer _container;
         
-        protected AutofacJobFactoryBase(IModule module)
+        protected AutofacJobFactory(IModule module)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
