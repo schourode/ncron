@@ -15,8 +15,11 @@
  */
 
 using System;
+using System.IO;
 using System.ServiceProcess;
+using System.Text.RegularExpressions;
 using NCron.Framework;
+using NCron.Framework.Configuration;
 using NCron.Framework.Logging;
 using NCron.Service.Reflection;
 using NCron.Service.Scheduling;
@@ -41,8 +44,20 @@ namespace NCron.Service
                         var config = Configuration.NCronSection.GetConfiguration();
                         var jobFactory = (IJobFactory) config.JobFactory.Type.InvokeDefaultConstructor();
                         var logFactory = (ILogFactory) config.LogFactory.Type.InvokeDefaultConstructor();
+                        var appDirectory = Path.GetDirectoryName(typeof (Program).Assembly.Location);
+                        var crontab = new TextFileCrontab(Path.Combine(appDirectory, "crontab.txt"));
+                        var entryPattern = new Regex(@"^((?:\S+\s+){5})(.+)$");
+
                         var scheduler = new Scheduler(jobFactory, logFactory);
-                        scheduler.Enqueue(new QueueEntry(CrontabSchedule.Parse("* * * * *"), "TestJob"));
+
+                        foreach (var entry in crontab.GetEntries())
+                        {
+                            var match = entryPattern.Match(entry);
+                            var schedule = CrontabSchedule.Parse(match.Groups[1].Value);
+                            var job = match.Groups[2].Value;
+                            scheduler.Enqueue(new QueueEntry(schedule, job));
+                        }
+
                         scheduler.Run();
 
                         Console.ReadLine();
