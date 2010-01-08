@@ -78,6 +78,7 @@ namespace NCron.Framework.Logging
 
         public void Dispose()
         {
+            _log.Dispose();
         }
     }
 }

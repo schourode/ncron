@@ -20,16 +20,10 @@ namespace NCron.Framework.Logging
 {
     public class DefaultLogFactory : ILogFactory
     {
-        private readonly EventLog _eventLog;
-
-        public DefaultLogFactory()
-        {
-            _eventLog = new EventLog { Source = "NCron" };
-        }
-
         public ILog GetLogByName(string name)
         {
-            return new EventLogAdapter(_eventLog);
+            var eventLog = new EventLog { Source = "NCron" };
+            return new EventLogAdapter(eventLog);
         }
     }
 }
