@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using Autofac.Builder;
 using Autofac.Configuration;
 
 namespace NCron.Integration.Autofac
@@ -21,8 +22,11 @@ namespace NCron.Integration.Autofac
     public class XmlConfiguredJobFactory : AutofacJobFactory
     {
         public XmlConfiguredJobFactory()
-            : base(new ConfigurationSettingsReader("autofac"))
         {
+            var config = new ConfigurationSettingsReader("autofac");
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(config);
+            Container = builder.Build();
         }
     }
 }

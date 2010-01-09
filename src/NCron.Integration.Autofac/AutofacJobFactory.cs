@@ -15,25 +15,17 @@
  */
 
 using Autofac;
-using Autofac.Builder;
 using NCron.Framework;
 
 namespace NCron.Integration.Autofac
 {
     public abstract class AutofacJobFactory : IJobFactory
     {
-        private readonly IContainer _container;
-        
-        protected AutofacJobFactory(IModule module)
-        {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            _container = builder.Build();
-        }
+        protected IContainer Container { get; set; }
 
         public ICronJob GetJobByName(string name)
         {
-            return new ScopeNestingJobWrapper(_container, name);
+            return new ScopeNestingJobWrapper(Container, name);
         }
     }
 }
