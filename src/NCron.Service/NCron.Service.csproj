@@ -49,9 +49,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\JobFactoryElement.cs" />
@@ -60,7 +58,6 @@
     <Compile Include="CronService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reflection\ReflectiveJobFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ProjectInstaller.cs">

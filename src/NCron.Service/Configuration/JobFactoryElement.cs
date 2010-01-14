@@ -17,12 +17,13 @@
 using System;
 using System.ComponentModel;
 using System.Configuration;
+using NCron.Framework;
 
 namespace NCron.Service.Configuration
 {
     public class JobFactoryElement : ConfigurationElement
     {
-        [ConfigurationProperty("type", DefaultValue = typeof(Reflection.ReflectiveJobFactory))]
+        [ConfigurationProperty("type", DefaultValue = typeof(ReflectiveJobFactory))]
         [TypeConverter(typeof(TypeNameConverter))]
         public Type Type
         {

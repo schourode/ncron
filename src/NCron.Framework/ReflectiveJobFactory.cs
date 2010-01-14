@@ -15,16 +15,20 @@
  */
 
 using System;
-using NCron.Framework;
+using NCron.Framework.Internal;
 
-namespace NCron.Service.Reflection
+namespace NCron.Framework
 {
     public class ReflectiveJobFactory : IJobFactory
     {
+        private static readonly Type[] NoFormalArguments = new Type[0];
+        private static readonly object[] NoActualArguments = new object[0];
+
         public ICronJob GetJobByName(string name)
         {
             var type = Type.GetType(name, true);
-            var instance = type.InvokeDefaultConstructor();
+            var ctor = type.GetConstructor(NoFormalArguments);
+            var instance = ctor.Invoke(NoActualArguments);
             return (ICronJob) instance;
         }
     }
