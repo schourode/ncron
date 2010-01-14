@@ -15,7 +15,6 @@
  */
 
 using System;
-using NCron.Framework.Internal;
 
 namespace NCron.Framework
 {
