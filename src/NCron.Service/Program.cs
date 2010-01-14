@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2008, 2009 Joern Schou-Rode
+ * Copyright 2008, 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,9 @@
  */
 
 using System;
-using System.IO;
+using System.Diagnostics;
 using System.ServiceProcess;
-using System.Text.RegularExpressions;
-using NCron.Framework;
-using NCron.Framework.Configuration;
-using NCron.Framework.Logging;
-using NCron.Service.Reflection;
 using NCron.Service.Scheduling;
-using NCrontab;
 
 namespace NCron.Service
 {
@@ -31,52 +25,34 @@ namespace NCron.Service
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0)
+            // We explicitly use the EventLog for logging purposes in the main exception handling.
+            // If the configuration cannot be loaded - and no log factory created - it will be logged.
+            // If a custom ILog implementation throws, this will also be logged here.
+
+            using (var eventLog = new EventLog { Source = "NCron" })
             {
-                var service = new CronService();
-                ServiceBase.Run(service);
-            }
-            else
-            {
-                switch (args[0].ToLower())
+                try
                 {
-                    case "debug":
-                        var config = Configuration.NCronSection.GetConfiguration();
-                        var jobFactory = (IJobFactory) config.JobFactory.Type.InvokeDefaultConstructor();
-                        var logFactory = (ILogFactory) config.LogFactory.Type.InvokeDefaultConstructor();
-                        var appDirectory = Path.GetDirectoryName(typeof (Program).Assembly.Location);
-                        var crontab = new TextFileCrontab(Path.Combine(appDirectory, "crontab.txt"));
-                        var entryPattern = new Regex(@"^((?:\S+\s+){5})(.+)$");
+                    var service = new SchedulingService();
 
-                        var scheduler = new Scheduler(jobFactory, logFactory);
-
-                        foreach (var entry in crontab.GetEntries())
-                        {
-                            var match = entryPattern.Match(entry);
-                            var schedule = CrontabSchedule.Parse(match.Groups[1].Value);
-                            var job = match.Groups[2].Value;
-                            scheduler.Enqueue(new QueueEntry(schedule, job));
-                        }
-
-                        scheduler.Run();
-
+                    if (args.Length > 0 && args[0] == "debug")
+                    {
+                        service.Start();
                         Console.ReadLine();
-                        break;
+                        service.Stop();
+                    }
+                    else
+                    {
+                        var adapter = new ServiceProcessAdapter(service);
+                        ServiceBase.Run(adapter);
+                    }
 
-                    default:
-                        Console.WriteLine("Uknown command: " + args[0]);
-                        Environment.Exit(1);
-                        break;
+                }
+                catch (Exception ex)
+                {
+                    eventLog.WriteEntry("An unhandled exception has occured. " + ex, EventLogEntryType.Error);
                 }
             }
         }
-    }
-}
-
-public class TestJob : CronJob
-{
-    public override void Execute()
-    {
-        Log.Info(() => GetHashCode().ToString());
     }
 }

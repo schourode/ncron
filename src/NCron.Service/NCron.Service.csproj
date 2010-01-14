@@ -49,13 +49,15 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\JobFactoryElement.cs" />
     <Compile Include="Configuration\LogFactoryElement.cs" />
     <Compile Include="Configuration\NCronSection.cs" />
-    <Compile Include="CronService.cs">
+    <Compile Include="ServiceProcessAdapter.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Reflection\TypeExtensions.cs" />
     <Compile Include="Scheduling\QueueEntry.cs" />
     <Compile Include="Scheduling\Scheduler.cs" />
+    <Compile Include="Scheduling\SchedulingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
