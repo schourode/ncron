@@ -19,32 +19,35 @@ using NCron.Framework.Scheduling;
 
 namespace NCron.Service.Scheduling
 {
-    internal class QueueEntry : IComparable<QueueEntry>
+    internal class JobQueueEntry : IComparable<JobQueueEntry>
     {
         private readonly IScheduleEntry _schedule;
-
-        public DateTime NextOccurence { get; private set; }
+        private readonly DateTime _nextOccurence;
 
         public string JobName
         {
             get { return _schedule.JobName; }
         }
 
-        public QueueEntry(IScheduleEntry schedule)
+        public DateTime NextOccurence
         {
-            _schedule = schedule;
-            NextOccurence = schedule.GetNextOccurrence(DateTime.Now);
+            get { return _nextOccurence;  }
         }
 
-        public int CompareTo(QueueEntry other)
+        public JobQueueEntry(IScheduleEntry schedule, DateTime baseTime)
+        {
+            _schedule = schedule;
+            _nextOccurence = schedule.GetNextOccurrence(baseTime);
+        }
+
+        public int CompareTo(JobQueueEntry other)
         {
             return NextOccurence.CompareTo(other.NextOccurence);
         }
 
-        public void ComputeNextOccurence()
+        public JobQueueEntry GetNext()
         {
-            var baseTime = DateTime.Now > NextOccurence ? DateTime.Now : NextOccurence;
-            NextOccurence = _schedule.GetNextOccurrence(baseTime);
+            return new JobQueueEntry(_schedule, _nextOccurence);
         }
     }
 }

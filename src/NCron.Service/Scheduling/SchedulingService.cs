@@ -15,42 +15,72 @@
  */
 
 using System;
+using System.Threading;
 using NCron.Framework;
-using NCron.Service.Configuration;
+using NCron.Framework.Logging;
+using NCron.Framework.Scheduling;
 
 namespace NCron.Service.Scheduling
 {
-    internal class SchedulingService
+    internal class SchedulingService : IDisposable
     {
-        public SchedulingService()
+        private static readonly TimeSpan NoPeriod = TimeSpan.FromMilliseconds(-1);
+
+        private readonly IJobFactory _jobFactory;
+        private readonly ILogFactory _logFactory;
+        private readonly JobQueue _queue;
+        private readonly Timer _timer;
+
+        public SchedulingService(ISchedule schedule, IJobFactory jobFactory, ILogFactory logFactory)
         {
-            var config = Configuration.NCronSection.GetConfiguration();
-            /*            var jobFactory = (IJobFactory)config.JobFactory.Type.InvokeDefaultConstructor();
-                        var logFactory = (ILogFactory)config.LogFactory.Type.InvokeDefaultConstructor();
-                        var appDirectory = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-                        var crontab = new TextFileCrontab(Path.Combine(appDirectory, "crontab.txt"));
-                        var entryPattern = new Regex(@"^((?:\S+\s+){5})(.+)$");
+            _jobFactory = jobFactory;
+            _logFactory = logFactory;
 
-                        var scheduler = new Scheduler(jobFactory, logFactory);
-
-                        foreach (var entry in crontab.GetEntries())
-                        {
-                            var match = entryPattern.Match(entry);
-                            var schedule = CrontabSchedule.Parse(match.Groups[1].Value);
-                            var job = match.Groups[2].Value;
-                            scheduler.Enqueue(new QueueEntry(schedule, job));
-                        }
-
-                        scheduler.Run();
-            */
+            _queue = new JobQueue(schedule);
+            _timer = new Timer(TimerCallbackHandler);
         }
 
         public void Start()
         {
+            TimerCallbackHandler(null);
         }
 
         public void Stop()
         {
+            _timer.Dispose();
+        }
+
+        private void TimerCallbackHandler(object data)
+        {
+            if (DateTime.Now >= _queue.Head.NextOccurence)
+            {
+                ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _queue.Head.JobName);
+                _queue.Advance();
+                TimerCallbackHandler(null);
+            }
+            else
+            {
+                var timeToNext = _queue.Head.NextOccurence - DateTime.Now;
+                _timer.Change(timeToNext, NoPeriod);
+            }
+        }
+
+        private void WaitCallbackHandler(object data)
+        {
+            var jobName = (string) data;
+
+            using (var job = _jobFactory.GetJobByName(jobName))
+            using (var log = _logFactory.GetLogByName(jobName))
+            {
+                var context = new CronContext(job, log);
+                job.Initialize(context);
+                job.Execute();
+            }
+        }
+
+        public void Dispose()
+        {
+            _timer.Dispose();
         }
     }
 }

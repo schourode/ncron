@@ -16,7 +16,12 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.ServiceProcess;
+using NCron.Framework;
+using NCron.Framework.Logging;
+using NCron.Framework.Scheduling;
+using NCron.Service.Reflection;
 using NCron.Service.Scheduling;
 
 namespace NCron.Service
@@ -33,26 +38,40 @@ namespace NCron.Service
             {
                 try
                 {
-                    var service = new SchedulingService();
-
-                    if (args.Length > 0 && args[0] == "debug")
+                    using (var service = GetConfiguredService())
                     {
-                        service.Start();
-                        Console.ReadLine();
-                        service.Stop();
+                        if (args.Length > 0 && args[0] == "debug")
+                        {
+                            service.Start();
+                            Console.ReadLine();
+                            service.Stop();
+                        }
+                        else
+                        {
+                            using (var adapter = new ServiceProcessAdapter(service))
+                            {
+                                ServiceBase.Run(adapter);
+                            }
+                        }
                     }
-                    else
-                    {
-                        var adapter = new ServiceProcessAdapter(service);
-                        ServiceBase.Run(adapter);
-                    }
-
                 }
                 catch (Exception ex)
                 {
                     eventLog.WriteEntry("An unhandled exception has occured. " + ex, EventLogEntryType.Error);
                 }
             }
+        }
+
+        private static SchedulingService GetConfiguredService()
+        {
+            var appDirectory = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var schedule = new CrontabFileSchedule(Path.Combine(appDirectory, "crontab.txt"));
+
+            var config = Configuration.NCronSection.GetConfiguration();
+            var jobFactory = (IJobFactory) config.JobFactory.Type.InvokeDefaultConstructor();
+            var logFactory = (ILogFactory) config.LogFactory.Type.InvokeDefaultConstructor();
+
+            return new SchedulingService(schedule, jobFactory, logFactory);
         }
     }
 }
