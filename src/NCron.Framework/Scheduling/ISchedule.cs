@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-using System;
 using System.Collections.Generic;
 
 namespace NCron.Framework.Scheduling
 {
-    public interface ISchedule : IDisposable
+    public interface ISchedule
     {
         IEnumerable<IScheduleEntry> GetEntries();
     }

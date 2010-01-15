@@ -57,9 +57,9 @@ namespace NCron.Framework.Scheduling
             }
         }
 
-        public void Dispose()
-        {
-            //_watcher.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _watcher.Dispose();
+        //}
     }
 }
