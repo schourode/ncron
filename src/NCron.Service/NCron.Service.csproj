@@ -39,10 +39,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\C5.dll</HintPath>
     </Reference>
-    <Reference Include="NCrontab, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\NCrontab.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
@@ -57,6 +53,7 @@
     <Compile Include="Configuration\JobFactoryElement.cs" />
     <Compile Include="Configuration\LogFactoryElement.cs" />
     <Compile Include="Configuration\NCronSection.cs" />
+    <Compile Include="Scheduling\QueueEntry.cs" />
     <Compile Include="ServiceProcessAdapter.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -66,7 +63,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reflection\TypeExtensions.cs" />
-    <Compile Include="Scheduling\QueueEntry.cs" />
     <Compile Include="Scheduling\Scheduler.cs" />
     <Compile Include="Scheduling\SchedulingService.cs" />
   </ItemGroup>

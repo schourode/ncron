@@ -15,15 +15,12 @@
  */
 
 using System;
-using System.Collections.Generic;
 
-namespace NCron.Framework.Configuration
+namespace NCron.Framework.Scheduling
 {
-    public interface ICrontab : IDisposable
+    public interface IScheduleEntry
     {
-        event ChangedEventHandler Changed;
-        IEnumerable<string> GetEntries();
+        string JobName { get; }
+        DateTime GetNextOccurrence(DateTime baseTime);
     }
-
-    public delegate void ChangedEventHandler(ICrontab crontab);
 }

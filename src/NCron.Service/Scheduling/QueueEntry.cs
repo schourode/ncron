@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,24 @@
  */
 
 using System;
-using NCrontab;
+using NCron.Framework.Scheduling;
 
 namespace NCron.Service.Scheduling
 {
     internal class QueueEntry : IComparable<QueueEntry>
     {
-        private readonly CrontabSchedule _schedule;
+        private readonly IScheduleEntry _schedule;
 
-        public string JobName { get; private set; }
         public DateTime NextOccurence { get; private set; }
 
-        public QueueEntry(CrontabSchedule schedule, string jobName)
+        public string JobName
+        {
+            get { return _schedule.JobName; }
+        }
+
+        public QueueEntry(IScheduleEntry schedule)
         {
             _schedule = schedule;
-            JobName = jobName;
             NextOccurence = schedule.GetNextOccurrence(DateTime.Now);
         }
 

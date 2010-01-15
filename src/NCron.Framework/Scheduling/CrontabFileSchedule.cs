@@ -16,40 +16,50 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
+using NCrontab;
 
-namespace NCron.Framework.Configuration
+namespace NCron.Framework.Scheduling
 {
-    public class TextFileCrontab : ICrontab
+    public class CrontabFileSchedule : ISchedule
     {
+        private static readonly Regex LinePattern = new Regex(@"^((?:\S+\s+){5})(.+)$");
+
+
         private readonly string _filePath;
-        private readonly FileSystemWatcher _watcher;
+        //private readonly FileSystemWatcher _watcher;
 
-        public event ChangedEventHandler Changed;
+        //public event ChangedEventHandler Changed;
 
-        public TextFileCrontab(string filePath)
+        public CrontabFileSchedule(string filePath)
         {
             _filePath = filePath;
 
-            _watcher = new FileSystemWatcher(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-            _watcher.Changed += (s,e) => Changed(this);
-            _watcher.EnableRaisingEvents = true;
+            //_watcher = new FileSystemWatcher(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
+            //_watcher.Changed += (s,e) => Changed(this);
+            //_watcher.EnableRaisingEvents = true;
         }
         
-        public IEnumerable<string> GetEntries()
+        public IEnumerable<IScheduleEntry> GetEntries()
         {
             using (var reader = File.OpenText(_filePath))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    yield return line;
+                    var match = LinePattern.Match(line);
+                    var crontab = CrontabSchedule.Parse(match.Groups[1].Value);
+                    var jobName = match.Groups[2].Value;
+
+                    var schedule = new CrontabScheduleEntry(crontab, jobName);
+                    yield return schedule;
                 }
             }
         }
 
         public void Dispose()
         {
-            _watcher.Dispose();
+            //_watcher.Dispose();
         }
     }
 }
