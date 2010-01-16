@@ -28,37 +28,43 @@ namespace NCron.Service
 {
     internal static class Program
     {
-        static void Main(string[] args)
+        // We explicitly use the EventLog for logging purposes in the main exception handling.
+        // If the configuration cannot be loaded - and no log factory created - it will be logged.
+        // If a custom ILog implementation throws, this will also be logged here.
+        private static readonly EventLog CoreLog = new EventLog { Source = "NCron" };
+        
+        public static void LogUnhandledException(object exception)
         {
-            // We explicitly use the EventLog for logging purposes in the main exception handling.
-            // If the configuration cannot be loaded - and no log factory created - it will be logged.
-            // If a custom ILog implementation throws, this will also be logged here.
+            CoreLog.WriteEntry("An unhandled exception has occured. " + exception, EventLogEntryType.Error);
+        }
 
-            using (var eventLog = new EventLog { Source = "NCron" })
+        private static void Main(string[] args)
+        {
+            try
             {
-                try
+                AppDomain.CurrentDomain.UnhandledException +=
+                    (o, e) => LogUnhandledException(e.ExceptionObject);
+
+                using (var service = GetConfiguredService())
                 {
-                    using (var service = GetConfiguredService())
+                    if (args.Length > 0 && args[0] == "debug")
                     {
-                        if (args.Length > 0 && args[0] == "debug")
+                        service.Start();
+                        Console.ReadLine();
+                        service.Stop();
+                    }
+                    else
+                    {
+                        using (var adapter = new ServiceProcessAdapter(service))
                         {
-                            service.Start();
-                            Console.ReadLine();
-                            service.Stop();
-                        }
-                        else
-                        {
-                            using (var adapter = new ServiceProcessAdapter(service))
-                            {
-                                ServiceBase.Run(adapter);
-                            }
+                            ServiceBase.Run(adapter);
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    eventLog.WriteEntry("An unhandled exception has occured. " + ex, EventLogEntryType.Error);
-                }
+            }
+            catch (Exception exception)
+            {
+                LogUnhandledException(exception);
             }
         }
 

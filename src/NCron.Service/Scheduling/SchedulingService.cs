@@ -67,14 +67,34 @@ namespace NCron.Service.Scheduling
 
         private void WaitCallbackHandler(object data)
         {
-            var jobName = (string) data;
-
-            using (var job = _jobFactory.GetJobByName(jobName))
-            using (var log = _logFactory.GetLogByName(jobName))
+            // Global exception handling is needed within this worker thread.
+            // Without this, the application will crash if something (eg a custom ILog) throws.
+            try
             {
-                var context = new CronContext(job, log);
-                job.Initialize(context);
-                job.Execute();
+                var jobName = (string) data;
+
+                using (var job = _jobFactory.GetJobByName(jobName))
+                using (var log = _logFactory.GetLogByName(jobName))
+                {
+                    var context = new CronContext(job, log);
+
+                    // This inner try-catch serves to report ICronJob failures to the ILog.
+                    // Such exceptions are expected, and are thus handled seperately.
+                    try
+                    {
+                        job.Initialize(context);
+                        job.Execute();
+                    }
+                    catch (Exception exception)
+                    {
+                        log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", jobName),
+                                  () => exception);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Program.LogUnhandledException(exception);
             }
         }
 
