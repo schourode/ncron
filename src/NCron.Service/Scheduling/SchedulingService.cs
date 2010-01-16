@@ -24,8 +24,6 @@ namespace NCron.Service.Scheduling
 {
     internal class SchedulingService : IDisposable
     {
-        private static readonly TimeSpan NoPeriod = TimeSpan.FromMilliseconds(-1);
-
         private readonly IJobFactory _jobFactory;
         private readonly ILogFactory _logFactory;
         private readonly JobQueue _queue;
@@ -47,7 +45,7 @@ namespace NCron.Service.Scheduling
 
         public void Stop()
         {
-            _timer.Dispose();
+            _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         private void TimerCallbackHandler(object data)
@@ -61,7 +59,7 @@ namespace NCron.Service.Scheduling
             else
             {
                 var timeToNext = _queue.Head.NextOccurence - DateTime.Now;
-                _timer.Change(timeToNext, NoPeriod);
+                _timer.Change((long) timeToNext.TotalMilliseconds, Timeout.Infinite);
             }
         }
 
