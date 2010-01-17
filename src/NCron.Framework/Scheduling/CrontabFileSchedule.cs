@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using NCrontab;
 
@@ -25,19 +26,18 @@ namespace NCron.Framework.Scheduling
     {
         private static readonly Regex LinePattern = new Regex(@"^((?:\S+\s+){5})(.+)$");
 
-
         private readonly string _filePath;
-        //private readonly FileSystemWatcher _watcher;
 
-        //public event ChangedEventHandler Changed;
+        public CrontabFileSchedule()
+        {
+            var entryAssembly = Assembly.GetExecutingAssembly();
+            var appDirectory = Path.GetDirectoryName(entryAssembly.Location);
+            _filePath = Path.Combine(appDirectory, "crontab.txt");
+        }
 
         public CrontabFileSchedule(string filePath)
         {
             _filePath = filePath;
-
-            //_watcher = new FileSystemWatcher(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-            //_watcher.Changed += (s,e) => Changed(this);
-            //_watcher.EnableRaisingEvents = true;
         }
         
         public IEnumerable<IScheduleEntry> GetEntries()
@@ -56,10 +56,5 @@ namespace NCron.Framework.Scheduling
                 }
             }
         }
-
-        //public void Dispose()
-        //{
-        //    _watcher.Dispose();
-        //}
     }
 }

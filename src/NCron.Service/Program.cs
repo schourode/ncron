@@ -16,7 +16,6 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.ServiceProcess;
 using NCron.Framework;
 using NCron.Framework.Logging;
@@ -70,12 +69,10 @@ namespace NCron.Service
 
         private static SchedulingService GetConfiguredService()
         {
-            var appDirectory = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            var schedule = new CrontabFileSchedule(Path.Combine(appDirectory, "crontab.txt"));
-
             var config = Configuration.NCronSection.GetConfiguration();
-            var jobFactory = (IJobFactory) config.JobFactory.Type.InvokeDefaultConstructor();
-            var logFactory = (ILogFactory) config.LogFactory.Type.InvokeDefaultConstructor();
+            var schedule = (ISchedule)config.Schedule.Type.InvokeDefaultConstructor();
+            var jobFactory = (IJobFactory)config.JobFactory.Type.InvokeDefaultConstructor();
+            var logFactory = (ILogFactory)config.LogFactory.Type.InvokeDefaultConstructor();
 
             return new SchedulingService(schedule, jobFactory, logFactory);
         }

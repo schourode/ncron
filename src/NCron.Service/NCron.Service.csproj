@@ -53,6 +53,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Configuration\ScheduleElement.cs" />
     <Compile Include="Configuration\JobFactoryElement.cs" />
     <Compile Include="Configuration\LogFactoryElement.cs" />
     <Compile Include="Configuration\NCronSection.cs" />

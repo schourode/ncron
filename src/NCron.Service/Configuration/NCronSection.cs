@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2008, 2009 Joern Schou-Rode
+ * Copyright 2008, 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-using System;
 using System.Configuration;
 
 namespace NCron.Service.Configuration
 {
     public class NCronSection : ConfigurationSection
     {
+        [ConfigurationProperty("schedule")]
+        public ScheduleElement Schedule
+        {
+            get { return (ScheduleElement) base["schedule"]; }
+        }
+
         [ConfigurationProperty("jobFactory")]
         public JobFactoryElement JobFactory
         {
