@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,16 @@
 
 using log4net;
 using log4net.Config;
+using NCron.Framework.Logging;
 
 namespace NCron.Integration.log4net
 {
-    public class LogFactory : Framework.Logging.ILogFactory
+    /// <summary>
+    /// Implements the <see cref="ILogFactory"/> interface using "log4net" as log provider.
+    /// </summary>
+    public class LogFactory : ILogFactory
     {
-        public LogFactory()
+        static LogFactory()
         {
             BasicConfigurator.Configure();
         }
