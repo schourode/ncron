@@ -29,7 +29,7 @@ namespace NCron.Integration.log4net
         public Framework.Logging.ILog GetLogByName(string name)
         {
             var internalLogger = LogManager.GetLogger(name);
-            return new DeferredLog(internalLogger);
+            return new LogAdapter(internalLogger);
         }
     }
 }

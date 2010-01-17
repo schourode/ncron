@@ -19,11 +19,11 @@ using log4net;
 
 namespace NCron.Integration.log4net
 {
-    class DeferredLog : Framework.Logging.ILog
+    internal class LogAdapter : Framework.Logging.ILog
     {
         private readonly ILog _log;
 
-        public DeferredLog(ILog log)
+        public LogAdapter(ILog log)
         {
             _log = log;
         }
@@ -74,18 +74,6 @@ namespace NCron.Integration.log4net
         {
             if (_log.IsErrorEnabled)
                 _log.Error(msgCallback(), exCallback());
-        }
-
-        public void Fatal(Func<string> msgCallback)
-        {
-            if (_log.IsFatalEnabled)
-                _log.Fatal(msgCallback());
-        }
-
-        public void Fatal(Func<string> msgCallback, Func<Exception> exCallback)
-        {
-            if (_log.IsFatalEnabled)
-                _log.Fatal(msgCallback(), exCallback());
         }
 
         public void Dispose()
