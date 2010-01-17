@@ -31,8 +31,5 @@ namespace NCron.Framework.Logging
 
         void Error(Func<string> msgCallback);
         void Error(Func<string> msgCallback, Func<Exception> exCallback);
-
-        void Fatal(Func<string> msgCallback);
-        void Fatal(Func<string> msgCallback, Func<Exception> exCallback);
     }
 }

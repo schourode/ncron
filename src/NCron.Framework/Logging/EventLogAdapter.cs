@@ -66,16 +66,6 @@ namespace NCron.Framework.Logging
             _log.WriteEntry(msgCallback() + ' ' + exCallback(), EventLogEntryType.Error);
         }
 
-        public void Fatal(Func<string> msgCallback)
-        {
-            _log.WriteEntry(msgCallback(), EventLogEntryType.Error);
-        }
-
-        public void Fatal(Func<string> msgCallback, Func<Exception> exCallback)
-        {
-            _log.WriteEntry(msgCallback() + ' ' + exCallback(), EventLogEntryType.Error);
-        }
-
         public void Dispose()
         {
             _log.Dispose();
