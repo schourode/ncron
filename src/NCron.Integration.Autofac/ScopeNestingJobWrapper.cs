@@ -22,31 +22,22 @@ namespace NCron.Integration.Autofac
     internal class ScopeNestingJobWrapper : ICronJob
     {
         private readonly IContainer _container;
-        private readonly ICronJob _actualCronJob;
+        private readonly ICronJob _job;
 
-        public ScopeNestingJobWrapper(IContainer parentContainer, string jobName)
+        public ScopeNestingJobWrapper(IContainer container, ICronJob job)
         {
-            _container = parentContainer.CreateInnerContainer();
-
-            try
-            {
-                _actualCronJob = _container.Resolve<ICronJob>(jobName);
-            }
-            catch
-            {
-                _container.Dispose();
-                throw;
-            }
+            _container = container;
+            _job = job;
         }
 
         public void Initialize(CronContext context)
         {
-            _actualCronJob.Initialize(context);
+            _job.Initialize(context);
         }
 
         public void Execute()
         {
-            _actualCronJob.Execute();
+            _job.Execute();
         }
 
         public void Dispose()

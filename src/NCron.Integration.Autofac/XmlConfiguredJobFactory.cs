@@ -19,8 +19,14 @@ using Autofac.Configuration;
 
 namespace NCron.Integration.Autofac
 {
+    /// <summary>
+    /// Extends the <see cref="AutofacJobFactory"/> to automatically load configuration from an &lt;autofac&gt; section of the application configuration.
+    /// </summary>
     public class XmlConfiguredJobFactory : AutofacJobFactory
     {
+        /// <summary>
+        /// Creates a new instance of the <see cref="XmlConfiguredJobFactory"/> class.
+        /// </summary>
         public XmlConfiguredJobFactory()
         {
             var config = new ConfigurationSettingsReader("autofac");
