@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009, 2010 Joern Schou-Rode
+ * Copyright 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,15 @@
  */
 
 using System.Reflection;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("NCron log4net integration")]
-[assembly: AssemblyDescription("Provides a log factory and log implementation for NCron based on the log4net library.")]
+[assembly: AssemblyProduct("NCron Scheduler")]
+[assembly: AssemblyCopyright("Copyright 2008-2010 Joern Schou-Rode")]
+[assembly: AssemblyCompany("Malamute.dk")]
 
-[assembly: ComVisible(false)]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
+
+[assembly: AssemblyVersion("2.0.*")]

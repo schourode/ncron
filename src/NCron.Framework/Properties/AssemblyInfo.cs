@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009, 2010 Joern Schou-Rode
+ * Copyright 2008, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("NCron log4net integration")]
-[assembly: AssemblyDescription("Provides a log factory and log implementation for NCron based on the log4net library.")]
+[assembly: AssemblyTitle("NCron framework")]
+[assembly: AssemblyDescription("Contains the core framework of NCron, should be referenced when building jobs and extensions.")]
 
 [assembly: ComVisible(false)]
