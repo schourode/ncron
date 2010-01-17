@@ -18,8 +18,16 @@ using System.Diagnostics;
 
 namespace NCron.Framework.Logging
 {
+    /// <summary>
+    /// Implements the <see cref="ILogFactory"/> returning <see cref="EventLogAdapter"/> instances for all requests.
+    /// </summary>
     public class DefaultLogFactory : ILogFactory
     {
+        /// <summary>
+        /// Gets an <see cref="EventLogAdapter"/> instance, writing to the "Application" event log with a source name of "NCron".
+        /// </summary>
+        /// <param name="name">The name of the job which the log will be used with. This parameter is ignored.</param>
+        /// <returns>An <see cref="EventLogAdapter"/>, writing to the "Application" event log with a source name of "NCron".</returns>
         public ILog GetLogByName(string name)
         {
             var eventLog = new EventLog { Source = "NCron" };

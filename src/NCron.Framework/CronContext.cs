@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,33 @@ using NCron.Framework.Logging;
 
 namespace NCron.Framework
 {
+    /// <summary>
+    /// Holds information about the context in which a cron job is being executed.
+    /// Most importantly, the <see cref="Log"/> property gives access to a job specific log.
+    /// </summary>
     public class CronContext
     {
+        /// <summary>
+        /// Gets the name of the job being executed, as specified in the cron schedule.
+        /// </summary>
         public string JobName { get; private set; }
+
+        /// <summary>
+        /// Gets the job being executed.
+        /// </summary>
         public ICronJob Job { get; private set; }
+
+        /// <summary>
+        /// Gets the log to be used while executing the job in this context.
+        /// </summary>
         public ILog Log { get; private set; }
 
+        /// <summary>
+        /// Creates a new <see cref="CronContext"/> with all properties explicitly set.
+        /// </summary>
+        /// <param name="jobName">The name of the job being executed, as specified in the cron schedule.</param>
+        /// <param name="job">The job being executed.</param>
+        /// <param name="log">Tog to be used while executing the job in this context.</param>
         public CronContext(string jobName, ICronJob job, ILog log)
         {
             JobName = jobName;

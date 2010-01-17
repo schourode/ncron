@@ -19,10 +19,18 @@ using System.Diagnostics;
 
 namespace NCron.Framework.Logging
 {
+    /// <summary>
+    /// Implements the <see cref="ILog"/> interface on top of a <see cref="EventLog"/> instance.
+    /// Debug messages are ignored, and all other messages are written to the underlying event log.
+    /// </summary>
     public class EventLogAdapter : ILog
     {
         private readonly EventLog _log;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="EventLogAdapter"/> class for a specified <see cref="EventLog"/> instance.
+        /// </summary>
+        /// <param name="log">The event log to which error messages should be written.</param>
         public EventLogAdapter(EventLog log)
         {
             _log = log;

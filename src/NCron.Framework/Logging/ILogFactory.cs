@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,17 @@
 
 namespace NCron.Framework.Logging
 {
+    /// <summary>
+    /// Defines the interface of a factory that allows creation of <see cref="ILog"/> instances for named cron jobs.
+    /// This is the interface to implement, if you need integration with a third-party logging framework.
+    /// </summary>
     public interface ILogFactory
     {
+        /// <summary>
+        /// Gets an <see cref="ILog"/> instance for a job by the name of the job.
+        /// </summary>
+        /// <param name="name">The name of the job which the log will be used with.</param>
+        /// <returns>An <see cref="ILog"/> instance to be used by the specified job.</returns>
         ILog GetLogByName(string name);
     }
 }

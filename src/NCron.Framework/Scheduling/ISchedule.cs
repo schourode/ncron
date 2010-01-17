@@ -18,8 +18,15 @@ using System.Collections.Generic;
 
 namespace NCron.Framework.Scheduling
 {
+    /// <summary>
+    /// Defines the interface of a scheduling source that decides when and which jobs to be executed by the scheduling service.
+    /// </summary>
     public interface ISchedule
     {
+        /// <summary>
+        /// Gets all entries in the schedule.
+        /// </summary>
+        /// <returns>All entries in the schedule.</returns>
         IEnumerable<IScheduleEntry> GetEntries();
     }
 }

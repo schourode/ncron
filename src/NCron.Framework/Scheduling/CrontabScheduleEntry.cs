@@ -19,11 +19,19 @@ using NCrontab;
 
 namespace NCron.Framework.Scheduling
 {
+    /// <summary>
+    /// Implements the <see cref="IScheduleEntry"/> interface using the <see cref="NCrontab.CrontabSchedule"/> class to compute the schedule.
+    /// </summary>
     public class CrontabScheduleEntry : IScheduleEntry
     {
         private readonly CrontabSchedule _schedule;
         public string JobName { get; private set; }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="CrontabScheduleEntry"/> class with a specified crontab schedule and job name.
+        /// </summary>
+        /// <param name="schedule">The crontab schedule in witch the job should be executed.</param>
+        /// <param name="jobName">The name of the job to be executed on each occurence.</param>
         public CrontabScheduleEntry(CrontabSchedule schedule, string jobName)
         {
             _schedule = schedule;

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,22 @@ using System;
 
 namespace NCron.Framework
 {
+    /// <summary>
+    /// Implements the <see cref="IJobFactory"/> using reflection to load jobs by type names.
+    /// </summary>
     public class ReflectiveJobFactory : IJobFactory
     {
         private static readonly Type[] NoFormalArguments = new Type[0];
         private static readonly object[] NoActualArguments = new object[0];
 
+        /// <summary>
+        /// Gets an <see cref="ICronJob"/> instance from a name specified by a cron schedule.
+        /// The name is expected to be a assembly qualified type name (eg "Acme.Cron.SomeJob, Acme.Cron").
+        /// A new instance of the specified type is created with each call to this method.
+        /// </summary>
+        /// <param name="name">The assembly qualified type name of the class implementing <see cref="ICronJob"/>.</param>
+        /// <returns>A newly created <see cref="ICronJob"/> instance matching the provided name.</returns>
+        /// <exception cref="JobNotFoundException">if the type is not found, it has no public default constructor or it does not implement <see cref="ICronJob"/>.</exception>
         public ICronJob GetJobByName(string name)
         {
             try

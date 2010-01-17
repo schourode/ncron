@@ -18,9 +18,21 @@ using System;
 
 namespace NCron.Framework.Scheduling
 {
+    /// <summary>
+    /// Defines the interface of an entry returned by a <see cref="ISchedule"/>.
+    /// </summary>
     public interface IScheduleEntry
     {
+        /// <summary>
+        /// Gets the name of the job to be executed according to the schedule.
+        /// </summary>
         string JobName { get; }
+
+        /// <summary>
+        /// Calculates the next occurence of the job after a specified base <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="baseTime">The starting point for the service or the last invocation of the job.</param>
+        /// <returns>The next occurence according to the schedule. This must always be strictly larger than the baseTime parameter.</returns>
         DateTime GetNextOccurrence(DateTime baseTime);
     }
 }

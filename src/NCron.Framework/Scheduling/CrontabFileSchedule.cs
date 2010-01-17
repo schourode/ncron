@@ -22,12 +22,18 @@ using NCrontab;
 
 namespace NCron.Framework.Scheduling
 {
+    /// <summary>
+    /// Implements the <see cref="ISchedule"/> interface using text file with crontab expressions as its source.
+    /// </summary>
     public class CrontabFileSchedule : ISchedule
     {
         private static readonly Regex LinePattern = new Regex(@"^((?:\S+\s+){5})(.+)$");
 
         private readonly string _filePath;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="CrontabFileSchedule"/> class, reading from a "crontab.txt" file in the executing assembly's directory.
+        /// </summary>
         public CrontabFileSchedule()
         {
             var entryAssembly = Assembly.GetExecutingAssembly();
@@ -35,6 +41,10 @@ namespace NCron.Framework.Scheduling
             _filePath = Path.Combine(appDirectory, "crontab.txt");
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="CrontabFileSchedule"/> class, reading from a specified file name.
+        /// </summary>
+        /// <param name="filePath">The file system path from where the crontab text file is loaded.</param>
         public CrontabFileSchedule(string filePath)
         {
             _filePath = filePath;

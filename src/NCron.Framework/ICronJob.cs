@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2008, 2009 Joern Schou-Rode
+ * Copyright 2008, 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +24,13 @@ namespace NCron.Framework
     public interface ICronJob : IDisposable
     {
         /// <summary>
-        /// For simple jobs, the body of this method will often be empty.
+        /// This method is invoked before the job is executed and is used to pass context information to the job.
         /// </summary>
+        /// <param name="context">Contains information about the context in which the job is executed.</param>
         void Initialize(CronContext context);
 
         /// <summary>
-        /// Executes the job. This method will be called whenever a scheduled execution time for the job is reached.
+        /// This method is invoked whenever the job is due for execution, after job initialization.
         /// </summary>
         void Execute();
     }
