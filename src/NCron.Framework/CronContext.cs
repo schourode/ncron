@@ -20,11 +20,13 @@ namespace NCron.Framework
 {
     public class CronContext
     {
+        public string JobName { get; private set; }
         public ICronJob Job { get; private set; }
         public ILog Log { get; private set; }
 
-        public CronContext(ICronJob job, ILog log)
+        public CronContext(string jobName, ICronJob job, ILog log)
         {
+            JobName = jobName;
             Job = job;
             Log = log;
         }

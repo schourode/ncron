@@ -74,7 +74,9 @@ namespace NCron.Service.Scheduling
                 using (var job = _jobFactory.GetJobByName(jobName))
                 using (var log = _logFactory.GetLogByName(jobName))
                 {
-                    var context = new CronContext(job, log);
+                    var context = new CronContext(jobName, job, log);
+
+                    log.Info(() => string.Format("Executing job: {0}", jobName));
 
                     // This inner try-catch serves to report ICronJob failures to the ILog.
                     // Such exceptions are expected, and are thus handled seperately.
