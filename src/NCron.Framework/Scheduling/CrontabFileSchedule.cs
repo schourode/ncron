@@ -27,7 +27,7 @@ namespace NCron.Framework.Scheduling
     /// </summary>
     public class CrontabFileSchedule : ISchedule
     {
-        private static readonly Regex LinePattern = new Regex(@"^((?:\S+\s+){5})(.+)$");
+        private static readonly Regex LinePattern = new Regex(@"^((?:\S+\s+){5})(.+)$", RegexOptions.Compiled);
 
         private readonly string _filePath;
 
