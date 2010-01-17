@@ -25,10 +25,19 @@ namespace NCron.Framework
 
         public ICronJob GetJobByName(string name)
         {
-            var type = Type.GetType(name, true);
-            var ctor = type.GetConstructor(NoFormalArguments);
-            var instance = ctor.Invoke(NoActualArguments);
-            return (ICronJob) instance;
+            try
+            {
+                var type = Type.GetType(name, true);
+                var ctor = type.GetConstructor(NoFormalArguments);
+                var instance = ctor.Invoke(NoActualArguments);
+                return (ICronJob)instance;
+            }
+            catch (Exception innerException)
+            {
+                throw new JobNotFoundException(
+                    string.Format("A job with the name \"{0}\" could not be found.", name),
+                    innerException);
+            }
         }
     }
 }
