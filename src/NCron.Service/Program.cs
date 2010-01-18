@@ -39,24 +39,40 @@ namespace NCron.Service
 
         private static void Main(string[] args)
         {
-            if (args.Length == 0)
+            if (!Environment.UserInteractive)
             {
                 RunService(false);
+            }
+            else if (args.Length == 0)
+            {
+                PrintUsageGuide();
             }
             else switch (args[0].ToLower())
             {
                 case "debug":
-                    RunService(true);
+                    if (args.Length != 1) PrintUsageGuide();
+                    else RunService(true);
                     break;
 
                 case "exec":
                 case "execute":
-                    ExecuteJob(args[1]);
+                    if (args.Length != 2) PrintUsageGuide();
+                    else ExecuteJob(args[1]);
                     break;
 
                 default:
-                    throw new ArgumentException();
+                    PrintUsageGuide();
+                    break;
             }
+        }
+
+        private static void PrintUsageGuide()
+        {
+            Console.WriteLine("Usage:");
+            Console.WriteLine("  NCron.Service debug");
+            Console.WriteLine("    Starts the service in interactive mode. Press [ENTER] to exit.");
+            Console.WriteLine("  NCron.Service exec {jobname}");
+            Console.WriteLine("    Execute a single job, using job and log factories defined in configuration.");
         }
 
         private static SchedulingService GetConfiguredService()
