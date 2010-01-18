@@ -15,6 +15,10 @@
  */
 
 using System.Configuration;
+using NCron.Framework;
+using NCron.Framework.Logging;
+using NCron.Framework.Scheduling;
+using NCron.Service.Scheduling;
 
 namespace NCron.Service.Configuration
 {
@@ -38,7 +42,7 @@ namespace NCron.Service.Configuration
             get { return (LogFactoryElement) base["logFactory"]; }
         }
 
-        internal static NCronSection GetConfiguration()
+        internal static SchedulingService GetConfiguredService()
         {
             var section = ConfigurationManager.GetSection("ncron");
             if (section == null)
@@ -47,13 +51,17 @@ namespace NCron.Service.Configuration
             }
 
             var ncronSection = section as NCronSection;
-            if (section == null)
+            if (ncronSection == null)
             {
                 throw new ConfigurationErrorsException(
                     string.Format("Configuration \"ncron\" should be of type {0}.", typeof(NCronSection).FullName));
             }
 
-            return ncronSection;
+            var schedule = (ISchedule) ncronSection.Schedule.Type.InvokeDefaultConstructor();
+            var jobFactory = (IJobFactory) ncronSection.JobFactory.Type.InvokeDefaultConstructor();
+            var logFactory = (ILogFactory) ncronSection.LogFactory.Type.InvokeDefaultConstructor();
+
+            return new SchedulingService(schedule, jobFactory, logFactory);
         }
     }
 }

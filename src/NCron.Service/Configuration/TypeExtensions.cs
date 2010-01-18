@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Service.Reflection
+namespace NCron.Service.Configuration
 {
     internal static class TypeExtensions
     {

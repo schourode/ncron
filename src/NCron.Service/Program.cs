@@ -17,11 +17,7 @@
 using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using NCron.Framework;
-using NCron.Framework.Logging;
-using NCron.Framework.Scheduling;
-using NCron.Service.Reflection;
-using NCron.Service.Scheduling;
+using NCron.Service.Configuration;
 
 namespace NCron.Service
 {
@@ -60,6 +56,16 @@ namespace NCron.Service
                     else ExecuteJob(args[1]);
                     break;
 
+                case "install":
+                    if (args.Length != 1) PrintUsageGuide();
+                    Install(false);
+                    break;
+
+                case "uninstall":
+                    if (args.Length != 1) PrintUsageGuide();
+                    Install(true);
+                    break;
+
                 default:
                     PrintUsageGuide();
                     break;
@@ -73,16 +79,10 @@ namespace NCron.Service
             Console.WriteLine("    Starts the service in interactive mode. Press [ENTER] to exit.");
             Console.WriteLine("  NCron.Service exec {jobname}");
             Console.WriteLine("    Execute a single job, using job and log factories defined in configuration.");
-        }
-
-        private static SchedulingService GetConfiguredService()
-        {
-            var config = Configuration.NCronSection.GetConfiguration();
-            var schedule = (ISchedule)config.Schedule.Type.InvokeDefaultConstructor();
-            var jobFactory = (IJobFactory)config.JobFactory.Type.InvokeDefaultConstructor();
-            var logFactory = (ILogFactory)config.LogFactory.Type.InvokeDefaultConstructor();
-
-            return new SchedulingService(schedule, jobFactory, logFactory);
+            Console.WriteLine("  NCron.Service install");
+            Console.WriteLine("    Installs NCron as a Windows service.");
+            Console.WriteLine("  NCron.Service uninstall");
+            Console.WriteLine("    Uninstalls NCron as a Windows service.");
         }
 
         private static void RunService(bool debug)
@@ -92,7 +92,7 @@ namespace NCron.Service
                 AppDomain.CurrentDomain.UnhandledException +=
                     (o, e) => LogUnhandledException(e.ExceptionObject);
 
-                using (var service = GetConfiguredService())
+                using (var service = NCronSection.GetConfiguredService())
                 {
                     if (debug)
                     {
@@ -119,14 +119,26 @@ namespace NCron.Service
         {
             try
             {
-                using (var service = GetConfiguredService())
+                using (var service = NCronSection.GetConfiguredService())
                 {
                     service.ExecuteJob(jobName);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.Error.WriteLine(ex);
+            }
+        }
+
+        static void Install(bool undo)
+        {
+            try
+            {
+                ProjectInstaller.Install(undo);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
             }
         }
     }

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System.Collections;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
@@ -37,6 +38,38 @@ namespace NCron.Service
                                    Description = "Executes jobs according to the configured NCron schedule.",
                                    StartType = ServiceStartMode.Automatic
                                });
+        }
+
+        internal static void Install(bool undo)
+        {
+            var assembly = typeof(ProjectInstaller).Assembly;
+
+            using (var installer = new AssemblyInstaller { Assembly = assembly, UseNewContext = true })
+            {
+                var state = new Hashtable();
+
+                try
+                {
+                    if (undo)
+                    {
+                        installer.Uninstall(state);
+                    }
+                    else
+                    {
+                        installer.Install(state);
+                        installer.Commit(state);
+                    }
+                }
+                catch
+                {
+                    try
+                    {
+                        installer.Rollback(state);
+                    }
+                    catch { }
+                    throw;
+                }
+            }
         }
     }
 }
