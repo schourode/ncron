@@ -70,31 +70,35 @@ namespace NCron.Service.Scheduling
             try
             {
                 var jobName = (string) data;
-
-                using (var job = _jobFactory.GetJobByName(jobName))
-                using (var log = _logFactory.GetLogByName(jobName))
-                {
-                    var context = new CronContext(jobName, job, log);
-
-                    log.Info(() => string.Format("Executing job: {0}", jobName));
-
-                    // This inner try-catch serves to report ICronJob failures to the ILog.
-                    // Such exceptions are expected, and are thus handled seperately.
-                    try
-                    {
-                        job.Initialize(context);
-                        job.Execute();
-                    }
-                    catch (Exception exception)
-                    {
-                        log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", jobName),
-                                  () => exception);
-                    }
-                }
+                ExecuteJob(jobName);
             }
             catch (Exception exception)
             {
                 Program.LogUnhandledException(exception);
+            }
+        }
+
+        public void ExecuteJob(string jobName)
+        {
+            using (var job = _jobFactory.GetJobByName(jobName))
+            using (var log = _logFactory.GetLogByName(jobName))
+            {
+                var context = new CronContext(jobName, job, log);
+
+                log.Info(() => string.Format("Executing job: {0}", jobName));
+
+                // This inner try-catch serves to report ICronJob failures to the ILog.
+                // Such exceptions are expected, and are thus handled seperately.
+                try
+                {
+                    job.Initialize(context);
+                    job.Execute();
+                }
+                catch (Exception exception)
+                {
+                    log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", jobName),
+                              () => exception);
+                }
             }
         }
 

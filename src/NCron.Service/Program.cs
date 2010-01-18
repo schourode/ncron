@@ -39,6 +39,38 @@ namespace NCron.Service
 
         private static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                RunService(false);
+            }
+            else switch (args[0].ToLower())
+            {
+                case "debug":
+                    RunService(true);
+                    break;
+
+                case "exec":
+                case "execute":
+                    ExecuteJob(args[1]);
+                    break;
+
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+        private static SchedulingService GetConfiguredService()
+        {
+            var config = Configuration.NCronSection.GetConfiguration();
+            var schedule = (ISchedule)config.Schedule.Type.InvokeDefaultConstructor();
+            var jobFactory = (IJobFactory)config.JobFactory.Type.InvokeDefaultConstructor();
+            var logFactory = (ILogFactory)config.LogFactory.Type.InvokeDefaultConstructor();
+
+            return new SchedulingService(schedule, jobFactory, logFactory);
+        }
+
+        private static void RunService(bool debug)
+        {
             try
             {
                 AppDomain.CurrentDomain.UnhandledException +=
@@ -46,7 +78,7 @@ namespace NCron.Service
 
                 using (var service = GetConfiguredService())
                 {
-                    if (args.Length > 0 && args[0] == "debug")
+                    if (debug)
                     {
                         service.Start();
                         Console.ReadLine();
@@ -67,14 +99,19 @@ namespace NCron.Service
             }
         }
 
-        private static SchedulingService GetConfiguredService()
+        private static void ExecuteJob(string jobName)
         {
-            var config = Configuration.NCronSection.GetConfiguration();
-            var schedule = (ISchedule)config.Schedule.Type.InvokeDefaultConstructor();
-            var jobFactory = (IJobFactory)config.JobFactory.Type.InvokeDefaultConstructor();
-            var logFactory = (ILogFactory)config.LogFactory.Type.InvokeDefaultConstructor();
-
-            return new SchedulingService(schedule, jobFactory, logFactory);
+            try
+            {
+                using (var service = GetConfiguredService())
+                {
+                    service.ExecuteJob(jobName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }
