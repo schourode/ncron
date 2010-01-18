@@ -1,0 +1,20 @@
+﻿# The default NCron configuration expects its schedule in this file.
+# Jobs can be scheduled for execution using "crontab" syntax.
+#
+# Examples:
+#
+# 0 * * * * TaskThatRunsEveryHour, MyAssembly
+# 0 0 * * * TaskThatRunsAdMidnight, MyAssembly
+# 0 6 * * 1 TaskThatRunsMondayMorning, MyAssembly
+# 
+# - - - - -
+# | | | | |
+# | | | | +----- day of week (0 - 6) (Sunday=0)
+# | | | +------- month (1 - 12)
+# | | +--------- day of month (1 - 31)
+# | +----------- hour (0 - 23)
+# +------------- min (0 - 59)
+#
+# References:
+# http://code.google.com/p/ncrontab/wiki/CrontabExpression
+# http://code.google.com/p/ncrontab/wiki/CrontabExamples
