@@ -58,6 +58,8 @@ namespace NCron.Framework.Scheduling
                 while ((line = reader.ReadLine()) != null)
                 {
                     var match = LinePattern.Match(line);
+                    if (!match.Success) continue;
+
                     var crontab = CrontabSchedule.Parse(match.Groups[1].Value);
                     var jobName = match.Groups[2].Value;
 
