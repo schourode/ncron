@@ -108,11 +108,3 @@ namespace NCron.Service.Scheduling
         }
     }
 }
-
-public class TestJob : CronJob
-{
-    public override void Execute()
-    {
-        Log.Info(() => GetHashCode().ToString());
-    }
-}
