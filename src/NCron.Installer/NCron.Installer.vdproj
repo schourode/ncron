@@ -15,8 +15,38 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0493E09F83B14899B3087C8BFCDFAB10"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_61957FE25CAA49A699A0F794EEC26E9C"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_878057C35E3A70FA9EB5F3C13907C85D"
+        "OwnerKey" = "8:_B81B0DFDA3A947C296378F9E76FA081E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ADC3430C6963625D9D769240A815AA1D"
+        "OwnerKey" = "8:_B0AFEA1EC537EDE88CB6E5D2B47B6F1B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ADC3430C6963625D9D769240A815AA1D"
+        "OwnerKey" = "8:_B81B0DFDA3A947C296378F9E76FA081E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B0AFEA1EC537EDE88CB6E5D2B47B6F1B"
+        "OwnerKey" = "8:_B81B0DFDA3A947C296378F9E76FA081E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -27,12 +57,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C42D72F02F329E12EAE265EC430395C1"
-        "OwnerKey" = "8:_B81B0DFDA3A947C296378F9E76FA081E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B81B0DFDA3A947C296378F9E76FA081E"
         "MsmSig" = "8:_UNDEFINED"
@@ -40,7 +64,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C42D72F02F329E12EAE265EC430395C1"
+        "OwnerKey" = "8:_B0AFEA1EC537EDE88CB6E5D2B47B6F1B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_ADC3430C6963625D9D769240A815AA1D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_878057C35E3A70FA9EB5F3C13907C85D"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -204,6 +240,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0493E09F83B14899B3087C8BFCDFAB10"
+            {
+            "SourcePath" = "8:..\\..\\NOTICE.txt"
+            "TargetName" = "8:NOTICE.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_CDB28EF39F6F4F3B9B1397E8338E6495"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61957FE25CAA49A699A0F794EEC26E9C"
             {
             "SourcePath" = "8:..\\..\\LICENSE.txt"
@@ -224,20 +280,82 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C42D72F02F329E12EAE265EC430395C1"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_878057C35E3A70FA9EB5F3C13907C85D"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NCron, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:C5, Version=1.1.0.0, Culture=neutral, PublicKeyToken=06a1b38866503b69, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C42D72F02F329E12EAE265EC430395C1"
+                    "_878057C35E3A70FA9EB5F3C13907C85D"
                     {
-                    "Name" = "8:NCron.dll"
+                    "Name" = "8:C5.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:NCron.dll"
+            "SourcePath" = "8:C5.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CDB28EF39F6F4F3B9B1397E8338E6495"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ADC3430C6963625D9D769240A815AA1D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:NCrontab, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_ADC3430C6963625D9D769240A815AA1D"
+                    {
+                    "Name" = "8:NCrontab.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:NCrontab.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CDB28EF39F6F4F3B9B1397E8338E6495"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B0AFEA1EC537EDE88CB6E5D2B47B6F1B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:NCron.Framework, Version=2.0.3669.40161, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_B0AFEA1EC537EDE88CB6E5D2B47B6F1B"
+                    {
+                    "Name" = "8:NCron.Framework.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:NCron.Framework.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CDB28EF39F6F4F3B9B1397E8338E6495"

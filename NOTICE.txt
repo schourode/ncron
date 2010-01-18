@@ -1,0 +1,25 @@
+NCron Job Scheduler
+Copyright 2008, 2009, 2010 Joern Schou-Rode
+
+Crontab parsing and calculation support is provided by the NCrontab
+library, written by Atif Aziz. The library is made available under the
+Apache License 2.0 from
+  http://code.google.com/p/ncrontab/
+
+This software uses data structures from the The C5 Generic Collection
+Library, written by Niels Kokholm and Peter Sestoft. The library is
+made available under an MIT style from
+  http://www.itu.dk/research/c5/
+
+Autofac IoC Container (optional dependency) is made available under a
+MIT style license from
+  http://code.google.com/p/autofac/
+
+Apache log4net (optional dependency), part of Apache Logging Services,
+is made available under the Apache License 2.0 from
+  http://logging.apache.org/log4net/
+
+The names "log4net" and "Apache Software Foundation" must not be used
+to endorse or promote products derived from this software without prior
+written permission. For written permission, please contact
+  apache@apache.org
