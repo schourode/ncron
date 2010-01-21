@@ -51,7 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NCron.Framework\NCron.Framework.csproj">
+    <ProjectReference Include="..\NCron\NCron.csproj">
       <Project>{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}</Project>
       <Name>NCron.Framework</Name>
     </ProjectReference>
