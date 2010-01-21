@@ -19,7 +19,7 @@ using log4net;
 
 namespace NCron.Integration.log4net
 {
-    internal class LogAdapter : Framework.Logging.ILog
+    internal class LogAdapter : NCron.Logging.ILog
     {
         private readonly ILog _log;
 

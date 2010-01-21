@@ -15,7 +15,7 @@
  */
 
 using Autofac;
-using NCron.Framework;
+using NCron;
 
 namespace NCron.Integration.Autofac
 {

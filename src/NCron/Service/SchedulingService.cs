@@ -16,11 +16,11 @@
 
 using System;
 using System.Threading;
-using NCron.Framework;
-using NCron.Framework.Logging;
-using NCron.Framework.Scheduling;
+using NCron;
+using NCron.Logging;
+using NCron.Scheduling;
 
-namespace NCron.Service.Scheduling
+namespace NCron.Service
 {
     internal class SchedulingService : IDisposable
     {

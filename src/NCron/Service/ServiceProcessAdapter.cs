@@ -15,7 +15,7 @@
  */
 
 using System.ServiceProcess;
-using NCron.Service.Scheduling;
+using NCron.Service;
 
 namespace NCron.Service
 {

@@ -20,7 +20,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using NCrontab;
 
-namespace NCron.Framework.Scheduling
+namespace NCron.Scheduling
 {
     /// <summary>
     /// Implements the <see cref="ISchedule"/> interface using text file with crontab expressions as its source.

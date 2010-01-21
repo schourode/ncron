@@ -15,12 +15,12 @@
  */
 
 using System.Configuration;
-using NCron.Framework;
-using NCron.Framework.Logging;
-using NCron.Framework.Scheduling;
-using NCron.Service.Scheduling;
+using NCron;
+using NCron.Logging;
+using NCron.Scheduling;
+using NCron.Service;
 
-namespace NCron.Service.Configuration
+namespace NCron.Configuration
 {
     public class NCronSection : ConfigurationSection
     {

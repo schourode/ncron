@@ -17,9 +17,9 @@
 using System;
 using System.ComponentModel;
 using System.Configuration;
-using NCron.Framework;
+using NCron;
 
-namespace NCron.Service.Configuration
+namespace NCron.Configuration
 {
     public class JobFactoryElement : ConfigurationElement
     {

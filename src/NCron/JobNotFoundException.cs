@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Framework
+namespace NCron
 {
     /// <summary>
     /// The exception thrown when a job factory does not recognize the name of a job.

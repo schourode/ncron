@@ -16,7 +16,7 @@
 
 using System.Diagnostics;
 
-namespace NCron.Framework.Logging
+namespace NCron.Logging
 {
     /// <summary>
     /// Implements the <see cref="ILogFactory"/> returning <see cref="EventLogAdapter"/> instances for all requests.

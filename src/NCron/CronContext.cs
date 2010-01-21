@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-using NCron.Framework.Logging;
+using NCron.Logging;
 
-namespace NCron.Framework
+namespace NCron
 {
     /// <summary>
     /// Holds information about the context in which a cron job is being executed.

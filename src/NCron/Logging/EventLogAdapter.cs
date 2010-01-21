@@ -17,7 +17,7 @@
 using System;
 using System.Diagnostics;
 
-namespace NCron.Framework.Logging
+namespace NCron.Logging
 {
     /// <summary>
     /// Implements the <see cref="ILog"/> interface on top of a <see cref="EventLog"/> instance.

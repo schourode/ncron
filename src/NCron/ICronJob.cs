@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Framework
+namespace NCron
 {
     /// <summary>
     /// Defines the interface to be implemented by all NCron jobs.

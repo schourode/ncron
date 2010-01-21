@@ -15,9 +15,9 @@
  */
 
 using System;
-using NCron.Framework.Scheduling;
+using NCron.Scheduling;
 
-namespace NCron.Service.Scheduling
+namespace NCron.Service
 {
     internal class JobQueueEntry : IComparable<JobQueueEntry>
     {

@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Framework.Logging
+namespace NCron.Logging
 {
     /// <summary>
     /// Defines the interface of a log to which cron jobs can write messages of different severity levels.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-namespace NCron.Framework
+namespace NCron
 {
     /// <summary>
     /// Defines the interface of a factory that allows creation of <see cref="ICronJob"/> instances by name.

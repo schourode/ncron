@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Service.Configuration
+namespace NCron.Configuration
 {
     internal static class TypeExtensions
     {

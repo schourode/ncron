@@ -16,7 +16,7 @@
 
 using log4net;
 using log4net.Config;
-using NCron.Framework.Logging;
+using NCron.Logging;
 
 namespace NCron.Integration.log4net
 {
@@ -30,7 +30,7 @@ namespace NCron.Integration.log4net
             BasicConfigurator.Configure();
         }
 
-        public Framework.Logging.ILog GetLogByName(string name)
+        public NCron.Logging.ILog GetLogByName(string name)
         {
             var internalLogger = LogManager.GetLogger(name);
             return new LogAdapter(internalLogger);

@@ -15,9 +15,9 @@
  */
 
 using System;
-using NCron.Framework.Logging;
+using NCron.Logging;
 
-namespace NCron.Framework
+namespace NCron
 {
     /// <summary>
     /// Provides an abstract implementation of the <see cref="ICronJob"/> interface.

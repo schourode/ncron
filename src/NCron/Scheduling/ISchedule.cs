@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace NCron.Framework.Scheduling
+namespace NCron.Scheduling
 {
     /// <summary>
     /// Defines the interface of a scheduling source that decides when and which jobs to be executed by the scheduling service.

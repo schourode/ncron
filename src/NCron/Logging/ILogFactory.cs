@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-namespace NCron.Framework.Logging
+namespace NCron.Logging
 {
     /// <summary>
     /// Defines the interface of a factory that allows creation of <see cref="ILog"/> instances for named cron jobs.

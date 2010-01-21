@@ -16,9 +16,9 @@
 
 using System;
 using C5;
-using NCron.Framework.Scheduling;
+using NCron.Scheduling;
 
-namespace NCron.Service.Scheduling
+namespace NCron.Service
 {
     internal class JobQueue
     {
