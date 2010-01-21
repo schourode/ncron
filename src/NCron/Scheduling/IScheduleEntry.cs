@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Framework.Scheduling
+namespace NCron.Scheduling
 {
     /// <summary>
     /// Defines the interface of an entry returned by a <see cref="ISchedule"/>.
