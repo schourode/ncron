@@ -16,7 +16,7 @@
 
 using System;
 
-namespace NCron.Framework
+namespace NCron
 {
     /// <summary>
     /// Implements the <see cref="IJobFactory"/> using reflection to load jobs by type names.
