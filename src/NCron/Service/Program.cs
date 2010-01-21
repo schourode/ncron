@@ -17,20 +17,38 @@
 using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using NCron.Configuration;
+using NCron.Logging;
+using NCron.Scheduling;
 
 namespace NCron.Service
 {
-    internal static class Program
+    public static class Program
     {
+        public static ISchedule Schedule = new CrontabFileSchedule();
+        public static IJobFactory JobFactory = new ReflectiveJobFactory();
+        public static ILogFactory LogFactory = new DefaultLogFactory();
+
         // We explicitly use the EventLog for logging purposes in the main exception handling.
         // If the configuration cannot be loaded - and no log factory created - it will be logged.
         // If a custom ILog implementation throws, this will also be logged here.
         private static readonly EventLog CoreLog = new EventLog { Source = "NCron" };
         
-        public static void LogUnhandledException(object exception)
+        internal static void LogUnhandledException(object exception)
         {
             CoreLog.WriteEntry("An unhandled exception has occured. " + exception, EventLogEntryType.Error);
+        }
+
+        private static void PrintUsageGuide()
+        {
+            Console.WriteLine("Usage:");
+            Console.WriteLine("  NCron.Service debug");
+            Console.WriteLine("    Starts the service in interactive mode. Press [ENTER] to exit.");
+            Console.WriteLine("  NCron.Service exec {jobname}");
+            Console.WriteLine("    Execute a single job, using job and log factories defined in configuration.");
+            Console.WriteLine("  NCron.Service install");
+            Console.WriteLine("    Installs NCron as a Windows service.");
+            Console.WriteLine("  NCron.Service uninstall");
+            Console.WriteLine("    Uninstalls NCron as a Windows service.");
         }
 
         private static void Main(string[] args)
@@ -72,17 +90,9 @@ namespace NCron.Service
             }
         }
 
-        private static void PrintUsageGuide()
+        private static SchedulingService GetConfiguredService()
         {
-            Console.WriteLine("Usage:");
-            Console.WriteLine("  NCron.Service debug");
-            Console.WriteLine("    Starts the service in interactive mode. Press [ENTER] to exit.");
-            Console.WriteLine("  NCron.Service exec {jobname}");
-            Console.WriteLine("    Execute a single job, using job and log factories defined in configuration.");
-            Console.WriteLine("  NCron.Service install");
-            Console.WriteLine("    Installs NCron as a Windows service.");
-            Console.WriteLine("  NCron.Service uninstall");
-            Console.WriteLine("    Uninstalls NCron as a Windows service.");
+            return new SchedulingService(Schedule, JobFactory, LogFactory);
         }
 
         private static void RunService(bool debug)
@@ -92,7 +102,7 @@ namespace NCron.Service
                 AppDomain.CurrentDomain.UnhandledException +=
                     (o, e) => LogUnhandledException(e.ExceptionObject);
 
-                using (var service = NCronSection.GetConfiguredService())
+                using (var service = GetConfiguredService())
                 {
                     if (debug)
                     {
@@ -119,7 +129,7 @@ namespace NCron.Service
         {
             try
             {
-                using (var service = NCronSection.GetConfiguredService())
+                using (var service = GetConfiguredService())
                 {
                     service.ExecuteJob(jobName);
                 }
@@ -130,7 +140,7 @@ namespace NCron.Service
             }
         }
 
-        static void Install(bool undo)
+        private static void Install(bool undo)
         {
             try
             {
