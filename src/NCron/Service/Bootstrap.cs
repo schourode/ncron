@@ -40,6 +40,8 @@ namespace NCron.Service
             Console.WriteLine("Usage:");
             Console.WriteLine("  {0} debug", assemblyName);
             Console.WriteLine("    Starts the service in interactive mode. Press [ENTER] to exit.");
+            Console.WriteLine("  {0} exec {{jobname}}", assemblyName);
+            Console.WriteLine("    Executes a named schedule once and exits immediately after.");
             Console.WriteLine("  {0} install", assemblyName);
             Console.WriteLine("    Installs NCron as a Windows service.");
             Console.WriteLine("  {0} uninstall", assemblyName);
@@ -61,6 +63,12 @@ namespace NCron.Service
                 case "debug":
                     if (args.Length != 1) PrintUsageGuide();
                     else RunService(setupHandler, true);
+                    break;
+
+                case "exec":
+                case "execute":
+                    if (args.Length != 2) PrintUsageGuide();
+                    else ExecuteJob(setupHandler, args[1]);
                     break;
 
                 case "install":
@@ -108,6 +116,22 @@ namespace NCron.Service
             catch (Exception exception)
             {
                 LogUnhandledException(exception);
+            }
+        }
+
+        private static void ExecuteJob(Action<SchedulingService> setupHandler, string jobName)
+        {
+            try
+            {
+                using (var service = new SchedulingService())
+                {
+                    setupHandler(service);
+                    service.ExecuteNamedJob(jobName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
             }
         }
 

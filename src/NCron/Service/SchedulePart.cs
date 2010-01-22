@@ -20,17 +20,24 @@ namespace NCron.Service
 {
     public class SchedulePart
     {
-        private readonly JobCollection _jobs;
+        private readonly SchedulingService _service;
+        private readonly QueueEntry _queueEntry;
 
-        internal SchedulePart(JobCollection jobs)
+        internal SchedulePart(SchedulingService service, QueueEntry queueEntry)
         {
-            _jobs = jobs;
+            _service = service;
+            _queueEntry = queueEntry;
         }
 
         public SchedulePart Run(Func<ICronJob> job)
         {
-            _jobs.Add(job);
+            _queueEntry.Jobs.Add(job);
             return this;
+        }
+
+        public void Named(string name)
+        {
+            _service.NameEntry(name, _queueEntry);
         }
     }
 }

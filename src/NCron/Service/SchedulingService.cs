@@ -23,6 +23,7 @@ namespace NCron.Service
 {
     public class SchedulingService : IDisposable
     {
+        private readonly IDictionary<string, QueueEntry> _namedEntries;
         private readonly IPriorityQueue<QueueEntry> _queue;
         private readonly Timer _timer;
         private ILogFactory _logFactory;
@@ -35,6 +36,7 @@ namespace NCron.Service
 
         internal SchedulingService()
         {
+            _namedEntries = new HashDictionary<string, QueueEntry>();
             _queue = new IntervalHeap<QueueEntry>();
             _timer = new Timer(TimerCallbackHandler);
             _logFactory = new DefaultLogFactory();
@@ -45,7 +47,12 @@ namespace NCron.Service
             var entry = new QueueEntry(schedule, DateTime.Now);
             _queue.Add(entry);
 
-            return new SchedulePart(entry.Jobs);
+            return new SchedulePart(this, entry);
+        }
+
+        internal void NameEntry(string name, QueueEntry entry)
+        {
+            _namedEntries.Add(name, entry);
         }
 
         internal void Start()
@@ -83,18 +90,7 @@ namespace NCron.Service
             try
             {
                 var entry = (QueueEntry) data;
-
-                foreach (var job in entry.Jobs.GetInstances())
-                {
-                    try
-                    {
-                        ExecuteJob(job);
-                    }
-                    finally
-                    {
-                        job.Dispose();
-                    }
-                }
+                ExecuteEntry(entry);
             }
             catch (Exception exception)
             {
@@ -102,27 +98,43 @@ namespace NCron.Service
             }
         }
 
-        private void ExecuteJob(ICronJob job)
+        private void ExecuteEntry(QueueEntry queueEntry)
         {
-            using (var log = _logFactory.GetLogForJob(job))
+            foreach (var job in queueEntry.Jobs.GetInstances())
             {
-                var context = new CronContext(job, log);
-
-                log.Info(() => string.Format("Executing job: {0}", job));
-
-                // This inner try-catch serves to report ICronJob failures to the ILog.
-                // Such exceptions are expected, and are thus handled seperately.
                 try
                 {
-                    job.Initialize(context);
-                    job.Execute();
+                    using (var log = _logFactory.GetLogForJob(job))
+                    {
+                        var context = new CronContext(job, log);
+
+                        log.Info(() => string.Format("Executing job: {0}", job));
+
+                        // This inner try-catch serves to report ICronJob failures to the ILog.
+                        // Such exceptions are expected, and are thus handled seperately.
+                        try
+                        {
+                            job.Initialize(context);
+                            job.Execute();
+                        }
+                        catch (Exception exception)
+                        {
+                            log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", job),
+                                      () => exception);
+                        }
+                    }
                 }
-                catch (Exception exception)
+                finally
                 {
-                    log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", job),
-                              () => exception);
+                    job.Dispose();
                 }
             }
+        }
+
+        internal void ExecuteNamedJob(string name)
+        {
+            var entry = _namedEntries[name];
+            ExecuteEntry(entry);
         }
 
         public void Dispose()

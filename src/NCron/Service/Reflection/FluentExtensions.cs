@@ -23,11 +23,11 @@ namespace NCron.Service.Reflection
         private static readonly Type[] NoFormalArguments = new Type[0];
         private static readonly object[] NoActualArguments = new object[0];
 
-        public static void Run<T>(this SchedulePart part)
+        public static SchedulePart Run<T>(this SchedulePart part)
             where T : ICronJob
         {
             var constructor = typeof(T).GetConstructor(NoFormalArguments);
-            part.Run(() => (ICronJob) constructor.Invoke(NoActualArguments));
+            return part.Run(() => (ICronJob) constructor.Invoke(NoActualArguments));
         }
     }
 }
