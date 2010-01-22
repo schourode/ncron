@@ -25,11 +25,6 @@ namespace NCron
     public class CronContext
     {
         /// <summary>
-        /// Gets the name of the job being executed, as specified in the cron schedule.
-        /// </summary>
-        public string JobName { get; private set; }
-
-        /// <summary>
         /// Gets the job being executed.
         /// </summary>
         public ICronJob Job { get; private set; }
@@ -45,9 +40,8 @@ namespace NCron
         /// <param name="jobName">The name of the job being executed, as specified in the cron schedule.</param>
         /// <param name="job">The job being executed.</param>
         /// <param name="log">Tog to be used while executing the job in this context.</param>
-        public CronContext(string jobName, ICronJob job, ILog log)
+        public CronContext(ICronJob job, ILog log)
         {
-            JobName = jobName;
             Job = job;
             Log = log;
         }

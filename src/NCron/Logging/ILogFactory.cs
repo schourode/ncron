@@ -17,16 +17,11 @@
 namespace NCron.Logging
 {
     /// <summary>
-    /// Defines the interface of a factory that allows creation of <see cref="ILog"/> instances for named cron jobs.
+    /// Defines the interface of a factory that allows creation of <see cref="ILog"/> instances for specific jobs.
     /// This is the interface to implement, if you need integration with a third-party logging framework.
     /// </summary>
     public interface ILogFactory
     {
-        /// <summary>
-        /// Gets an <see cref="ILog"/> instance for a job by the name of the job.
-        /// </summary>
-        /// <param name="name">The name of the job which the log will be used with.</param>
-        /// <returns>An <see cref="ILog"/> instance to be used by the specified job.</returns>
-        ILog GetLogByName(string name);
+        ILog GetLogForJob(ICronJob job);
     }
 }

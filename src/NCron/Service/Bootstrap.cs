@@ -40,15 +40,13 @@ namespace NCron.Service
             Console.WriteLine("Usage:");
             Console.WriteLine("  {0} debug", assemblyName);
             Console.WriteLine("    Starts the service in interactive mode. Press [ENTER] to exit.");
-            Console.WriteLine("  {0} exec {{jobname}}", assemblyName);
-            Console.WriteLine("    Execute a single job, using job and log factories defined in configuration.");
             Console.WriteLine("  {0} install", assemblyName);
             Console.WriteLine("    Installs NCron as a Windows service.");
             Console.WriteLine("  {0} uninstall", assemblyName);
             Console.WriteLine("    Uninstalls NCron as a Windows service.");
         }
 
-        public static void Main(string[] args, ServiceSetupHandler setupHandler)
+        public static void Main(string[] args, Action<SchedulingService> setupHandler)
         {
             if (!Environment.UserInteractive)
             {
@@ -63,12 +61,6 @@ namespace NCron.Service
                 case "debug":
                     if (args.Length != 1) PrintUsageGuide();
                     else RunService(setupHandler, true);
-                    break;
-
-                case "exec":
-                case "execute":
-                    if (args.Length != 2) PrintUsageGuide();
-                    else ExecuteJob(setupHandler, args[1]);
                     break;
 
                 case "install":
@@ -87,7 +79,7 @@ namespace NCron.Service
             }
         }
 
-        private static void RunService(ServiceSetupHandler setupHandler, bool debug)
+        private static void RunService(Action<SchedulingService> setupHandler, bool debug)
         {
             try
             {
@@ -119,22 +111,6 @@ namespace NCron.Service
             }
         }
 
-        private static void ExecuteJob(ServiceSetupHandler setupHandler, string jobName)
-        {
-            try
-            {
-                using (var service = new SchedulingService())
-                {
-                    setupHandler(service);
-                    service.ExecuteJob(jobName);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine(ex);
-            }
-        }
-
         private static void Install(bool undo)
         {
             try
@@ -147,6 +123,4 @@ namespace NCron.Service
             }
         }
     }
-
-    public delegate void ServiceSetupHandler(SchedulingService service);
 }

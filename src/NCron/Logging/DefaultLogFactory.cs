@@ -26,9 +26,9 @@ namespace NCron.Logging
         /// <summary>
         /// Gets an <see cref="EventLogAdapter"/> instance, writing to the "Application" event log with a source name of "NCron".
         /// </summary>
-        /// <param name="name">The name of the job which the log will be used with. This parameter is ignored.</param>
+        /// <param name="job">The job which the log will be used with. This parameter is ignored.</param>
         /// <returns>An <see cref="EventLogAdapter"/>, writing to the "Application" event log with a source name of "NCron".</returns>
-        public ILog GetLogByName(string name)
+        public ILog GetLogForJob(ICronJob job)
         {
             var eventLog = new EventLog { Source = "NCron" };
             return new EventLogAdapter(eventLog);
