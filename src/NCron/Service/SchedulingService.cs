@@ -35,9 +35,12 @@ namespace NCron.Service
             _logFactory = new DefaultLogFactory();
         }
 
-        public void AddSchedule(ISchedule schedule, Func<ICronJob> jobConstructor)
+        public SchedulePart At(ISchedule schedule)
         {
-            _queue.Add(new QueueEntry(jobConstructor, schedule, DateTime.Now));
+            var entry = new QueueEntry(schedule, DateTime.Now);
+            _queue.Add(entry);
+
+            return new SchedulePart(entry.Jobs);
         }
 
         internal void Start()
@@ -56,7 +59,8 @@ namespace NCron.Service
             if (DateTime.Now >= _head.NextOccurence)
             {
                 ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _head);
-                _queue.Add(_head.GetSubsequentEntry());
+                _head.Advance();
+                _queue.Add(_head);
                 _head = _queue.DeleteMin();
                 TimerCallbackHandler(null);
             }
@@ -75,30 +79,44 @@ namespace NCron.Service
             {
                 var entry = (QueueEntry) data;
 
-                using (var job = entry.GetJobInstance())
-                using (var log = _logFactory.GetLogForJob(job))
+                foreach (var job in entry.Jobs.GetInstances())
                 {
-                    var context = new CronContext(job, log);
-
-                    log.Info(() => string.Format("Executing job: {0}", job));
-
-                    // This inner try-catch serves to report ICronJob failures to the ILog.
-                    // Such exceptions are expected, and are thus handled seperately.
                     try
                     {
-                        job.Initialize(context);
-                        job.Execute();
+                        ExecuteJob(job);
                     }
-                    catch (Exception exception)
+                    finally
                     {
-                        log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", job),
-                                  () => exception);
+                        job.Dispose();
                     }
                 }
             }
             catch (Exception exception)
             {
                 Bootstrap.LogUnhandledException(exception);
+            }
+        }
+
+        private void ExecuteJob(ICronJob job)
+        {
+            using (var log = _logFactory.GetLogForJob(job))
+            {
+                var context = new CronContext(job, log);
+
+                log.Info(() => string.Format("Executing job: {0}", job));
+
+                // This inner try-catch serves to report ICronJob failures to the ILog.
+                // Such exceptions are expected, and are thus handled seperately.
+                try
+                {
+                    job.Initialize(context);
+                    job.Execute();
+                }
+                catch (Exception exception)
+                {
+                    log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", job),
+                              () => exception);
+                }
             }
         }
 

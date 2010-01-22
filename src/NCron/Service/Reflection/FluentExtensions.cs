@@ -16,36 +16,18 @@
 
 using System;
 
-namespace NCron.Service
+namespace NCron.Service.Reflection
 {
-    public static class ScheduleServiceExtensions
+    public static class FluentExtensions
     {
         private static readonly Type[] NoFormalArguments = new Type[0];
         private static readonly object[] NoActualArguments = new object[0];
 
-        private static Func<ICronJob> GetConstructor<T>()
+        public static void Run<T>(this SchedulePart part)
             where T : ICronJob
         {
             var constructor = typeof(T).GetConstructor(NoFormalArguments);
-            return () => (ICronJob)constructor.Invoke(NoActualArguments);
-        }
-
-        public static void AddSchedule<T>(this SchedulingService service, ISchedule scheduleEntry)
-            where T : ICronJob
-        {
-            service.AddSchedule(scheduleEntry, GetConstructor<T>());
-        }
-
-        public static void AddSchedule<T>(this SchedulingService service, string crontab)
-            where T : ICronJob
-        {
-            service.AddSchedule(crontab, GetConstructor<T>());
-        }
-
-        public static void AddSchedule(this SchedulingService service, string crontab, Func<ICronJob> jobConstructor)
-        {
-            var scheduleEntry = new CrontabScheduleAdapter(crontab);
-            service.AddSchedule(scheduleEntry, jobConstructor);
+            part.Run(() => (ICronJob) constructor.Invoke(NoActualArguments));
         }
     }
 }

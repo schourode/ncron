@@ -17,7 +17,7 @@
 using System;
 using NCrontab;
 
-namespace NCron
+namespace NCron.Service.Crontab
 {
     /// <summary>
     /// Implements the <see cref="ISchedule"/> interface using the <see cref="NCrontab.CrontabSchedule"/> class to compute the schedule.

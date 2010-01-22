@@ -20,20 +20,25 @@ namespace NCron.Service
 {
     internal class QueueEntry : IComparable<QueueEntry>
     {
-        private readonly Func<ICronJob> _jobConstructor;
         private readonly ISchedule _schedule;
-        private readonly DateTime _nextOccurence;
+        private readonly JobCollection _jobs;
+        private DateTime _nextOccurence;
 
         public DateTime NextOccurence
         {
             get { return _nextOccurence; }
         }
 
-        public QueueEntry(Func<ICronJob> jobConstructor, ISchedule schedule, DateTime baseTime)
+        public JobCollection Jobs
         {
-            _jobConstructor = jobConstructor;
+            get { return _jobs; }
+        }
+
+        public QueueEntry(ISchedule schedule, DateTime baseTime)
+        {
             _schedule = schedule;
             _nextOccurence = schedule.GetNextOccurrence(baseTime);
+            _jobs = new JobCollection();
         }
 
         public int CompareTo(QueueEntry other)
@@ -41,14 +46,9 @@ namespace NCron.Service
             return NextOccurence.CompareTo(other.NextOccurence);
         }
 
-        public ICronJob GetJobInstance()
+        public void Advance()
         {
-            return _jobConstructor();
-        }
-
-        public QueueEntry GetSubsequentEntry()
-        {
-            return new QueueEntry(_jobConstructor, _schedule, _nextOccurence);
+            _nextOccurence = _schedule.GetNextOccurrence(_nextOccurence);
         }
     }
 }
