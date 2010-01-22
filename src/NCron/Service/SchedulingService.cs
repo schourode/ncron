@@ -24,9 +24,14 @@ namespace NCron.Service
     public class SchedulingService : IDisposable
     {
         private readonly IPriorityQueue<QueueEntry> _queue;
-        private readonly ILogFactory _logFactory;
         private readonly Timer _timer;
+        private ILogFactory _logFactory;
         private QueueEntry _head;
+
+        public ILogFactory LogFactory
+        {
+            set { _logFactory = value; }
+        }
 
         internal SchedulingService()
         {
