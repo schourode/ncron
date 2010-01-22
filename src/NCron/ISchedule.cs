@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-using System.Collections.Generic;
+using System;
 
-namespace NCron.Scheduling
+namespace NCron
 {
-    /// <summary>
-    /// Defines the interface of a scheduling source that decides when and which jobs to be executed by the scheduling service.
-    /// </summary>
     public interface ISchedule
     {
         /// <summary>
-        /// Gets all entries in the schedule.
+        /// Calculates the next occurence of the job after a specified base <see cref="DateTime"/>.
         /// </summary>
-        /// <returns>All entries in the schedule.</returns>
-        IEnumerable<IScheduleEntry> GetEntries();
+        /// <param name="baseTime">The starting point for the service or the last invocation of the job.</param>
+        /// <returns>The next occurence according to the schedule. This must always be strictly larger than the baseTime parameter.</returns>
+        DateTime GetNextOccurrence(DateTime baseTime);
     }
 }

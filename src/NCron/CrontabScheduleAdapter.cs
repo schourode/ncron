@@ -17,25 +17,23 @@
 using System;
 using NCrontab;
 
-namespace NCron.Scheduling
+namespace NCron
 {
     /// <summary>
-    /// Implements the <see cref="IScheduleEntry"/> interface using the <see cref="NCrontab.CrontabSchedule"/> class to compute the schedule.
+    /// Implements the <see cref="ISchedule"/> interface using the <see cref="NCrontab.CrontabSchedule"/> class to compute the schedule.
     /// </summary>
-    public class CrontabScheduleEntry : IScheduleEntry
+    internal class CrontabScheduleAdapter : ISchedule
     {
         private readonly CrontabSchedule _schedule;
-        public string JobName { get; private set; }
 
         /// <summary>
         /// Creates a new instance of the <see cref="CrontabScheduleEntry"/> class with a specified crontab schedule and job name.
         /// </summary>
         /// <param name="schedule">The crontab schedule in witch the job should be executed.</param>
         /// <param name="jobName">The name of the job to be executed on each occurence.</param>
-        public CrontabScheduleEntry(CrontabSchedule schedule, string jobName)
+        public CrontabScheduleAdapter(string crontab)
         {
-            _schedule = schedule;
-            JobName = jobName;
+            _schedule = CrontabSchedule.Parse(crontab);
         }
 
         public DateTime GetNextOccurrence(DateTime baseTime)

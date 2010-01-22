@@ -16,25 +16,33 @@
 
 using System;
 using System.Threading;
+using C5;
 using NCron.Logging;
 
 namespace NCron.Service
 {
     public class SchedulingService : IDisposable
     {
+        private readonly IPriorityQueue<QueueEntry> _queue;
         private readonly ILogFactory _logFactory;
-        private readonly JobQueue _queue;
         private readonly Timer _timer;
+        private QueueEntry _head;
 
         internal SchedulingService()
         {
-            _queue = new JobQueue();
+            _queue = new IntervalHeap<QueueEntry>();
             _timer = new Timer(TimerCallbackHandler);
             _logFactory = new DefaultLogFactory();
         }
 
+        public void AddSchedule(ISchedule schedule, Func<ICronJob> jobConstructor)
+        {
+            _queue.Add(new QueueEntry(jobConstructor, schedule, DateTime.Now));
+        }
+
         internal void Start()
         {
+            _head = _queue.DeleteMin();
             TimerCallbackHandler(null);
         }
 
@@ -45,15 +53,16 @@ namespace NCron.Service
 
         private void TimerCallbackHandler(object data)
         {
-            if (DateTime.Now >= _queue.Head.NextOccurence)
+            if (DateTime.Now >= _head.NextOccurence)
             {
-                ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _queue.Head);
-                _queue.Advance();
+                ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _head);
+                _queue.Add(_head.GetSubsequentEntry());
+                _head = _queue.DeleteMin();
                 TimerCallbackHandler(null);
             }
             else
             {
-                var timeToNext = _queue.Head.NextOccurence - DateTime.Now;
+                var timeToNext = _head.NextOccurence - DateTime.Now;
                 _timer.Change((long) timeToNext.TotalMilliseconds, Timeout.Infinite);
             }
         }
@@ -64,7 +73,7 @@ namespace NCron.Service
             // Without this, the application will crash if something (eg a custom ILog) throws.
             try
             {
-                var entry = (JobQueue.Entry) data;
+                var entry = (QueueEntry) data;
 
                 using (var job = entry.GetJobInstance())
                 using (var log = _logFactory.GetLogForJob(job))
