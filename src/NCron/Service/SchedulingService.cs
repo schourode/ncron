@@ -16,34 +16,30 @@
 
 using System;
 using System.Threading;
-using NCron;
 using NCron.Logging;
-using NCron.Scheduling;
 
 namespace NCron.Service
 {
-    internal class SchedulingService : IDisposable
+    public class SchedulingService : IDisposable
     {
         private readonly IJobFactory _jobFactory;
         private readonly ILogFactory _logFactory;
         private readonly JobQueue _queue;
         private readonly Timer _timer;
 
-        public SchedulingService(ISchedule schedule, IJobFactory jobFactory, ILogFactory logFactory)
+        internal SchedulingService()
         {
-            _jobFactory = jobFactory;
-            _logFactory = logFactory;
-
-            _queue = new JobQueue(schedule);
+            _queue = new JobQueue();
             _timer = new Timer(TimerCallbackHandler);
+            _logFactory = new DefaultLogFactory();
         }
 
-        public void Start()
+        internal void Start()
         {
             TimerCallbackHandler(null);
         }
 
-        public void Stop()
+        internal void Stop()
         {
             _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
@@ -74,7 +70,7 @@ namespace NCron.Service
             }
             catch (Exception exception)
             {
-                Program.LogUnhandledException(exception);
+                Bootstrap.LogUnhandledException(exception);
             }
         }
 

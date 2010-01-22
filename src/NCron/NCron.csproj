@@ -76,7 +76,7 @@
     <Compile Include="ReflectiveJobFactory.cs" />
     <Compile Include="Service\JobQueue.cs" />
     <Compile Include="Service\JobQueueEntry.cs" />
-    <Compile Include="Service\Program.cs" />
+    <Compile Include="Service\Bootstrap.cs" />
     <Compile Include="Service\ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

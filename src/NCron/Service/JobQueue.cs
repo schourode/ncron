@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-using System;
 using C5;
-using NCron.Scheduling;
 
 namespace NCron.Service
 {
@@ -26,15 +24,9 @@ namespace NCron.Service
 
         public JobQueueEntry Head { get; private set; }
 
-        public JobQueue(ISchedule schedule)
+        public JobQueue()
         {
             _queue = new IntervalHeap<JobQueueEntry>();
-
-            foreach (var entry in schedule.GetEntries())
-            {
-                _queue.Add(new JobQueueEntry(entry, DateTime.Now));
-            }
-
             Head = _queue.DeleteMin();
         }
 
