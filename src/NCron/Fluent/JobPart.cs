@@ -18,6 +18,9 @@ using NCron.Service;
 
 namespace NCron.Fluent
 {
+    /// <summary>
+    /// Represents a configured schedule entry in the fluent API.
+    /// </summary>
     public class JobPart : Part
     {
         internal JobPart(SchedulingService service, QueueEntry queueEntry)
@@ -25,6 +28,10 @@ namespace NCron.Fluent
         {
         }
 
+        /// <summary>
+        /// Attaches a name to the schedule entry, allowing it to be executed outside of its schedule using a command line argument.
+        /// </summary>
+        /// <param name="name">The name under which the schedule entry should be registered.</param>
         public void Named(string name)
         {
             Service.NameEntry(name, QueueEntry);

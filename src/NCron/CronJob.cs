@@ -42,6 +42,7 @@ namespace NCron
         /// <param name="context">Contains information about the context in which the job is executed.</param>
         public void Initialize(CronContext context)
         {
+            Context = context;
             Log = context.Log;
         }
 

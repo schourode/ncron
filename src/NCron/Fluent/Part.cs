@@ -18,12 +18,15 @@ using NCron.Service;
 
 namespace NCron.Fluent
 {
+    /// <summary>
+    /// Provides a base class for classes providing the fluent API on top of a <see cref="SchedulingService"/>.
+    /// </summary>
     public abstract class Part
     {
-        protected SchedulingService Service { get; private set; }
-        protected QueueEntry QueueEntry { get; private set; }
+        internal SchedulingService Service { get; private set; }
+        internal QueueEntry QueueEntry { get; private set; }
 
-        protected Part(SchedulingService service, QueueEntry queueEntry)
+        internal Part(SchedulingService service, QueueEntry queueEntry)
         {
             Service = service;
             QueueEntry = queueEntry;

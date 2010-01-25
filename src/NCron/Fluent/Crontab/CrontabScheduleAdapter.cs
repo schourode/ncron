@@ -27,10 +27,9 @@ namespace NCron.Fluent.Crontab
         private readonly CrontabSchedule _schedule;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CrontabScheduleEntry"/> class with a specified crontab schedule and job name.
+        /// Creates a new instance of the <see cref="CrontabScheduleAdapter"/> class with a specified crontab expression.
         /// </summary>
-        /// <param name="schedule">The crontab schedule in witch the job should be executed.</param>
-        /// <param name="jobName">The name of the job to be executed on each occurence.</param>
+        /// <param name="crontab">The crontab expression describing the schedule in witch the job should be executed.</param>
         public CrontabScheduleAdapter(string crontab)
         {
             _schedule = CrontabSchedule.Parse(crontab);

@@ -21,6 +21,9 @@ using System.ServiceProcess;
 
 namespace NCron.Service
 {
+    /// <summary>
+    /// Defines the method which should be called from the entry point of all NCron based applications.
+    /// </summary>
     public static class Bootstrap
     {
         // We explicitly use the EventLog for logging purposes in the main exception handling.
@@ -48,6 +51,12 @@ namespace NCron.Service
             Console.WriteLine("    Uninstalls NCron as a Windows service.");
         }
 
+        /// <summary>
+        /// Initilizes an NCron based application with a specified set of command line parameters and service setup handler.
+        /// A cllas to this method should be made from the main entry point of all NCron based applicaitons.
+        /// </summary>
+        /// <param name="args">The command line parameters passed to the application.</param>
+        /// <param name="setupHandler">A method that sets up the scheduling service according to application needs.</param>
         public static void Main(string[] args, Action<SchedulingService> setupHandler)
         {
             if (!Environment.UserInteractive)

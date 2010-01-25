@@ -22,6 +22,11 @@ namespace NCron.Logging
     /// </summary>
     public interface ILogFactory
     {
+        /// <summary>
+        /// Gets the log to be used by a specific job.
+        /// </summary>
+        /// <param name="job">The job for which a log should be retrieved.</param>
+        /// <returns>An implementation of <see cref="ILog"/> for the specified job.</returns>
         ILog GetLogForJob(ICronJob job);
     }
 }

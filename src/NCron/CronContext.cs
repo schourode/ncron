@@ -37,7 +37,6 @@ namespace NCron
         /// <summary>
         /// Creates a new <see cref="CronContext"/> with all properties explicitly set.
         /// </summary>
-        /// <param name="jobName">The name of the job being executed, as specified in the cron schedule.</param>
         /// <param name="job">The job being executed.</param>
         /// <param name="log">Tog to be used while executing the job in this context.</param>
         public CronContext(ICronJob job, ILog log)

@@ -18,8 +18,17 @@ using NCron.Service;
 
 namespace NCron.Fluent
 {
+    /// <summary>
+    /// Provides extension methods on the fluent API, allowing fluent schedule registrations.
+    /// </summary>
     public static class Extensions
     {
+        /// <summary>
+        /// Adds a new schedule to the service and returns an object that allows a chained fluent job registration.
+        /// </summary>
+        /// <param name="service">The service to which the schedule should be added.</param>
+        /// <param name="schedule">The schedule to register within the service.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
         public static SchedulePart At(this SchedulingService service, ISchedule schedule)
         {
             var entry = service.AddSchedule(schedule);

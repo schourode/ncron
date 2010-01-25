@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2010 Joern Schou-Rode
+ * Copyright 2009, 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-using NCron.Service;
-
-namespace NCron.Fluent.Crontab
+namespace NCron.Fluent.Generics
 {
     /// <summary>
-    /// Provides extension methods on the fluent API, allowing easy use of crontab expressions.
+    /// Provides extension methods on the fluent API, allowing job registrations by type paramter.
     /// </summary>
     public static class Extensions
     {
         /// <summary>
-        /// Creates a new schedule based on a crontab expression (eg: 0 0 * * *).
-        /// Please refer to the project wiki for examples.
+        /// Registers a job for execution using the job type as generic parameter.
         /// </summary>
-        /// <param name="service">The service to which the schedule should be added.</param>
-        /// <param name="crontab">A crontab expression describing the schedule.</param>
+        /// <typeparam name="TJob">The type of job to be registered. Must implement <see cref="ICronJob"/> and must have a default (parameterless) constructor.</typeparam>
+        /// <param name="part">The fluent part upon which the job is to be registered.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart At(this SchedulingService service, string crontab)
+        public static JobPart Run<TJob>(this SchedulePart part)
+            where TJob : ICronJob, new()
         {
-            var schedule = new CrontabScheduleAdapter(crontab);
-            return service.At(schedule);
+            return part.Run(() => new TJob());
         }
     }
 }

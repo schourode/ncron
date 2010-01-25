@@ -18,21 +18,21 @@ using System;
 
 namespace NCron.Service
 {
-    public class QueueEntry : IComparable<QueueEntry>
+    internal class QueueEntry : IComparable<QueueEntry>
     {
         private readonly ISchedule _schedule;
 
-        internal DateTime NextOccurence { get; private set; }
+        public DateTime NextOccurence { get; private set; }
 
         public Action<Action<ICronJob>> ExecuteCallback { internal get; set; }
 
-        internal QueueEntry(ISchedule schedule, DateTime baseTime)
+        public QueueEntry(ISchedule schedule, DateTime baseTime)
         {
             _schedule = schedule;
             NextOccurence = schedule.GetNextOccurrence(baseTime);
         }
 
-        internal void Advance()
+        public void Advance()
         {
             NextOccurence = _schedule.GetNextOccurrence(NextOccurence);
         }

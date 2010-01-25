@@ -18,27 +18,36 @@ using System;
 
 namespace NCron.Fluent.Reflection
 {
+    /// <summary>
+    /// Provides extension methods on the fluent API, allowing job registrations by late bound type references.
+    /// </summary>
     public static class Extensions
     {
         private static readonly Type[] NoFormalArguments = new Type[0];
         private static readonly object[] NoActualArguments = new object[0];
 
+        /// <summary>
+        /// Registers a job for execution using the job type as parameter.
+        /// </summary>
+        /// <param name="part">The fluent part upon which the job is to be registered.</param>
+        /// <param name="jobType">The type of the job to be created.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
         public static JobPart Run(this SchedulePart part, Type jobType)
         {
             var constructor = jobType.GetConstructor(NoFormalArguments);
             return part.Run(() => (ICronJob)constructor.Invoke(NoActualArguments));
         }
 
+        /// <summary>
+        /// Registers a job for execution using the job type name as parameter.
+        /// </summary>
+        /// <param name="part">The fluent part upon which the job is to be registered.</param>
+        /// <param name="jobType">The fully qualified type name of the job (including assembly name if from seperate assembly).</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
         public static JobPart Run(this SchedulePart part, string jobType)
         {
             var type = Type.GetType(jobType, true, false);
             return part.Run(type);
-        }
-
-        public static JobPart Run<T>(this SchedulePart part)
-            where T : ICronJob, new()
-        {
-            return part.Run(() => new T());
         }
     }
 }

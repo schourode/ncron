@@ -19,13 +19,21 @@ using NCron.Service;
 
 namespace NCron.Fluent
 {
+    /// <summary>
+    /// Represents a semi-configured schedule entry (without any job callback defined) in the fluent API.
+    /// </summary>
     public class SchedulePart : Part
     {
-        public SchedulePart(SchedulingService service, QueueEntry queueEntry)
+        internal SchedulePart(SchedulingService service, QueueEntry queueEntry)
             : base(service, queueEntry)
         {
         }
 
+        /// <summary>
+        /// Configures the schedule to run a job resolved using a specified closure.
+        /// </summary>
+        /// <param name="jobCallback">A method to create the <see cref="ICronJob"/> to be executed in the schedule.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
         public JobPart Run(Func<ICronJob> jobCallback)
         {
             QueueEntry.ExecuteCallback = (a) =>
@@ -39,30 +47,44 @@ namespace NCron.Fluent
             return new JobPart(Service, QueueEntry);
         }
 
-        public SchedulePart<TContext> With<TContext>(Func<TContext> contextCallback)
-            where TContext : IDisposable
+        /// <summary>
+        /// Configures the schedule to resolve its jobs using a specified container.
+        /// </summary>
+        /// <typeparam name="TContainer">The type of container used for this schedule.</typeparam>
+        /// <param name="containerCallback">A method to create a container to be used for job resolving.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public SchedulePart<TContainer> With<TContainer>(Func<TContainer> containerCallback)
+            where TContainer : IDisposable
         {
-            return new SchedulePart<TContext>(Service, QueueEntry, contextCallback);
+            return new SchedulePart<TContainer>(Service, QueueEntry, containerCallback);
         }
     }
 
-    public class SchedulePart<TContext> : Part
-        where TContext : IDisposable
+    /// <summary>
+    /// Represents a semi-configured schedule entry (without any job callback defined) in the fluent API.
+    /// </summary>
+    public class SchedulePart<TContainer> : Part
+        where TContainer : IDisposable
     {
-        private readonly Func<TContext> _contextCallback;
+        private readonly Func<TContainer> _containerCallback;
 
-        public SchedulePart(SchedulingService service, QueueEntry queueEntry, Func<TContext> contextCallback)
+        internal SchedulePart(SchedulingService service, QueueEntry queueEntry, Func<TContainer> containerCallback)
             : base(service, queueEntry)
         {
-            _contextCallback = contextCallback;
+            _containerCallback = containerCallback;
         }
 
-        public JobPart Run(Func<TContext, ICronJob> jobCallback)
+        /// <summary>
+        /// Configures the schedule to run a job resolved from a container using a specified closure.
+        /// </summary>
+        /// <param name="jobCallback">A method to create the <see cref="ICronJob"/> to be executed in the schedule.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public JobPart Run(Func<TContainer, ICronJob> jobCallback)
         {
             QueueEntry.ExecuteCallback = (a) =>
             {
-                using (var context = _contextCallback())
-                using (var job = jobCallback(context))
+                using (var container = _containerCallback())
+                using (var job = jobCallback(container))
                 {
                     a(job);
                 }

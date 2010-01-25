@@ -18,6 +18,9 @@ using System;
 
 namespace NCron
 {
+    /// <summary>
+    /// Defines the interface of a schedule containing an endless number of occurences.
+    /// </summary>
     public interface ISchedule
     {
         /// <summary>

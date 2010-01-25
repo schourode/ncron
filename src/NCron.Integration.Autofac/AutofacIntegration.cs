@@ -19,18 +19,38 @@ using NCron.Fluent;
 
 namespace NCron.Integration.Autofac
 {
+    /// <summary>
+    /// Provides extension methods on the fluent API, allowing job registrations using Autofac as resolving container.
+    /// </summary>
     public static class AutofacIntegration
     {
+        /// <summary>
+        /// Gets or sets the root container from which nested containers are created for each job execution.
+        /// This property should usually only be set once, and its value is never disposed.
+        /// </summary>
         public static IContainer RootContainer { private get; set; }
 
-        public static void Run<T>(this SchedulePart part) where T : ICronJob
+        /// <summary>
+        /// Registers a job to be executed using Autofac as resolving container.
+        /// </summary>
+        /// <typeparam name="TJob">The type of job to be registered. Must implement <see cref="ICronJob"/>.</typeparam>
+        /// <param name="part">The fluent part upon which the job is to be registered.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public static JobPart Run<TJob>(this SchedulePart part)
+            where TJob : ICronJob
         {
-            part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<T>());
+            return part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<TJob>());
         }
 
-        public static void Run(this SchedulePart part, string serviceName)
+        /// <summary>
+        /// Registers a job to be executed using Autofac as resolving container.
+        /// </summary>
+        /// <param name="part">The fluent part upon which the job is to be registered.</param>
+        /// <param name="serviceName">The name used when registering the component with Autofac.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public static JobPart Run(this SchedulePart part, string serviceName)
         {
-            part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<ICronJob>(serviceName));
+            return part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<ICronJob>(serviceName));
         }
     }
 }

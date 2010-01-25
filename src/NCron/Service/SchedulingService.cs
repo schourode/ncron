@@ -21,6 +21,9 @@ using NCron.Logging;
 
 namespace NCron.Service
 {
+    /// <summary>
+    /// Executes jobs according to specified schedules.
+    /// </summary>
     public class SchedulingService : IDisposable
     {
         private readonly IDictionary<string, QueueEntry> _namedEntries;
@@ -29,6 +32,9 @@ namespace NCron.Service
         private ILogFactory _logFactory;
         private QueueEntry _head;
 
+        /// <summary>
+        /// Sets the log factory that is used to create a log for each job execution.
+        /// </summary>
         public ILogFactory LogFactory
         {
             set { _logFactory = value; }
@@ -42,7 +48,7 @@ namespace NCron.Service
             _logFactory = new DefaultLogFactory();
         }
 
-        public QueueEntry AddSchedule(ISchedule schedule)
+        internal QueueEntry AddSchedule(ISchedule schedule)
         {
             var entry = new QueueEntry(schedule, DateTime.Now);
             _queue.Add(entry);
