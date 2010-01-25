@@ -46,15 +46,13 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AutofacJobFactory.cs" />
-    <Compile Include="ScopeNestingJobWrapper.cs" />
+    <Compile Include="AutofacIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlConfiguredJobFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCron\NCron.csproj">
       <Project>{31EB7758-6551-4FEE-A8A0-6B2449DD1DC7}</Project>
-      <Name>NCron.Framework</Name>
+      <Name>NCron</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

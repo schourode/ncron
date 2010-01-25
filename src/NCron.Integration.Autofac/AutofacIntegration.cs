@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009, 2010 Joern Schou-Rode
+ * Copyright 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,34 +15,22 @@
  */
 
 using Autofac;
-using NCron;
+using NCron.Fluent;
 
 namespace NCron.Integration.Autofac
 {
-    internal class ScopeNestingJobWrapper : ICronJob
+    public static class AutofacIntegration
     {
-        private readonly IContainer _container;
-        private readonly ICronJob _job;
+        public static IContainer RootContainer { private get; set; }
 
-        public ScopeNestingJobWrapper(IContainer container, ICronJob job)
+        public static void Run<T>(this SchedulePart part) where T : ICronJob
         {
-            _container = container;
-            _job = job;
+            part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<T>());
         }
 
-        public void Initialize(CronContext context)
+        public static void Run(this SchedulePart part, string serviceName)
         {
-            _job.Initialize(context);
-        }
-
-        public void Execute()
-        {
-            _job.Execute();
-        }
-
-        public void Dispose()
-        {
-            _container.Dispose();
+            part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<ICronJob>(serviceName));
         }
     }
 }
