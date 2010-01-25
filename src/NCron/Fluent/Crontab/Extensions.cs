@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009, 2010 Joern Schou-Rode
+ * Copyright 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
+using NCron.Service;
 
-namespace NCron.Service
+namespace NCron.Fluent.Crontab
 {
-    internal class JobCollection
+    public static class Extensions
     {
-        private readonly ICollection<Func<ICronJob>> _jobs = new List<Func<ICronJob>>();
-
-        public void Add(Func<ICronJob> jobConstructor)
+        public static SchedulePart At(this SchedulingService service, string crontab)
         {
-            _jobs.Add(jobConstructor);
-        }
-
-        public IEnumerable<ICronJob> GetInstances()
-        {
-            foreach (var constructor in _jobs)
-            {
-                yield return constructor();
-            }
+            var schedule = new CrontabScheduleAdapter(crontab);
+            return service.At(schedule);
         }
     }
 }

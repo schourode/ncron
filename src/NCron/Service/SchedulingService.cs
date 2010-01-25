@@ -42,12 +42,11 @@ namespace NCron.Service
             _logFactory = new DefaultLogFactory();
         }
 
-        public SchedulePart At(ISchedule schedule)
+        public QueueEntry AddSchedule(ISchedule schedule)
         {
             var entry = new QueueEntry(schedule, DateTime.Now);
             _queue.Add(entry);
-
-            return new SchedulePart(this, entry);
+            return entry;
         }
 
         internal void NameEntry(string name, QueueEntry entry)
@@ -90,7 +89,7 @@ namespace NCron.Service
             try
             {
                 var entry = (QueueEntry) data;
-                ExecuteEntry(entry);
+                entry.ExecuteCallback(ExecuteJob);
             }
             catch (Exception exception)
             {
@@ -98,35 +97,25 @@ namespace NCron.Service
             }
         }
 
-        private void ExecuteEntry(QueueEntry queueEntry)
+        private void ExecuteJob(ICronJob job)
         {
-            foreach (var job in queueEntry.Jobs.GetInstances())
+            using (var log = _logFactory.GetLogForJob(job))
             {
+                var context = new CronContext(job, log);
+
+                log.Info(() => String.Format("Executing job: {0}", job));
+
+                // This inner try-catch serves to report ICronJob failures to the ILog.
+                // Such exceptions are expected, and are thus handled seperately.
                 try
                 {
-                    using (var log = _logFactory.GetLogForJob(job))
-                    {
-                        var context = new CronContext(job, log);
-
-                        log.Info(() => string.Format("Executing job: {0}", job));
-
-                        // This inner try-catch serves to report ICronJob failures to the ILog.
-                        // Such exceptions are expected, and are thus handled seperately.
-                        try
-                        {
-                            job.Initialize(context);
-                            job.Execute();
-                        }
-                        catch (Exception exception)
-                        {
-                            log.Error(() => string.Format("The job \"{0}\" threw an unhandled exception.", job),
-                                      () => exception);
-                        }
-                    }
+                    job.Initialize(context);
+                    job.Execute();
                 }
-                finally
+                catch (Exception exception)
                 {
-                    job.Dispose();
+                    log.Error(() => String.Format("The job \"{0}\" threw an unhandled exception.", job),
+                              () => exception);
                 }
             }
         }
@@ -134,7 +123,7 @@ namespace NCron.Service
         internal void ExecuteNamedJob(string name)
         {
             var entry = _namedEntries[name];
-            ExecuteEntry(entry);
+            entry.ExecuteCallback(ExecuteJob);
         }
 
         public void Dispose()

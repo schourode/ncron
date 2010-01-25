@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-namespace NCron.Service.Crontab
+using NCron.Service;
+
+namespace NCron.Fluent
 {
-    public static class FluentExtensions
+    public abstract class Part
     {
-        public static SchedulePart At(this SchedulingService service, string crontab)
+        protected SchedulingService Service { get; private set; }
+        protected QueueEntry QueueEntry { get; private set; }
+
+        protected Part(SchedulingService service, QueueEntry queueEntry)
         {
-            var scheduleEntry = new CrontabScheduleAdapter(crontab);
-            return service.At(scheduleEntry);
+            Service = service;
+            QueueEntry = queueEntry;
         }
     }
 }

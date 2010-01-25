@@ -18,37 +18,28 @@ using System;
 
 namespace NCron.Service
 {
-    internal class QueueEntry : IComparable<QueueEntry>
+    public class QueueEntry : IComparable<QueueEntry>
     {
         private readonly ISchedule _schedule;
-        private readonly JobCollection _jobs;
-        private DateTime _nextOccurence;
 
-        public DateTime NextOccurence
-        {
-            get { return _nextOccurence; }
-        }
+        internal DateTime NextOccurence { get; private set; }
 
-        public JobCollection Jobs
-        {
-            get { return _jobs; }
-        }
+        public Action<Action<ICronJob>> ExecuteCallback { internal get; set; }
 
-        public QueueEntry(ISchedule schedule, DateTime baseTime)
+        internal QueueEntry(ISchedule schedule, DateTime baseTime)
         {
             _schedule = schedule;
-            _nextOccurence = schedule.GetNextOccurrence(baseTime);
-            _jobs = new JobCollection();
+            NextOccurence = schedule.GetNextOccurrence(baseTime);
+        }
+
+        internal void Advance()
+        {
+            NextOccurence = _schedule.GetNextOccurrence(NextOccurence);
         }
 
         public int CompareTo(QueueEntry other)
         {
             return NextOccurence.CompareTo(other.NextOccurence);
-        }
-
-        public void Advance()
-        {
-            _nextOccurence = _schedule.GetNextOccurrence(_nextOccurence);
         }
     }
 }

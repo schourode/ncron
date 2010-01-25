@@ -14,30 +14,20 @@
  * limitations under the License.
  */
 
-using System;
+using NCron.Service;
 
-namespace NCron.Service
+namespace NCron.Fluent
 {
-    public class SchedulePart
+    public class JobPart : Part
     {
-        private readonly SchedulingService _service;
-        private readonly QueueEntry _queueEntry;
-
-        internal SchedulePart(SchedulingService service, QueueEntry queueEntry)
+        internal JobPart(SchedulingService service, QueueEntry queueEntry)
+            : base(service, queueEntry)
         {
-            _service = service;
-            _queueEntry = queueEntry;
-        }
-
-        public SchedulePart Run(Func<ICronJob> job)
-        {
-            _queueEntry.Jobs.Add(job);
-            return this;
         }
 
         public void Named(string name)
         {
-            _service.NameEntry(name, _queueEntry);
+            Service.NameEntry(name, QueueEntry);
         }
     }
 }

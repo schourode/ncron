@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2009, 2010 Joern Schou-Rode
+ * Copyright 2010 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-using System;
+using NCron.Service;
 
-namespace NCron.Service.Reflection
+namespace NCron.Fluent
 {
-    public static class FluentExtensions
+    public static class Extensions
     {
-        private static readonly Type[] NoFormalArguments = new Type[0];
-        private static readonly object[] NoActualArguments = new object[0];
-
-        public static SchedulePart Run<T>(this SchedulePart part)
-            where T : ICronJob
+        public static SchedulePart At(this SchedulingService service, ISchedule schedule)
         {
-            var constructor = typeof(T).GetConstructor(NoFormalArguments);
-            return part.Run(() => (ICronJob) constructor.Invoke(NoActualArguments));
+            var entry = service.AddSchedule(schedule);
+            return new SchedulePart(service, entry);
         }
     }
 }
