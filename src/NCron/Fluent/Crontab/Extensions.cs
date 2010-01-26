@@ -36,5 +36,45 @@ namespace NCron.Fluent.Crontab
             var schedule = CrontabSchedule.Parse(crontab);
             return service.At(schedule.GetNextOccurrence);
         }
+
+        /// <summary>
+        /// Creates a new schedule executing once every hour.
+        /// </summary>
+        /// <param name="service">The service to which the schedule should be added.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public static SchedulePart Hourly(this SchedulingService service)
+        {
+            return service.At("01 * * * *");
+        }
+
+        /// <summary>
+        /// Creates a new schedule executing once every day.
+        /// </summary>
+        /// <param name="service">The service to which the schedule should be added.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public static SchedulePart Daily(this SchedulingService service)
+        {
+            return service.At("02 4 * * *");
+        }
+
+        /// <summary>
+        /// Creates a new schedule executing once every week.
+        /// </summary>
+        /// <param name="service">The service to which the schedule should be added.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public static SchedulePart Weekly(this SchedulingService service)
+        {
+            return service.At("22 4 * * 0");
+        }
+
+        /// <summary>
+        /// Creates a new schedule executing once every month.
+        /// </summary>
+        /// <param name="service">The service to which the schedule should be added.</param>
+        /// <returns>A part that allows chained fluent method calls.</returns>
+        public static SchedulePart Monthly(this SchedulingService service)
+        {
+            return service.At("42 4 1 * *");
+        }
     }
 }
