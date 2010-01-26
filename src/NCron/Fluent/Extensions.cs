@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System;
 using NCron.Service;
 
 namespace NCron.Fluent
@@ -34,5 +35,11 @@ namespace NCron.Fluent
             var entry = service.AddSchedule(schedule);
             return new SchedulePart(service, entry);
         }
+
+        /*public static SchedulePart At(this SchedulingService service, Func<DateTime, DateTime> schedule)
+        {
+            var entry = service.AddSchedule(schedule);
+            return new SchedulePart(service, entry);
+        }*/
     }
 }

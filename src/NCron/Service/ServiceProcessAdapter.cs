@@ -15,10 +15,10 @@
  */
 
 using System.ServiceProcess;
-using NCron.Service;
 
 namespace NCron.Service
 {
+    [System.ComponentModel.DesignerCategory("Code")]
     internal class ServiceProcessAdapter : ServiceBase
     {
         private readonly SchedulingService _service;

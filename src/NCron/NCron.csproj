@@ -76,14 +76,11 @@
     <Compile Include="Logging\ILog.cs" />
     <Compile Include="Logging\ILogFactory.cs" />
     <Compile Include="Service\QueueEntry.cs" />
-    <Compile Include="Service\Bootstrap.cs" />
-    <Compile Include="Service\ProjectInstaller.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Service\EntryPoint.cs">
     </Compile>
     <Compile Include="Fluent\SchedulePart.cs" />
     <Compile Include="Service\SchedulingService.cs" />
     <Compile Include="Service\ServiceProcessAdapter.cs">
-      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
