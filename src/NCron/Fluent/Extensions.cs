@@ -28,18 +28,12 @@ namespace NCron.Fluent
         /// Adds a new schedule to the service and returns an object that allows a chained fluent job registration.
         /// </summary>
         /// <param name="service">The service to which the schedule should be added.</param>
-        /// <param name="schedule">The schedule to register within the service.</param>
+        /// <param name="schedule">A method for calculating the next occurence from a specified base.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart At(this SchedulingService service, ISchedule schedule)
+        public static SchedulePart At(this SchedulingService service, Func<DateTime, DateTime> schedule)
         {
             var entry = service.AddSchedule(schedule);
             return new SchedulePart(service, entry);
         }
-
-        /*public static SchedulePart At(this SchedulingService service, Func<DateTime, DateTime> schedule)
-        {
-            var entry = service.AddSchedule(schedule);
-            return new SchedulePart(service, entry);
-        }*/
     }
 }

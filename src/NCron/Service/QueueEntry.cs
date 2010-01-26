@@ -20,21 +20,21 @@ namespace NCron.Service
 {
     internal class QueueEntry : IComparable<QueueEntry>
     {
-        private readonly ISchedule _schedule;
+        private readonly Func<DateTime, DateTime> _schedule;
 
         public DateTime NextOccurence { get; private set; }
 
         public Action<Action<ICronJob>> ExecuteCallback { internal get; set; }
 
-        public QueueEntry(ISchedule schedule, DateTime baseTime)
+        public QueueEntry(Func<DateTime, DateTime> schedule, DateTime baseTime)
         {
             _schedule = schedule;
-            NextOccurence = schedule.GetNextOccurrence(baseTime);
+            NextOccurence = schedule(baseTime);
         }
 
         public void Advance()
         {
-            NextOccurence = _schedule.GetNextOccurrence(NextOccurence);
+            NextOccurence = _schedule(NextOccurence);
         }
 
         public int CompareTo(QueueEntry other)

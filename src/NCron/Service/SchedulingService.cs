@@ -48,7 +48,7 @@ namespace NCron.Service
             _logFactory = new DefaultLogFactory();
         }
 
-        internal QueueEntry AddSchedule(ISchedule schedule)
+        internal QueueEntry AddSchedule(Func<DateTime, DateTime> schedule)
         {
             var entry = new QueueEntry(schedule, DateTime.Now);
             _queue.Add(entry);

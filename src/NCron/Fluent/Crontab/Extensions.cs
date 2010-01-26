@@ -15,6 +15,7 @@
  */
 
 using NCron.Service;
+using NCrontab;
 
 namespace NCron.Fluent.Crontab
 {
@@ -32,8 +33,8 @@ namespace NCron.Fluent.Crontab
         /// <returns>A part that allows chained fluent method calls.</returns>
         public static SchedulePart At(this SchedulingService service, string crontab)
         {
-            var schedule = new CrontabScheduleAdapter(crontab);
-            return service.At(schedule);
+            var schedule = CrontabSchedule.Parse(crontab);
+            return service.At(schedule.GetNextOccurrence);
         }
     }
 }
