@@ -99,7 +99,7 @@ namespace NCron.Service
             }
             catch (Exception exception)
             {
-                EntryPoint.LogUnhandledException(exception);
+                Bootstrap.LogUnhandledException(exception);
             }
         }
 

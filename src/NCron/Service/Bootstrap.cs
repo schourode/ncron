@@ -26,9 +26,7 @@ namespace NCron.Service
     /// <summary>
     /// Defines the method which should be called from the entry point of all NCron based applications.
     /// </summary>
-    [System.ComponentModel.RunInstaller(true)]
-    [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class EntryPoint : Installer
+    public static class Bootstrap
     {
         // We explicitly use the EventLog for logging purposes in the main exception handling.
         // If the configuration cannot be loaded - and no log factory created - it will be logged.
@@ -61,7 +59,7 @@ namespace NCron.Service
         /// </summary>
         /// <param name="args">The command line parameters passed to the application.</param>
         /// <param name="setupHandler">A method that sets up the scheduling service according to application needs.</param>
-        public static void Bootstrap(string[] args, Action<SchedulingService> setupHandler)
+        public static void Init(string[] args, Action<SchedulingService> setupHandler)
         {
             if (!Environment.UserInteractive)
             {
@@ -152,55 +150,24 @@ namespace NCron.Service
         {
             try
             {
-                using (var installer = new AssemblyInstaller { Assembly = Assembly.GetEntryAssembly(), UseNewContext = true })
-                {
-                    var state = new Hashtable();
+                var appAssembly = Assembly.GetEntryAssembly();
 
-                    try
+                using (var installer = new ProjectInstaller(appAssembly))
+                {
+                    if (undo)
                     {
-                        if (undo)
-                        {
-                            installer.Uninstall(state);
-                        }
-                        else
-                        {
-                            installer.Install(state);
-                            installer.Commit(state);
-                        }
+                        installer.Uninstall();
                     }
-                    catch
+                    else
                     {
-                        try
-                        {
-                            installer.Rollback(state);
-                        }
-                        catch { }
-                        throw;
+                        installer.Install();
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex);
             }
-        }
-
-        protected EntryPoint()
-        {
-            var serviceName = GetType().Assembly.GetName().Name;
-
-            Installers.Add(new ServiceProcessInstaller
-                               {
-                                   Account = ServiceAccount.LocalService
-                               });
-
-            Installers.Add(new ServiceInstaller
-                               {
-                                   ServiceName = serviceName,
-                                   DisplayName = serviceName,
-                                   Description = "Executes scheduled jobs.",
-                                   StartType = ServiceStartMode.Automatic
-                               });
         }
     }
 }
