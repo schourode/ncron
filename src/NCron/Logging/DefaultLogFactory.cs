@@ -15,6 +15,7 @@
  */
 
 using System.Diagnostics;
+using System.Reflection;
 
 namespace NCron.Logging
 {
@@ -23,6 +24,17 @@ namespace NCron.Logging
     /// </summary>
     public class DefaultLogFactory : ILogFactory
     {
+        private readonly string _sourceName;
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="DefaultLogFactory"/> class.
+        /// </summary>
+        public DefaultLogFactory()
+        {
+            var appAssembly = Assembly.GetEntryAssembly();
+            _sourceName = appAssembly.GetName().Name;
+        }
+
         /// <summary>
         /// Gets an <see cref="EventLogAdapter"/> instance, writing to the "Application" event log with a source name of "NCron".
         /// </summary>
@@ -30,7 +42,7 @@ namespace NCron.Logging
         /// <returns>An <see cref="EventLogAdapter"/>, writing to the "Application" event log with a source name of "NCron".</returns>
         public ILog GetLogForJob(ICronJob job)
         {
-            var eventLog = new EventLog { Source = "NCron" };
+            var eventLog = new EventLog { Source = _sourceName };
             return new EventLogAdapter(eventLog);
         }
     }
