@@ -31,7 +31,8 @@ namespace NCron.Service
         // We explicitly use the EventLog for logging purposes in the main exception handling.
         // If the configuration cannot be loaded - and no log factory created - it will be logged.
         // If a custom ILog implementation throws, this will also be logged here.
-        private static readonly EventLog CoreLog = new EventLog { Source = "NCron" };
+        internal static string ApplicationName = Assembly.GetEntryAssembly().GetName().Name;
+        private static readonly EventLog CoreLog = new EventLog { Source = ApplicationName };
         
         internal static void LogUnhandledException(object exception)
         {
