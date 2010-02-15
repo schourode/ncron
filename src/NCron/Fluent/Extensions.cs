@@ -32,8 +32,7 @@ namespace NCron.Fluent
         /// <returns>A part that allows chained fluent method calls.</returns>
         public static SchedulePart At(this SchedulingService service, Func<DateTime, DateTime> schedule)
         {
-            var entry = service.AddSchedule(schedule);
-            return new SchedulePart(service, entry);
+            return new SchedulePart(service, schedule);
         }
     }
 }

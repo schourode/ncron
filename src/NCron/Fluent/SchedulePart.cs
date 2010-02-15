@@ -22,11 +22,15 @@ namespace NCron.Fluent
     /// <summary>
     /// Represents a semi-configured schedule entry (without any job callback defined) in the fluent API.
     /// </summary>
-    public class SchedulePart : Part
+    public class SchedulePart
     {
-        internal SchedulePart(SchedulingService service, QueueEntry queueEntry)
-            : base(service, queueEntry)
+        private readonly SchedulingService _service;
+        private readonly Func<DateTime, DateTime> _schedule;
+
+        internal SchedulePart(SchedulingService service, Func<DateTime, DateTime> schedule)
         {
+            _service = service;
+            _schedule = schedule;
         }
 
         /// <summary>
@@ -36,7 +40,7 @@ namespace NCron.Fluent
         /// <returns>A part that allows chained fluent method calls.</returns>
         public JobPart Run(Func<ICronJob> jobCallback)
         {
-            QueueEntry.ExecuteCallback = (a) =>
+            Action<Action<ICronJob>> executeCallback = (a) =>
             {
                 using (var job = jobCallback())
                 {
@@ -44,7 +48,9 @@ namespace NCron.Fluent
                 }
             };
 
-            return new JobPart(Service, QueueEntry);
+            var entry = _service.AddScheduledJob(_schedule, executeCallback);
+
+            return new JobPart(_service, entry);
         }
 
         /// <summary>
@@ -56,21 +62,24 @@ namespace NCron.Fluent
         public SchedulePart<TContainer> With<TContainer>(Func<TContainer> containerCallback)
             where TContainer : IDisposable
         {
-            return new SchedulePart<TContainer>(Service, QueueEntry, containerCallback);
+            return new SchedulePart<TContainer>(_service, _schedule, containerCallback);
         }
     }
 
     /// <summary>
     /// Represents a semi-configured schedule entry (without any job callback defined) in the fluent API.
     /// </summary>
-    public class SchedulePart<TContainer> : Part
+    public class SchedulePart<TContainer>
         where TContainer : IDisposable
     {
+        private readonly SchedulingService _service;
+        private readonly Func<DateTime, DateTime> _schedule;
         private readonly Func<TContainer> _containerCallback;
 
-        internal SchedulePart(SchedulingService service, QueueEntry queueEntry, Func<TContainer> containerCallback)
-            : base(service, queueEntry)
+        internal SchedulePart(SchedulingService service, Func<DateTime, DateTime> schedule, Func<TContainer> containerCallback)
         {
+            _service = service;
+            _schedule = schedule;
             _containerCallback = containerCallback;
         }
 
@@ -81,7 +90,7 @@ namespace NCron.Fluent
         /// <returns>A part that allows chained fluent method calls.</returns>
         public JobPart Run(Func<TContainer, ICronJob> jobCallback)
         {
-            QueueEntry.ExecuteCallback = (a) =>
+            Action<Action<ICronJob>> executeCallback = (a) =>
             {
                 using (var container = _containerCallback())
                 using (var job = jobCallback(container))
@@ -90,7 +99,9 @@ namespace NCron.Fluent
                 }
             };
 
-            return new JobPart(Service, QueueEntry);
+            var entry = _service.AddScheduledJob(_schedule, executeCallback);
+
+            return new JobPart(_service, entry);
         }
     }
 }

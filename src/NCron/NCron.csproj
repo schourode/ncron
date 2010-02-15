@@ -61,7 +61,6 @@
     </Compile>
     <Compile Include="Fluent\Extensions.cs" />
     <Compile Include="Fluent\Generics\Extensions.cs" />
-    <Compile Include="Fluent\Part.cs" />
     <Compile Include="Fluent\JobPart.cs" />
     <Compile Include="Fluent\Reflection\Extensions.cs" />
     <Compile Include="Fluent\Crontab\Extensions.cs" />

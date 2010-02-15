@@ -48,14 +48,14 @@ namespace NCron.Service
             _logFactory = new DefaultLogFactory();
         }
 
-        internal QueueEntry AddSchedule(Func<DateTime, DateTime> schedule)
+        public QueueEntry AddScheduledJob(Func<DateTime, DateTime> schedule, Action<Action<ICronJob>> executionWrapper)
         {
-            var entry = new QueueEntry(schedule, DateTime.Now);
+            var entry = new QueueEntry(schedule, executionWrapper, DateTime.Now);
             _queue.Add(entry);
             return entry;
         }
 
-        internal void NameEntry(string name, QueueEntry entry)
+        public void AddNamedJob(string name, QueueEntry entry)
         {
             _namedEntries.Add(name, entry);
         }
@@ -95,7 +95,7 @@ namespace NCron.Service
             try
             {
                 var entry = (QueueEntry) data;
-                entry.ExecuteCallback(ExecuteJob);
+                entry.ExecutionWrapper(ExecuteJob);
             }
             catch (Exception exception)
             {
@@ -129,7 +129,7 @@ namespace NCron.Service
         internal void ExecuteNamedJob(string name)
         {
             var entry = _namedEntries[name];
-            entry.ExecuteCallback(ExecuteJob);
+            entry.ExecutionWrapper(ExecuteJob);
         }
 
         public void Dispose()

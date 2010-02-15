@@ -21,11 +21,15 @@ namespace NCron.Fluent
     /// <summary>
     /// Represents a configured schedule entry in the fluent API.
     /// </summary>
-    public class JobPart : Part
+    public class JobPart
     {
+        private readonly SchedulingService _service;
+        private readonly QueueEntry _queueEntry;
+
         internal JobPart(SchedulingService service, QueueEntry queueEntry)
-            : base(service, queueEntry)
         {
+            _service = service;
+            _queueEntry = queueEntry;
         }
 
         /// <summary>
@@ -34,7 +38,7 @@ namespace NCron.Fluent
         /// <param name="name">The name under which the schedule entry should be registered.</param>
         public void Named(string name)
         {
-            Service.NameEntry(name, QueueEntry);
+            _service.AddNamedJob(name, _queueEntry);
         }
     }
 }
