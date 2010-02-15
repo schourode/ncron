@@ -72,9 +72,10 @@
     <Compile Include="Logging\DefaultLogFactory.cs" />
     <Compile Include="Logging\ILog.cs" />
     <Compile Include="Logging\ILogFactory.cs" />
+    <Compile Include="Service\Delegates.cs" />
     <Compile Include="Service\ProjectInstaller.cs">
     </Compile>
-    <Compile Include="Service\QueueEntry.cs" />
+    <Compile Include="Service\ScheduledJob.cs" />
     <Compile Include="Service\Bootstrap.cs">
     </Compile>
     <Compile Include="Fluent\SchedulePart.cs" />

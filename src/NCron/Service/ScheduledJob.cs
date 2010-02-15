@@ -18,15 +18,24 @@ using System;
 
 namespace NCron.Service
 {
-    public class QueueEntry : IComparable<QueueEntry>
+    /// <summary>
+    /// Defines a job scheduled for execution.
+    /// </summary>
+    public class ScheduledJob : IComparable<ScheduledJob>
     {
         private readonly Func<DateTime, DateTime> _schedule;
 
+        /// <summary>
+        /// Gets the execution wrapper method to be invoked on each occurence of the job.
+        /// </summary>
+        public JobExecutionWrapper ExecutionWrapper { get; private set; }
+
+        /// <summary>
+        /// Gets the date and time of the next occurence of the job.
+        /// </summary>
         public DateTime NextOccurence { get; private set; }
 
-        public Action<Action<ICronJob>> ExecutionWrapper { get; private set; }
-
-        internal QueueEntry(Func<DateTime, DateTime> schedule, Action<Action<ICronJob>> executionWrapper, DateTime baseTime)
+        internal ScheduledJob(Func<DateTime, DateTime> schedule, JobExecutionWrapper executionWrapper, DateTime baseTime)
         {
             _schedule = schedule;
             ExecutionWrapper = executionWrapper;
@@ -38,7 +47,7 @@ namespace NCron.Service
             NextOccurence = _schedule(NextOccurence);
         }
 
-        public int CompareTo(QueueEntry other)
+        public int CompareTo(ScheduledJob other)
         {
             return NextOccurence.CompareTo(other.NextOccurence);
         }

@@ -26,11 +26,11 @@ namespace NCron.Service
     /// </summary>
     public class SchedulingService : IDisposable
     {
-        private readonly IDictionary<string, QueueEntry> _namedEntries;
-        private readonly IPriorityQueue<QueueEntry> _queue;
         private readonly Timer _timer;
+        private readonly IPriorityQueue<ScheduledJob> _queue;
+        private readonly IDictionary<string, JobExecutionWrapper> _namedEntries;
         private ILogFactory _logFactory;
-        private QueueEntry _head;
+        private ScheduledJob _head;
 
         /// <summary>
         /// Sets the log factory that is used to create a log for each job execution.
@@ -42,22 +42,33 @@ namespace NCron.Service
 
         internal SchedulingService()
         {
-            _namedEntries = new HashDictionary<string, QueueEntry>();
-            _queue = new IntervalHeap<QueueEntry>();
             _timer = new Timer(TimerCallbackHandler);
+            _queue = new IntervalHeap<ScheduledJob>();
+            _namedEntries = new HashDictionary<string, JobExecutionWrapper>();
             _logFactory = new DefaultLogFactory();
         }
 
-        public QueueEntry AddScheduledJob(Func<DateTime, DateTime> schedule, Action<Action<ICronJob>> executionWrapper)
+        /// <summary>
+        /// Adds a scheduled job for automatic execution by this service.
+        /// </summary>
+        /// <param name="schedule">A method for computation of occurrences in the schedule, taking last execution as parameter.</param>
+        /// <param name="executionWrapper">The execution wrapper method to be invoked on each occurence of the job.</param>
+        /// <returns>The newly scheduled job.</returns>
+        public ScheduledJob AddScheduledJob(Func<DateTime, DateTime> schedule, JobExecutionWrapper executionWrapper)
         {
-            var entry = new QueueEntry(schedule, executionWrapper, DateTime.Now);
+            var entry = new ScheduledJob(schedule, executionWrapper, DateTime.Now);
             _queue.Add(entry);
             return entry;
         }
 
-        public void AddNamedJob(string name, QueueEntry entry)
+        /// <summary>
+        /// Adds a named job for manual execution by this service.
+        /// </summary>
+        /// <param name="name">The name under which the job should be registered.</param>
+        /// <param name="executionWrapper">The execution wrapper method to be invoked on each invocation of the job.</param>
+        public void AddNamedJob(string name, JobExecutionWrapper executionWrapper)
         {
-            _namedEntries.Add(name, entry);
+            _namedEntries.Add(name, executionWrapper);
         }
 
         internal void Start()
@@ -94,7 +105,7 @@ namespace NCron.Service
             // Without this, the application will crash if something (eg a custom ILog) throws.
             try
             {
-                var entry = (QueueEntry) data;
+                var entry = (ScheduledJob) data;
                 entry.ExecutionWrapper(ExecuteJob);
             }
             catch (Exception exception)
@@ -128,8 +139,16 @@ namespace NCron.Service
 
         internal void ExecuteNamedJob(string name)
         {
-            var entry = _namedEntries[name];
-            entry.ExecutionWrapper(ExecuteJob);
+            JobExecutionWrapper executionWrapper;
+
+            if (!_namedEntries.Find(name, out executionWrapper))
+            {
+                throw new ArgumentException(
+                    string.Format("No job is registered with the name \"{0}\".", name)
+                );
+            }
+
+            executionWrapper(ExecuteJob);
         }
 
         public void Dispose()

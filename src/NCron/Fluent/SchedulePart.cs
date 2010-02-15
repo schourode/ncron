@@ -40,7 +40,7 @@ namespace NCron.Fluent
         /// <returns>A part that allows chained fluent method calls.</returns>
         public JobPart Run(Func<ICronJob> jobCallback)
         {
-            Action<Action<ICronJob>> executeCallback = (a) =>
+            JobExecutionWrapper executionWrapper = (a) =>
             {
                 using (var job = jobCallback())
                 {
@@ -48,7 +48,7 @@ namespace NCron.Fluent
                 }
             };
 
-            var entry = _service.AddScheduledJob(_schedule, executeCallback);
+            var entry = _service.AddScheduledJob(_schedule, executionWrapper);
 
             return new JobPart(_service, entry);
         }
@@ -90,7 +90,7 @@ namespace NCron.Fluent
         /// <returns>A part that allows chained fluent method calls.</returns>
         public JobPart Run(Func<TContainer, ICronJob> jobCallback)
         {
-            Action<Action<ICronJob>> executeCallback = (a) =>
+            JobExecutionWrapper executionWrapper = (a) =>
             {
                 using (var container = _containerCallback())
                 using (var job = jobCallback(container))
@@ -99,7 +99,7 @@ namespace NCron.Fluent
                 }
             };
 
-            var entry = _service.AddScheduledJob(_schedule, executeCallback);
+            var entry = _service.AddScheduledJob(_schedule, executionWrapper);
 
             return new JobPart(_service, entry);
         }

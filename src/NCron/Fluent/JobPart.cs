@@ -24,9 +24,9 @@ namespace NCron.Fluent
     public class JobPart
     {
         private readonly SchedulingService _service;
-        private readonly QueueEntry _queueEntry;
+        private readonly ScheduledJob _queueEntry;
 
-        internal JobPart(SchedulingService service, QueueEntry queueEntry)
+        internal JobPart(SchedulingService service, ScheduledJob queueEntry)
         {
             _service = service;
             _queueEntry = queueEntry;
@@ -38,7 +38,7 @@ namespace NCron.Fluent
         /// <param name="name">The name under which the schedule entry should be registered.</param>
         public void Named(string name)
         {
-            _service.AddNamedJob(name, _queueEntry);
+            _service.AddNamedJob(name, _queueEntry.ExecutionWrapper);
         }
     }
 }
