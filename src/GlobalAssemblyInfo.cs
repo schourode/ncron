@@ -16,9 +16,8 @@
 
 using System.Reflection;
 
-[assembly: AssemblyProduct("NCron Job Scheduler")]
+[assembly: AssemblyProduct("NCron - .NET Scheduling Framework")]
 [assembly: AssemblyCopyright("Copyright 2008-2010 Joern Schou-Rode")]
-[assembly: AssemblyCompany("Malamute.dk")]
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]

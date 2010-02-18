@@ -17,7 +17,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("NCron framework")]
-[assembly: AssemblyDescription("Contains the core framework of NCron, should be referenced when building jobs and extensions.")]
+[assembly: AssemblyTitle("NCron")]
+[assembly: AssemblyDescription("NCron - .NET Scheduling Framework")]
 
 [assembly: ComVisible(false)]
