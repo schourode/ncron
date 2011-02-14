@@ -84,19 +84,20 @@ namespace NCron.Service
 
         private void TimerCallbackHandler(object data)
         {
-            if (DateTime.Now >= _head.NextOccurence)
+            var waitTime = _head.NextOccurence - DateTime.Now;
+            var waitMilliseconds = (long) waitTime.TotalMilliseconds;
+
+            if (waitMilliseconds > 0)
             {
-                ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _head);
-                _head.Advance();
-                _queue.Add(_head);
-                _head = _queue.DeleteMin();
-                TimerCallbackHandler(null);
+                _timer.Change(waitMilliseconds, Timeout.Infinite);
+                return;
             }
-            else
-            {
-                var timeToNext = _head.NextOccurence - DateTime.Now;
-                _timer.Change((long) timeToNext.TotalMilliseconds, Timeout.Infinite);
-            }
+
+            ThreadPool.QueueUserWorkItem(WaitCallbackHandler, _head);
+            _head.Advance();
+            _queue.Add(_head);
+            _head = _queue.DeleteMin();
+            TimerCallbackHandler(null);
         }
 
         private void WaitCallbackHandler(object data)
