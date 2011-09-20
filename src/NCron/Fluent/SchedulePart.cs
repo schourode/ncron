@@ -24,10 +24,10 @@ namespace NCron.Fluent
     /// </summary>
     public class SchedulePart
     {
-        private readonly SchedulingService _service;
+        private readonly ISchedulingService _service;
         private readonly Func<DateTime, DateTime> _schedule;
 
-        internal SchedulePart(SchedulingService service, Func<DateTime, DateTime> schedule)
+        internal SchedulePart(ISchedulingService service, Func<DateTime, DateTime> schedule)
         {
             _service = service;
             _schedule = schedule;
@@ -72,11 +72,11 @@ namespace NCron.Fluent
     public class SchedulePart<TContainer>
         where TContainer : IDisposable
     {
-        private readonly SchedulingService _service;
+        private readonly ISchedulingService _service;
         private readonly Func<DateTime, DateTime> _schedule;
         private readonly Func<TContainer> _containerCallback;
 
-        internal SchedulePart(SchedulingService service, Func<DateTime, DateTime> schedule, Func<TContainer> containerCallback)
+        internal SchedulePart(ISchedulingService service, Func<DateTime, DateTime> schedule, Func<TContainer> containerCallback)
         {
             _service = service;
             _schedule = schedule;

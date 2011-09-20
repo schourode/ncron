@@ -30,7 +30,7 @@ namespace NCron.Fluent
         /// <param name="service">The service to which the schedule should be added.</param>
         /// <param name="schedule">A method for calculating the next occurence from a specified base.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart At(this SchedulingService service, Func<DateTime, DateTime> schedule)
+        public static SchedulePart At(this ISchedulingService service, Func<DateTime, DateTime> schedule)
         {
             return new SchedulePart(service, schedule);
         }

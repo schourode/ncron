@@ -21,9 +21,9 @@ namespace NCron.Service
     [System.ComponentModel.DesignerCategory("Code")]
     internal class ServiceProcessAdapter : ServiceBase
     {
-        private readonly SchedulingService _service;
+        private readonly ISchedulingService _service;
         
-        public ServiceProcessAdapter(SchedulingService service)
+        public ServiceProcessAdapter(ISchedulingService service)
         {
             _service = service;
         }
