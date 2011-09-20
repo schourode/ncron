@@ -38,7 +38,7 @@ namespace NCron.Logging
         /// <returns>An <see cref="EventLogAdapter"/>, writing to the "Application" event log with a source name of "NCron".</returns>
         public ILog GetLogForJob(ICronJob job)
         {
-            var eventLog = new EventLog { Source = Bootstrap.ApplicationName };
+            var eventLog = new EventLog { Source = ApplicationInfo.ApplicationName };
             return new EventLogAdapter(eventLog);
         }
     }

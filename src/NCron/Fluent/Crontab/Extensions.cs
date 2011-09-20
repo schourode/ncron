@@ -31,7 +31,7 @@ namespace NCron.Fluent.Crontab
         /// <param name="service">The service to which the schedule should be added.</param>
         /// <param name="crontab">A crontab expression describing the schedule.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart At(this SchedulingService service, string crontab)
+        public static SchedulePart At(this ISchedulingService service, string crontab)
         {
             var schedule = CrontabSchedule.Parse(crontab);
             return service.At(schedule.GetNextOccurrence);
@@ -42,7 +42,7 @@ namespace NCron.Fluent.Crontab
         /// </summary>
         /// <param name="service">The service to which the schedule should be added.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart Hourly(this SchedulingService service)
+        public static SchedulePart Hourly(this ISchedulingService service)
         {
             return service.At("01 * * * *");
         }
@@ -52,7 +52,7 @@ namespace NCron.Fluent.Crontab
         /// </summary>
         /// <param name="service">The service to which the schedule should be added.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart Daily(this SchedulingService service)
+        public static SchedulePart Daily(this ISchedulingService service)
         {
             return service.At("02 4 * * *");
         }
@@ -62,7 +62,7 @@ namespace NCron.Fluent.Crontab
         /// </summary>
         /// <param name="service">The service to which the schedule should be added.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart Weekly(this SchedulingService service)
+        public static SchedulePart Weekly(this ISchedulingService service)
         {
             return service.At("22 4 * * 0");
         }
@@ -72,7 +72,7 @@ namespace NCron.Fluent.Crontab
         /// </summary>
         /// <param name="service">The service to which the schedule should be added.</param>
         /// <returns>A part that allows chained fluent method calls.</returns>
-        public static SchedulePart Monthly(this SchedulingService service)
+        public static SchedulePart Monthly(this ISchedulingService service)
         {
             return service.At("42 4 1 * *");
         }
