@@ -61,6 +61,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ExceptionHelper.cs" />
     <Compile Include="Fluent\Extensions.cs" />
     <Compile Include="Fluent\Generics\Extensions.cs" />
     <Compile Include="Fluent\JobPart.cs" />
@@ -74,7 +75,9 @@
     <Compile Include="Logging\DefaultLogFactory.cs" />
     <Compile Include="Logging\ILog.cs" />
     <Compile Include="Logging\ILogFactory.cs" />
+    <Compile Include="ApplicationInfo.cs" />
     <Compile Include="Service\Delegates.cs" />
+    <Compile Include="Service\ISchedulingService.cs" />
     <Compile Include="Service\ProjectInstaller.cs">
     </Compile>
     <Compile Include="Service\ScheduledJob.cs" />

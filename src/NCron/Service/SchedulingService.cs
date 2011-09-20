@@ -24,7 +24,7 @@ namespace NCron.Service
     /// <summary>
     /// Executes jobs according to specified schedules.
     /// </summary>
-    public class SchedulingService : IDisposable
+    public class SchedulingService : IDisposable, ISchedulingService
     {
         private readonly Timer _timer;
         private readonly IPriorityQueue<ScheduledJob> _queue;
@@ -40,7 +40,7 @@ namespace NCron.Service
             set { _logFactory = value; }
         }
 
-        internal SchedulingService()
+        public SchedulingService()
         {
             _timer = new Timer(TimerCallbackHandler);
             _queue = new IntervalHeap<ScheduledJob>();
@@ -71,13 +71,13 @@ namespace NCron.Service
             _namedEntries.Add(name, executionWrapper);
         }
 
-        internal void Start()
+        public void Start()
         {
             _head = _queue.DeleteMin();
             TimerCallbackHandler(null);
         }
 
-        internal void Stop()
+        public void Stop()
         {
             _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
@@ -111,7 +111,7 @@ namespace NCron.Service
             }
             catch (Exception exception)
             {
-                Bootstrap.LogUnhandledException(exception);
+                ExceptionHelper.LogUnhandledException(exception);
             }
         }
 

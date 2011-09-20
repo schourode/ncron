@@ -23,10 +23,10 @@ namespace NCron.Fluent
     /// </summary>
     public class JobPart
     {
-        private readonly SchedulingService _service;
+        private readonly ISchedulingService _service;
         private readonly ScheduledJob _queueEntry;
 
-        internal JobPart(SchedulingService service, ScheduledJob queueEntry)
+        internal JobPart(ISchedulingService service, ScheduledJob queueEntry)
         {
             _service = service;
             _queueEntry = queueEntry;

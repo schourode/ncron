@@ -15,7 +15,6 @@
  */
 
 using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.ServiceProcess;
 
@@ -26,20 +25,10 @@ namespace NCron.Service
     /// </summary>
     public static class Bootstrap
     {
-        // We explicitly use the EventLog for logging purposes in the main exception handling.
-        // If the configuration cannot be loaded - and no log factory created - it will be logged.
-        // If a custom ILog implementation throws, this will also be logged here.
-        internal static string ApplicationName = Assembly.GetEntryAssembly().GetName().Name;
-        private static readonly EventLog CoreLog = new EventLog { Source = ApplicationName };
-        
-        internal static void LogUnhandledException(object exception)
-        {
-            CoreLog.WriteEntry("An unhandled exception has occured. " + exception, EventLogEntryType.Error);
-        }
 
         private static void PrintUsageGuide()
         {
-            var assemblyName = Assembly.GetEntryAssembly().GetName().Name;
+            var assemblyName = ApplicationInfo.ApplicationName;
 
             Console.WriteLine("Usage:");
             Console.WriteLine("  {0} debug", assemblyName);
@@ -58,7 +47,7 @@ namespace NCron.Service
         /// </summary>
         /// <param name="args">The command line parameters passed to the application.</param>
         /// <param name="setupHandler">A method that sets up the scheduling service according to application needs.</param>
-        public static void Init(string[] args, Action<SchedulingService> setupHandler)
+        public static void Init(string[] args, Action<ISchedulingService> setupHandler)
         {
             if (!Environment.UserInteractive)
             {
@@ -97,12 +86,12 @@ namespace NCron.Service
             }
         }
 
-        private static void RunService(Action<SchedulingService> setupHandler, bool debug)
+        private static void RunService(Action<ISchedulingService> setupHandler, bool debug)
         {
             try
             {
                 AppDomain.CurrentDomain.UnhandledException +=
-                    (o, e) => LogUnhandledException(e.ExceptionObject);
+                    (o, e) => ExceptionHelper.LogUnhandledException(e.ExceptionObject);
 
                 using (var service = new SchedulingService())
                 {
@@ -125,11 +114,11 @@ namespace NCron.Service
             }
             catch (Exception exception)
             {
-                LogUnhandledException(exception);
+                ExceptionHelper.LogUnhandledException(exception);
             }
         }
 
-        private static void ExecuteJob(Action<SchedulingService> setupHandler, string jobName)
+        private static void ExecuteJob(Action<ISchedulingService> setupHandler, string jobName)
         {
             try
             {
