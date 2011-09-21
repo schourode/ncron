@@ -142,7 +142,7 @@ namespace NCron.Service
         {
             JobExecutionWrapper executionWrapper;
 
-            if (!_namedEntries.Find(name, out executionWrapper))
+            if (!_namedEntries.Find(ref name, out executionWrapper))
             {
                 throw new ArgumentException(
                     string.Format("No job is registered with the name \"{0}\".", name)

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2010 Joern Schou-Rode
+ * Copyright 2010-2011 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ namespace NCron.Integration.Autofac
         public static JobPart Run<TJob>(this SchedulePart part)
             where TJob : ICronJob
         {
-            return part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<TJob>());
+            return part.With(() => RootContainer.BeginLifetimeScope()).Run(c => c.Resolve<TJob>());
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace NCron.Integration.Autofac
         /// <returns>A part that allows chained fluent method calls.</returns>
         public static JobPart Run(this SchedulePart part, string serviceName)
         {
-            return part.With(() => RootContainer.CreateInnerContainer()).Run(c => c.Resolve<ICronJob>(serviceName));
+            return part.With(() => RootContainer.BeginLifetimeScope()).Run(c => c.ResolveNamed<ICronJob>(serviceName));
         }
     }
 }
