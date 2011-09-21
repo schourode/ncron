@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2010 Joern Schou-Rode
+ * Copyright 2010-2011 Joern Schou-Rode
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 using System.Reflection;
 
 [assembly: AssemblyProduct("NCron - .NET Scheduling Framework")]
-[assembly: AssemblyCopyright("Copyright 2008-2010 Joern Schou-Rode")]
+[assembly: AssemblyCopyright("Copyright 2008-2011 Joern Schou-Rode")]
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
@@ -25,4 +25,4 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 
-[assembly: AssemblyVersion("2.0.*")]
+[assembly: AssemblyVersion("2.1.*")]
