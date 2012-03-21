@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <id>$id$</id>
+    <id>NCron</id>
     <version>$version$</version>
     <title>NCron</title>
     <authors>Joern Schou-Rode</authors>
@@ -13,5 +13,9 @@
     <description>.NET Scheduling Framework</description>
     <copyright>Copyright 2008-2011</copyright>
     <tags>cron scheduling</tags>
+    <dependencies/>
   </metadata>
+  <files>
+    <file src="NCron\bin\Release\*.*" target="lib\net40-Client" /> 
+  </files>
 </package>

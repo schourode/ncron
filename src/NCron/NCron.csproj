@@ -100,6 +100,11 @@
       <!-- ILMerge does not yet support .NET 4.0  http://nitoprograms.blogspot.com/2010/09/using-ilmerge-with-net-40-andor-rx.html /targetplatform:v4,"%ProgramFiles%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" -->
       <Exec Command="&quot;$(ILMergeExe)&quot; /targetplatform:&quot;v4, %ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Profile\Client&quot; /internalize /target:dll /out:&quot;Merged\$(ILMergeOutputFile)&quot; /log:&quot;ilmerge.msbuild.log&quot; $(ILMergeInputItems)" WorkingDirectory="$(OutputPath)" />
       <Copy SourceFiles="$(OutputPath)Merged\$(AssemblyName).dll;$(OutputPath)Merged\$(AssemblyName).pdb" DestinationFolder="$(OutputPath)"/>
+	  <ItemGroup>
+         <References Include="$(OutputPath)C5.*;$(OutputPath)NCrontab.*;$(OutputPath)ilmerge.msbuild.log" />
+      </ItemGroup>
+	  <Delete Files="@(References)"/>
+	  <RemoveDir Directories="$(OutputPath)\Merged" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
