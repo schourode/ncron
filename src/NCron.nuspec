@@ -2,16 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NCron</id>
-    <version>$version$</version>
+    <version>2.2</version>
     <title>NCron</title>
-    <authors>Joern Schou-Rode</authors>
-    <owners>Joern Schou-Rode</owners>
+    <authors>Jørn Schou-Rode</authors>
+    <owners>Jørn Schou-Rode</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <projectUrl>http://code.google.com/p/ncron/</projectUrl>
     <iconUrl>http://code.google.com/p/ncron/logo</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET Scheduling Framework</description>
-    <copyright>Copyright 2008-2011</copyright>
+    <copyright>Copyright 2008-2012</copyright>
     <tags>cron scheduling</tags>
     <dependencies/>
   </metadata>
