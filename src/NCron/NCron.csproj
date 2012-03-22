@@ -49,14 +49,8 @@
       <HintPath>..\packages\ncrontab.1.0.0\lib\NCrontab.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
@@ -93,11 +87,31 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <Target Name="Merge">
+      <PropertyGroup>
+        <SlnRoot>$(MsBuildProjectDirectory)\..</SlnRoot>
+        <ILMergeExe>$(SlnRoot)\tools\ILMerge.exe</ILMergeExe>
+        <ILMergeOutputFile>$(AssemblyName).dll</ILMergeOutputFile>
+        <ILMergeOutputFilePath>$(OutputPath)Merged\$(ILMergeOutputFile)</ILMergeOutputFilePath>
+        <ILMergeInputItems>$(AssemblyName).dll C5.dll NCrontab.dll</ILMergeInputItems>
+      </PropertyGroup>
+      <MakeDir Directories="$(OutputPath)Merged" Condition="!Exists('$(OutputPath)Merged')" />
+      <Delete Files="$(ILMergeOutputFilePath)" Condition="Exists($(ILMergeOutputFilePath))" />
+      <!-- ILMerge does not yet support .NET 4.0  http://nitoprograms.blogspot.com/2010/09/using-ilmerge-with-net-40-andor-rx.html /targetplatform:v4,"%ProgramFiles%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" -->
+      <Exec Command="&quot;$(ILMergeExe)&quot; /targetplatform:&quot;v4, %ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Profile\Client&quot; /internalize /target:dll /out:&quot;Merged\$(ILMergeOutputFile)&quot; /log:&quot;ilmerge.msbuild.log&quot; $(ILMergeInputItems)" WorkingDirectory="$(OutputPath)" />
+      <Copy SourceFiles="$(OutputPath)Merged\$(AssemblyName).dll;$(OutputPath)Merged\$(AssemblyName).pdb" DestinationFolder="$(OutputPath)"/>
+	  <ItemGroup>
+         <References Include="$(OutputPath)C5.*;$(OutputPath)NCrontab.*;$(OutputPath)ilmerge.msbuild.log" />
+      </ItemGroup>
+	  <Delete Files="@(References)"/>
+	  <RemoveDir Directories="$(OutputPath)\Merged" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <CallTarget Targets="Merge" />
+  </Target>
 </Project>
