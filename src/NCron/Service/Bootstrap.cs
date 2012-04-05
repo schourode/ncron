@@ -43,7 +43,7 @@ namespace NCron.Service
 
         /// <summary>
         /// Initilizes an NCron based application with a specified set of command line parameters and service setup handler.
-        /// A cllas to this method should be made from the main entry point of all NCron based applicaitons.
+        /// A call to this method should be made from the main entry point of all NCron based applicaitons.
         /// </summary>
         /// <param name="args">The command line parameters passed to the application.</param>
         /// <param name="setupHandler">A method that sets up the scheduling service according to application needs.</param>

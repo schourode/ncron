@@ -4,6 +4,6 @@ namespace NCron
 {
     internal static class ApplicationInfo
     {
-        public static readonly string ApplicationName = Assembly.GetEntryAssembly().GetName().Name;
+        public static readonly string ApplicationName = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).GetName().Name;
     }
 }

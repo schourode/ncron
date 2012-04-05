@@ -56,7 +56,7 @@ namespace NCron.Service
         /// <returns>The newly scheduled job.</returns>
         public ScheduledJob AddScheduledJob(Func<DateTime, DateTime> schedule, JobExecutionWrapper executionWrapper)
         {
-            var entry = new ScheduledJob(schedule, executionWrapper, DateTime.Now);
+            var entry = new ScheduledJob(schedule, executionWrapper, SystemTime.UtcNow);
             _queue.Add(entry);
             return entry;
         }
@@ -84,7 +84,7 @@ namespace NCron.Service
 
         private void TimerCallbackHandler(object data)
         {
-            var waitTime = _head.NextOccurence - DateTime.Now;
+            var waitTime = _head.NextOccurence - SystemTime.UtcNow;
             var waitMilliseconds = (long) waitTime.TotalMilliseconds;
 
             if (waitMilliseconds > 0)
