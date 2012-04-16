@@ -12,11 +12,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Integration.log4net",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Integration.Autofac", "NCron.Integration.Autofac\NCron.Integration.Autofac.csproj", "{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NCron", "Tests.NCron\Tests.NCron.csproj", "{C5769DEB-C50A-4AAB-90E5-83FB7DEEBDBD}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -34,8 +32,16 @@ Global
 		{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12B87C51-B6A9-42C0-9E82-753FCE1D0EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5769DEB-C50A-4AAB-90E5-83FB7DEEBDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5769DEB-C50A-4AAB-90E5-83FB7DEEBDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5769DEB-C50A-4AAB-90E5-83FB7DEEBDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5769DEB-C50A-4AAB-90E5-83FB7DEEBDBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

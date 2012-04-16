@@ -15,6 +15,7 @@
  */
 
 using System.Diagnostics;
+using System.Reflection;
 using NCron.Service;
 
 namespace NCron.Logging
