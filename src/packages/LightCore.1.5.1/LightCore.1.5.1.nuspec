@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>LightCore</id>
+    <version>1.5.1</version>
+    <title>LightCore</title>
+    <authors>Peter Bucher</authors>
+    <owners>Peter Bucher</owners>
+    <licenseUrl>http://www.microsoft.com/en-us/openness/licenses.aspx</licenseUrl>
+    <projectUrl>http://lightcore.ch/en/default.aspx</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>LightCore is a lightweight dependency injection container which can be used as a service locator, too. Despite its simplicity and its lightness there are lots of features to explore. 
+
+The library was written in C# for .NET 3.5 and above, with an eye on simplicity and clean code (Clean Code Developer). Moreover, LightCore is completely covered by unit and integration tests.</description>
+    <summary>LightCore is a lightweight dependency injection container which can be used as a service locator, too. Despite its simplicity and its lightness there are lots of features to explore.</summary>
+    <releaseNotes />
+    <copyright />
+    <language>en-US</language>
+    <tags>IoC DI Dependency Injection</tags>
+  </metadata>
+</package>
