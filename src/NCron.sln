@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C2FC02E9-25FE-469E-815E-3D8A479465B4}"
 	ProjectSection(SolutionItems) = preProject
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
@@ -15,6 +15,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NCron", "Tests.NCron\Tests.NCron.csproj", "{C5769DEB-C50A-4AAB-90E5-83FB7DEEBDBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Integration.NLog", "NCron.Integration.NLog\NCron.Integration.NLog.csproj", "{DD07185B-00FA-4893-869C-A0E731F2E79F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCron.Integration.LightCore", "NCron.Integration.LightCore\NCron.Integration.LightCore.csproj", "{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +78,16 @@ Global
 		{DD07185B-00FA-4893-869C-A0E731F2E79F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DD07185B-00FA-4893-869C-A0E731F2E79F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DD07185B-00FA-4893-869C-A0E731F2E79F}.Release|x86.ActiveCfg = Release|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8C6248CB-E8EF-4F1E-A139-3B69F6371E82}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
