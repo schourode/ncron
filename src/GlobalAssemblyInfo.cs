@@ -25,4 +25,4 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 
-[assembly: AssemblyVersion("2.2.*")]
+[assembly: AssemblyVersion("2.3.*")]
